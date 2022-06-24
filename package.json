@@ -49,11 +49,12 @@
     "build": "node build.js",
     "clean": "rimraf coverage/* dist/*",
     "dev": "npm run build -- --watch & jest --watch",
-    "lint": "eslint . && es-check es2018 './dist/**/*.js' --module && markdownlint . --ignore node_modules",
+    "escheck": "es-check es2018 './dist/**/*.js' --module",
+    "lint": "eslint . && markdownlint . --ignore node_modules",
     "prepare": "npm run clean && npm run build",
     "start": "npm run build -- --watch",
     "test": "jest",
-    "version": "npm run prepare && npm t"
+    "version": "npm run prepare && npm run escheck && npm t"
   },
   "devDependencies": {
     "cpy-cli": "^4.1.0",
