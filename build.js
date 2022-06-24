@@ -1,5 +1,5 @@
 const esbuild = require('esbuild');
-const pkg = structuredClone(require('./package.json'));
+const pkg = { ...require('./package.json') };
 
 const isWatch = process.argv.includes('--watch');
 
