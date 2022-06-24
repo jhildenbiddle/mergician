@@ -1,0 +1,447 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Options: Arrays appendArrays 1`] = `
+Object {
+  "array": Array [
+    1,
+    2,
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      1,
+      1,
+      Array [
+        1,
+        1,
+      ],
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Arrays dedupArrays + appendArrays 1`] = `
+Object {
+  "array": Array [
+    1,
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      1,
+      Array [
+        1,
+        1,
+      ],
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Arrays dedupArrays + prependArrays 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+    1,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      Array [
+        2,
+        2,
+      ],
+      1,
+      Array [
+        1,
+        1,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Arrays prependArrays 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+    1,
+    2,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+      1,
+      1,
+      Array [
+        1,
+        1,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Callbacks afterEach() arguments 1`] = `
+Object {
+  "a": 2,
+  "b": Object {
+    "c": "bar",
+  },
+}
+`;
+
+exports[`Options: Callbacks afterEach() return value 1`] = `
+Object {
+  "array": "baz",
+  "number": "baz",
+  "object": "baz",
+  "string": "baz",
+  "undefined": "baz",
+}
+`;
+
+exports[`Options: Callbacks afterEach() without return value 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Callbacks beforeEach() arguments 1`] = `
+Object {
+  "a": 2,
+  "b": Object {
+    "c": "bar",
+  },
+}
+`;
+
+exports[`Options: Callbacks beforeEach() with return value 1`] = `
+Object {
+  "array": "baz",
+  "number": "baz",
+  "object": "baz",
+  "string": "baz",
+  "undefined": "baz",
+}
+`;
+
+exports[`Options: Callbacks beforeEach() without return value 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Callbacks filter() arguments 1`] = `
+Object {
+  "a": 2,
+  "b": Object {
+    "c": "bar",
+  },
+}
+`;
+
+exports[`Options: Callbacks filter() false 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Callbacks filter() true 1`] = `
+Object {
+  "string": "bar",
+}
+`;
+
+exports[`Options: Callbacks filter() without return value 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Keys onlyKeys + skipKeys 1`] = `
+Object {
+  "object": Object {
+    "b": 2,
+  },
+}
+`;
+
+exports[`Options: Keys onlyKeys 1`] = `
+Object {
+  "object": Object {
+    "a": 1,
+    "b": 2,
+  },
+  "string": "bar",
+}
+`;
+
+exports[`Options: Keys skipKeys 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+}
+`;
+
+exports[`Options: Keys skipUniqueKeys + onlyKeys 1`] = `
+Object {
+  "object": Object {
+    "b": 2,
+  },
+}
+`;
+
+exports[`Options: Keys skipUniqueKeys + skipKeys 1`] = `
+Object {
+  "number": 2,
+  "object": Object {
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "y": 2,
+    },
+  },
+  "string": "bar",
+}
+`;
+
+exports[`Options: Keys skipUniqueKeys 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "y": 2,
+    },
+  },
+  "string": "bar",
+}
+`;
+
+exports[`deep merge two objects 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;

@@ -1,0 +1,68 @@
+{
+  "name": "mergedeep",
+  "version": "1.0.0",
+  "description": "Deep recursive object merging with options to inspect, modify, and filter keys/values, merge arrays (append/prepend), and remove duplicate values from merged arrays. Returns new object without modifying sources (immutable).",
+  "author": "John Hildenbiddle",
+  "license": "MIT",
+  "homepage": "https://github.com/jhildenbiddle/mergedeep#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://jhildenbiddle@github.com/jhildenbiddle/mergedeep.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jhildenbiddle/mergedeep/issues"
+  },
+  "keywords": [
+    "deep",
+    "merge",
+    "assign",
+    "clone",
+    "copy",
+    "extend",
+    "object",
+    "array",
+    "recursive",
+    "immutable",
+    "filter",
+    "append",
+    "prepend",
+    "dedup",
+    "duplicates",
+    "deepmerge",
+    "deep-merge",
+    "merge-deep"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/mergedeep.cjs",
+  "exports": {
+    ".": {
+      "import": "./dist/mergedeep.mjs",
+      "require": "./dist/mergedeep.cjs"
+    }
+  },
+  "scripts": {
+    "build": "node build.js",
+    "clean": "rimraf coverage/* dist/*",
+    "dev": "npm run build -- --watch & jest --watch",
+    "lint": "eslint . && es-check es2018 './dist/**/*.js' --module && markdownlint . --ignore node_modules",
+    "prepare": "npm run clean && npm run build",
+    "start": "npm run build -- --watch",
+    "test": "jest",
+    "version": "npm run prepare && npm t"
+  },
+  "devDependencies": {
+    "cpy-cli": "^4.1.0",
+    "es-check": "^6.2.1",
+    "esbuild": "^0.14.47",
+    "eslint": "^8.18.0",
+    "eslint-plugin-jest": "^26.5.3",
+    "jest": "^28.1.1",
+    "markdownlint-cli": "^0.31.1",
+    "rimraf": "^3.0.2"
+  }
+}
