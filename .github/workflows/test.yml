@@ -43,4 +43,4 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage/lcov.info
-          language: lcov
+          force-coverage-parser: lcov
