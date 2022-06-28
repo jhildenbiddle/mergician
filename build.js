@@ -49,7 +49,7 @@ const jsMinified = {
     minify: true,
     legalComments: 'none',
     sourcemap: true,
-    outfile: config.outfile.replace(/\.js$/, '.min.js'),
+    outfile: config.outfile.replace(/\.js$/, '.min.mjs'),
 };
 
 
