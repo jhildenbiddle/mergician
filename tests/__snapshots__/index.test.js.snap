@@ -318,6 +318,59 @@ Object {
 }
 `;
 
+exports[`Options: Keys onlyCommonKeys + onlyKeys 1`] = `
+Object {
+  "object": Object {
+    "b": 2,
+  },
+}
+`;
+
+exports[`Options: Keys onlyCommonKeys + skipKeys 1`] = `
+Object {
+  "number": 2,
+  "object": Object {
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "y": 2,
+    },
+  },
+  "string": "bar",
+}
+`;
+
+exports[`Options: Keys onlyCommonKeys 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "y": 2,
+    },
+  },
+  "string": "bar",
+}
+`;
+
 exports[`Options: Keys onlyKeys + skipKeys 1`] = `
 Object {
   "object": Object {
@@ -333,6 +386,24 @@ Object {
     "b": 2,
   },
   "string": "bar",
+}
+`;
+
+exports[`Options: Keys skipCommonKeys + onlyKeys 1`] = `
+Object {
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Keys skipCommonKeys + skipKeys 1`] = `
+Object {
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Keys skipCommonKeys 1`] = `
+Object {
+  "undefined": undefined,
 }
 `;
 
@@ -358,59 +429,6 @@ Object {
       "z": 2,
     },
     "e": null,
-  },
-  "string": "bar",
-}
-`;
-
-exports[`Options: Keys skipUniqueKeys + onlyKeys 1`] = `
-Object {
-  "object": Object {
-    "b": 2,
-  },
-}
-`;
-
-exports[`Options: Keys skipUniqueKeys + skipKeys 1`] = `
-Object {
-  "number": 2,
-  "object": Object {
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "y": 2,
-    },
-  },
-  "string": "bar",
-}
-`;
-
-exports[`Options: Keys skipUniqueKeys 1`] = `
-Object {
-  "array": Array [
-    2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "y": 2,
-    },
   },
   "string": "bar",
 }

@@ -1,7 +1,7 @@
 /**
- * Determines if the argument passed was created using the Object constructor
+ * Determines if the value passed was created using the Object constructor
  *
- * @param {*} obj - Object to test
+ * @param {*} obj - Value to test
  * @return {boolean}
  */
 function isObject(obj) {

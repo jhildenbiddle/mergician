@@ -59,27 +59,53 @@ describe('Options: Keys', () => {
         expect(mergedObj).toMatchSnapshot();
     });
 
-    test('skipUniqueKeys', () => {
+    test('onlyCommonKeys', () => {
         const mergedObj = mergeDeep({
-            skipUniqueKeys: true
+            onlyCommonKeys: true
         })(testObj1, testObj2);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
-    test('skipUniqueKeys + onlyKeys', () => {
+    test('onlyCommonKeys + onlyKeys', () => {
         const mergedObj = mergeDeep({
             onlyKeys: ['object', 'undefined', 'a', 'b'],
-            skipUniqueKeys: true
+            onlyCommonKeys: true
         })(testObj1, testObj2);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
-    test('skipUniqueKeys + skipKeys', () => {
+    test('onlyCommonKeys + skipKeys', () => {
         const mergedObj = mergeDeep({
             skipKeys: ['array', 'a', 'b'],
-            skipUniqueKeys: true
+            onlyCommonKeys: true
+        })(testObj1, testObj2);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('skipCommonKeys', () => {
+        const mergedObj = mergeDeep({
+            skipCommonKeys: true
+        })(testObj1, testObj2);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('skipCommonKeys + onlyKeys', () => {
+        const mergedObj = mergeDeep({
+            onlyKeys: ['object', 'undefined', 'a', 'b'],
+            skipCommonKeys: true
+        })(testObj1, testObj2);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('skipCommonKeys + skipKeys', () => {
+        const mergedObj = mergeDeep({
+            skipKeys: ['array', 'a', 'b'],
+            skipCommonKeys: true
         })(testObj1, testObj2);
 
         expect(mergedObj).toMatchSnapshot();

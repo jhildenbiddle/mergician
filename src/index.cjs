@@ -1,10 +1,13 @@
+const getDifference = require('./get-difference.cjs');
+const getIntersection = require('./get-intersection.cjs');
 const isObject = require('./is-object.cjs');
 
 const defaults = {
     // Keys
     onlyKeys: [],
     skipKeys: [],
-    skipUniqueKeys: false,
+    onlyCommonKeys: false,
+    skipCommonKeys: false,
     // Arrays
     appendArrays: false,
     prependArrays: false,
@@ -32,7 +35,8 @@ const defaults = {
  *   // Keys
  *   onlyKeys: [],
  *   skipKeys: [],
- *   skipUniqueKeys: false,
+ *   onlyCommonKeys: false,
+ *   skipCommonKeys: false,
  *   // Arrays
  *   appendArrays: false,
  *   prependArrays: false,
@@ -47,8 +51,10 @@ const defaults = {
  * @param {array} [options.onlyKeys] - Array of keys to merged (others are
  * skipped)
  * @param {array} [options.skipKeys] - Array of keys to skip (others are merged)
- * @param {boolean} [options.skipUniqueKeys = false] - Skip keys found in some
- * but not all objects
+ * @param {boolean} [options.onlyCommonKeys = false] - Merge only keys found in
+ * all objects
+ * @param {boolean} [options.skipCommonKeys = false] - Skip keys found in
+ * all or multiple objects
  * @param {boolean} [options.appendArrays = false] - Merge array values at the
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
@@ -78,8 +84,9 @@ function mergeDeep(...optionsOrObjects) {
     function _mergeDeep(...objects) {
         let mergeKeyList;
 
-        if (settings.skipUniqueKeys) {
-            mergeKeyList = objects.map(obj => Object.keys(obj)).reduce((a, b) => b.filter(Set.prototype.has, new Set(a)));
+        if (settings.onlyCommonKeys || settings.skipCommonKeys) {
+            const fn = settings.onlyCommonKeys ? getIntersection : getDifference;
+            mergeKeyList = fn(...objects.map(obj => Object.keys(obj)));
 
             if (settings.onlyKeys.length) {
                 mergeKeyList = mergeKeyList.filter(key => settings.onlyKeys.includes(key));
