@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`countOccurrences generates map 1`] = `
+Object {
+  "a": 1,
+  "b": 2,
+  "c": 3,
+  "d": 2,
+  "e": 1,
+}
+`;
+
+exports[`getInAll gets universal values in multiple arrays 1`] = `
+Array [
+  "c",
+]
+`;
+
+exports[`getInAll gets universal values in two arrays 1`] = `
+Array [
+  "b",
+  "c",
+]
+`;
+
+exports[`getInMultiple gets common values found in multiple arrays 1`] = `
+Array [
+  "b",
+  "c",
+  "d",
+]
+`;
+
+exports[`getInMultiple gets common values in two arrays 1`] = `
+Array [
+  "b",
+  "c",
+]
+`;
+
+exports[`getNotInAll gets values not found in three arrays 1`] = `
+Array [
+  "a",
+  "b",
+  "d",
+  "e",
+]
+`;
+
+exports[`getNotInAll gets values not found in two arrays 1`] = `
+Array [
+  "a",
+  "d",
+]
+`;
+
+exports[`getNotInMultiple gets values found in one of multiple arrays 1`] = `
+Array [
+  "a",
+  "e",
+]
+`;
+
+exports[`getNotInMultiple gets values found in one of two arrays 1`] = `
+Array [
+  "a",
+  "d",
+]
+`;

@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Default options deep merge three objects 1`] = `
+Object {
+  "array": Array [
+    3,
+    4,
+  ],
+  "number": 3,
+  "object": Object {
+    "a": 1,
+    "b": 3,
+    "c": Array [
+      3,
+      3,
+      Array [
+        3,
+        3,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 3,
+      "z": 3,
+    },
+    "e": null,
+  },
+  "string": "baz",
+  "undefined": undefined,
+}
+`;
+
+exports[`Default options deep merge two objects 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "a": 1,
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "x": 1,
+      "y": 2,
+      "z": 2,
+    },
+    "e": null,
+  },
+  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
 exports[`Options: Arrays appendArrays 1`] = `
 Object {
   "array": Array [
@@ -389,6 +449,59 @@ Object {
 }
 `;
 
+exports[`Options: Keys onlyUniversalKeys + onlyKeys 1`] = `
+Object {
+  "object": Object {
+    "b": 2,
+  },
+}
+`;
+
+exports[`Options: Keys onlyUniversalKeys + skipKeys 1`] = `
+Object {
+  "number": 2,
+  "object": Object {
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "y": 2,
+    },
+  },
+  "string": "bar",
+}
+`;
+
+exports[`Options: Keys onlyUniversalKeys 1`] = `
+Object {
+  "array": Array [
+    2,
+    3,
+  ],
+  "number": 2,
+  "object": Object {
+    "b": 2,
+    "c": Array [
+      2,
+      2,
+      Array [
+        2,
+        2,
+      ],
+    ],
+    "d": Object {
+      "y": 2,
+    },
+  },
+  "string": "bar",
+}
+`;
+
 exports[`Options: Keys skipCommonKeys + onlyKeys 1`] = `
 Object {
   "undefined": undefined,
@@ -434,32 +547,20 @@ Object {
 }
 `;
 
-exports[`deep merge two objects 1`] = `
+exports[`Options: Keys skipUniversalKeys + onlyKeys 1`] = `
 Object {
-  "array": Array [
-    2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
-  },
-  "string": "bar",
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Keys skipUniversalKeys + skipKeys 1`] = `
+Object {
+  "undefined": undefined,
+}
+`;
+
+exports[`Options: Keys skipUniversalKeys 1`] = `
+Object {
   "undefined": undefined,
 }
 `;

@@ -1,13 +1,19 @@
-const getDifference = require('./get-difference.cjs');
-const getIntersection = require('./get-intersection.cjs');
-const isObject = require('./is-object.cjs');
+const {
+    getInMultiple,
+    getInAll,
+    getNotInMultiple,
+    getNotInAll,
+    isObject
+} = require('./util.cjs');
 
 const defaults = {
     // Keys
     onlyKeys: [],
     skipKeys: [],
     onlyCommonKeys: false,
+    onlyUniversalKeys: false,
     skipCommonKeys: false,
+    skipUniversalKeys: false,
     // Arrays
     appendArrays: false,
     prependArrays: false,
@@ -36,7 +42,9 @@ const defaults = {
  *   onlyKeys: [],
  *   skipKeys: [],
  *   onlyCommonKeys: false,
+ *   onlyUniversalKeys: false,
  *   skipCommonKeys: false,
+ *   skipUniversalKeys: false,
  *   // Arrays
  *   appendArrays: false,
  *   prependArrays: false,
@@ -52,9 +60,13 @@ const defaults = {
  * skipped)
  * @param {array} [options.skipKeys] - Array of keys to skip (others are merged)
  * @param {boolean} [options.onlyCommonKeys = false] - Merge only keys found in
+ * multiple objects (ignore single occurrence keys)
+ * @param {boolean} [options.onlyUniversalKeys = false] - Merge only keys found in
  * all objects
  * @param {boolean} [options.skipCommonKeys = false] - Skip keys found in
- * all or multiple objects
+ * multiple objects (merge single occurrence keys)
+ * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in
+ * all objects
  * @param {boolean} [options.appendArrays = false] - Merge array values at the
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
@@ -84,16 +96,27 @@ function mergeDeep(...optionsOrObjects) {
     function _mergeDeep(...objects) {
         let mergeKeyList;
 
-        if (settings.onlyCommonKeys || settings.skipCommonKeys) {
-            const fn = settings.onlyCommonKeys ? getIntersection : getDifference;
-            mergeKeyList = fn(...objects.map(obj => Object.keys(obj)));
+        if (settings.onlyCommonKeys) {
+            mergeKeyList = getInMultiple(...objects.map(obj => Object.keys(obj)));
+        }
+        else if (settings.onlyUniversalKeys) {
+            mergeKeyList = getInAll(...objects.map(obj => Object.keys(obj)));
 
-            if (settings.onlyKeys.length) {
-                mergeKeyList = mergeKeyList.filter(key => settings.onlyKeys.includes(key));
-            }
+        }
+        else if (settings.skipCommonKeys) {
+            mergeKeyList = getNotInMultiple(...objects.map(obj => Object.keys(obj)));
+
+        }
+        else if (settings.skipUniversalKeys) {
+            mergeKeyList = getNotInAll(...objects.map(obj => Object.keys(obj)));
+
         }
         else if (settings.onlyKeys.length) {
             mergeKeyList = settings.onlyKeys;
+        }
+
+        if (mergeKeyList && mergeKeyList !== settings.onlyKeys && settings.onlyKeys.length) {
+            mergeKeyList = mergeKeyList.filter(key => settings.onlyKeys.includes(key));
         }
 
         const result = objects.reduce((targetObj, srcObj) => {
