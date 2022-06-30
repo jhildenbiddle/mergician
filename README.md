@@ -34,8 +34,6 @@ Deep recursive object merging with options to inspect, modify, and filter keys/v
 
 #### NPM  <!-- omit in toc -->
 
-Provided as CommonJS and ES modules.
-
 ```bash
 npm install mergedeep --save-dev
 ```
@@ -52,10 +50,15 @@ import mergedeep from 'mergedeep';
 
 #### CDN  <!-- omit in toc -->
 
-Provided as an ES module only. Available on [jsdelivr](https://www.jsdelivr.com/package/npm/css-vars-ponyfill), [unpkg](https://unpkg.com/browse/css-vars-ponyfill/), and other CDN services that auto-publish npm packages and GitHub repos.
+Available on [jsdelivr](https://www.jsdelivr.com/package/npm/css-vars-ponyfill), [unpkg](https://unpkg.com/browse/css-vars-ponyfill/), and other CDN services that auto-publish npm packages and GitHub repos.
+
+```html
+<!-- Global "mergedeep" | latest v1.x.x | see @ version in URL -->
+<script src="https://cdn.jsdelivr.net/npm/mergedeep@1/dist/mergedeep.min.js">
+```
 
 ```javascript
-// Latest v1.x.x (note @ version in URL)
+// ES module | latest v1.x.x | see @ version in URL
 import mergedeep from 'https://cdn.jsdelivr.net/npm/mergedeep@1/dist/mergedeep.min.mjs';
 ```
 
@@ -67,67 +70,7 @@ git clone https://github.com/jhildenbiddle/mergedeep.git
 
 ## Usage
 
-Given the following objects:
-
-```javascript
-const obj1 = {
-  a: 1,
-  b: { foo: true },
-  c: [1, 1]
-}
-
-const obj2 = {
-  a: 2,
-  b: { bar: false },
-  c: [2, 2]
-}
-
-const obj3 = {
-  a: 3
-}
-```
-
-Merging can be done using the default options as follows:
-
-```javascript
-// Merge using default options (i.e. no custom options provided)
-const mergedObj = mergedeep(obj1, obj2, obj3);
-
-// { a: 3, b: { foo: true, bar: false}, c: [2, 2] }
-```
-
-Use the `onlyKeys` option to merge only specific keys:
-
-```javascript
-// Only merge specific keys
-const mergedObj = mergedeep({
-  onlyKeys: ['a', 'b', 'bar']
-})(obj1, obj2, obj3);
-
-// { a: 3, b: { bar: false} }
-```
-
-Use the `skipKeys` option to skip specific keys:
-
-```javascript
-// Only merge specific keys
-const mergedObj = mergedeep({
-  skipKeys: ['c']
-})(obj1, obj2, obj3);
-
-// { a: 3, b: { bar: false} }
-```
-
-Use the `skipUniqueKeys` option merge only
-
-```javascript
-// Only merge specific keys
-const mergedObj = mergedeep({
-  skipUniqueKeys: true
-})(obj1, obj2, obj3);
-
-// { a: 3 }
-```
+TBD
 
 ## Contact
 
