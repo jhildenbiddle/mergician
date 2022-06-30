@@ -131,6 +131,7 @@ function mergeDeep(...optionsOrObjects) {
                 const targetVal = targetObj[key];
 
                 let srcVal = srcObj[key];
+                let mergeVal;
 
                 if (key in srcObj === false) {
                     continue;
@@ -150,22 +151,23 @@ function mergeDeep(...optionsOrObjects) {
                     srcVal = returnVal !== undefined ? returnVal : srcVal;
                 }
 
-                if (Array.isArray(targetVal) && Array.isArray(srcVal)) {
-                    if (settings.appendArrays) {
-                        targetObj[key] = [...targetVal, ...srcVal];
-                    }
-                    else if (settings.prependArrays) {
-                        targetObj[key] = [...srcVal, ...targetVal];
-                    }
-                    else {
-                        targetObj[key] = srcVal;
+                mergeVal = srcVal;
+
+                if (Array.isArray(srcVal)) {
+                    if (Array.isArray(targetVal)) {
+                        if (settings.appendArrays) {
+                            mergeVal = [...targetVal, ...srcVal];
+                        }
+                        else if (settings.prependArrays) {
+                            mergeVal = [...srcVal, ...targetVal];
+                        }
                     }
 
                     if (settings.dedupArrays) {
                         // If a user-defined afterEach callback exists, remove
                         // duplicates so the expected value is returned (slower)
                         if (settings.afterEach !== defaults.afterEach) {
-                            targetObj[key] = [...new Set(targetObj[key])];
+                            mergeVal = [...new Set(mergeVal)];
                         }
                         // If not, store a reference to the array so duplicates
                         // can be removed after merge is complete (faster)
@@ -180,19 +182,18 @@ function mergeDeep(...optionsOrObjects) {
                 else if (isObject(targetVal) && isObject(srcVal)) {
                     mergeDepth++;
 
-                    targetObj[key] = _mergeDeep(targetVal, srcVal);
+                    mergeVal = _mergeDeep(targetVal, srcVal);
 
                     mergeDepth--;
                 }
-                else {
-                    targetObj[key] = srcVal;
-                }
 
                 if (settings.afterEach !== defaults.afterEach) {
-                    const returnVal = settings.afterEach(targetObj[key], key, targetObj, mergeDepth);
+                    const returnVal = settings.afterEach(mergeVal, key, targetObj, mergeDepth);
 
-                    targetObj[key] = returnVal !== undefined ? returnVal : targetObj[key];
+                    mergeVal = returnVal !== undefined ? returnVal : mergeVal;
                 }
+
+                targetObj[key] = mergeVal;
             }
 
             return targetObj;
