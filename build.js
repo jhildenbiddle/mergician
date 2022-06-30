@@ -44,12 +44,22 @@ const esm = {
     outfile: config.outfile.replace(/\.js$/, '.mjs'),
 };
 
-const jsMinified = {
+const esmMinified = {
     ...esm,
     minify: true,
     legalComments: 'none',
     sourcemap: true,
     outfile: config.outfile.replace(/\.js$/, '.min.mjs'),
+};
+
+const jsMinified = {
+    ...config,
+    format: 'iife',
+    globalName: pkg.name,
+    minify: true,
+    legalComments: 'none',
+    sourcemap: true,
+    outfile: config.outfile.replace(/\.js$/, '.min.js'),
 };
 
 
@@ -58,7 +68,7 @@ const jsMinified = {
 // eslint-disable-next-line no-console
 console.log(`esbuild: ${isWatch ? 'watching' : 'building'}...`);
 
-[cjs, esm, jsMinified].forEach(config => {
+[cjs, esm, esmMinified, jsMinified].forEach(config => {
     esbuild
         .build(config)
         .then(() => {
