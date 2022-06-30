@@ -161,6 +161,9 @@ function mergeDeep(...optionsOrObjects) {
                         else if (settings.prependArrays) {
                             mergeVal = [...srcVal, ...targetVal];
                         }
+                        else {
+                            mergeVal = [...srcVal];
+                        }
                     }
 
                     if (settings.dedupArrays) {
@@ -171,11 +174,8 @@ function mergeDeep(...optionsOrObjects) {
                         }
                         // If not, store a reference to the array so duplicates
                         // can be removed after merge is complete (faster)
-                        else if (!dedupArrayMap.has(targetObj)) {
+                        else {
                             dedupArrayMap.set(targetObj, [key]);
-                        }
-                        else if (!dedupArrayMap.get(targetObj).includes(key)) {
-                            dedupArrayMap.get(targetObj).push(key);
                         }
                     }
                 }
