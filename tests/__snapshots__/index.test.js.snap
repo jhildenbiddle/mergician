@@ -2,207 +2,156 @@
 
 exports[`Default options deep merge three objects 1`] = `
 Object {
-  "array": Array [
+  "a": 3,
+  "b": Array [
     3,
-    4,
+    3,
   ],
-  "number": 3,
-  "object": Object {
-    "a": 1,
-    "b": 3,
-    "c": Array [
+  "c": Object {
+    "x": 3,
+    "y": Array [
       3,
-      3,
-      Array [
-        3,
-        3,
-      ],
+      "😀",
     ],
-    "d": Object {
-      "x": 1,
-      "y": 3,
-      "z": 3,
-    },
-    "e": null,
+    "z": 3,
   },
-  "string": "baz",
-  "undefined": undefined,
+  "d": true,
+  "e": null,
 }
 `;
 
 exports[`Default options deep merge two objects 1`] = `
 Object {
-  "array": Array [
+  "a": 2,
+  "b": Array [
     2,
-    3,
+    2,
   ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
+  "c": Object {
+    "x": 2,
+    "y": Array [
       2,
-      2,
-      Array [
-        2,
-        2,
-      ],
+      "😀",
     ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
   },
-  "string": "bar",
-  "undefined": undefined,
+  "d": true,
+  "e": null,
 }
 `;
 
 exports[`Options: Arrays appendArrays 1`] = `
 Object {
-  "array": Array [
+  "a": Array [
+    1,
     1,
     2,
     2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      1,
-      1,
-      Array [
-        1,
-        1,
-      ],
+    Array [
       2,
       2,
-      Array [
-        2,
-        2,
-      ],
     ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+    3,
+    3,
+    Array [
+      3,
+      3,
+    ],
+  ],
+  "b": Object {
+    "x": Array [
+      2,
+      "😀",
+      3,
+      "😀",
+    ],
   },
-  "string": "bar",
-  "undefined": undefined,
+}
+`;
+
+exports[`Options: Arrays dedupArrays + afterEach with deduped mergeVal) 1`] = `
+Object {
+  "test": Array [
+    1,
+  ],
 }
 `;
 
 exports[`Options: Arrays dedupArrays + appendArrays 1`] = `
 Object {
-  "array": Array [
+  "a": Array [
     1,
     2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      1,
-      Array [
-        1,
-        1,
-      ],
+    Array [
       2,
-      Array [
-        2,
-        2,
-      ],
+      2,
     ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+    3,
+    Array [
+      3,
+      3,
+    ],
+  ],
+  "b": Object {
+    "x": Array [
+      2,
+      "😀",
+      3,
+    ],
   },
-  "string": "bar",
-  "undefined": undefined,
 }
 `;
 
 exports[`Options: Arrays dedupArrays + prependArrays 1`] = `
 Object {
-  "array": Array [
-    2,
+  "a": Array [
     3,
+    Array [
+      3,
+      3,
+    ],
+    2,
+    Array [
+      2,
+      2,
+    ],
     1,
   ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
+  "b": Object {
+    "x": Array [
+      3,
+      "😀",
       2,
-      Array [
-        2,
-        2,
-      ],
-      1,
-      Array [
-        1,
-        1,
-      ],
     ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
   },
-  "string": "bar",
-  "undefined": undefined,
 }
 `;
 
 exports[`Options: Arrays prependArrays 1`] = `
 Object {
-  "array": Array [
-    2,
+  "a": Array [
     3,
-    1,
-    2,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-      1,
-      1,
-      Array [
-        1,
-        1,
-      ],
+    3,
+    Array [
+      3,
+      3,
     ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+    2,
+    2,
+    Array [
+      2,
+      2,
+    ],
+    1,
+    1,
+  ],
+  "b": Object {
+    "x": Array [
+      3,
+      "😀",
+      2,
+      "😀",
+    ],
   },
-  "string": "bar",
-  "undefined": undefined,
 }
 `;
 
@@ -217,41 +166,17 @@ Object {
 
 exports[`Options: Callbacks afterEach() return value 1`] = `
 Object {
-  "array": "baz",
-  "number": "baz",
-  "object": "baz",
-  "string": "baz",
-  "undefined": "baz",
+  "a": "baz",
+  "b": "baz",
 }
 `;
 
 exports[`Options: Callbacks afterEach() without return value 1`] = `
 Object {
-  "array": Array [
-    2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+  "a": 2,
+  "b": Object {
+    "c": "bar",
   },
-  "string": "bar",
-  "undefined": undefined,
 }
 `;
 
@@ -266,41 +191,17 @@ Object {
 
 exports[`Options: Callbacks beforeEach() with return value 1`] = `
 Object {
-  "array": "baz",
-  "number": "baz",
-  "object": "baz",
-  "string": "baz",
-  "undefined": "baz",
+  "a": "baz",
+  "b": "baz",
 }
 `;
 
 exports[`Options: Callbacks beforeEach() without return value 1`] = `
 Object {
-  "array": Array [
-    2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+  "a": 2,
+  "b": Object {
+    "c": "bar",
   },
-  "string": "bar",
-  "undefined": undefined,
 }
 `;
 
@@ -315,252 +216,168 @@ Object {
 
 exports[`Options: Callbacks filter() false 1`] = `
 Object {
-  "array": Array [
-    2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+  "b": Object {
+    "c": "bar",
   },
-  "undefined": undefined,
 }
 `;
 
 exports[`Options: Callbacks filter() true 1`] = `
 Object {
-  "string": "bar",
+  "a": 2,
 }
 `;
 
 exports[`Options: Callbacks filter() without return value 1`] = `
 Object {
-  "array": Array [
-    2,
-    3,
-  ],
-  "number": 2,
-  "object": Object {
-    "a": 1,
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+  "a": 2,
+  "b": Object {
+    "c": "bar",
   },
-  "string": "bar",
-  "undefined": undefined,
 }
 `;
 
 exports[`Options: Keys onlyCommonKeys + onlyKeys 1`] = `
 Object {
-  "object": Object {
-    "b": 2,
+  "b": Array [
+    3,
+    3,
+  ],
+  "c": Object {
+    "x": 3,
   },
 }
 `;
 
 exports[`Options: Keys onlyCommonKeys + skipKeys 1`] = `
 Object {
-  "number": 2,
-  "object": Object {
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
+  "b": Array [
+    3,
+    3,
+  ],
+  "c": Object {
+    "x": 3,
+    "y": Array [
+      3,
+      "😀",
     ],
-    "d": Object {
-      "y": 2,
-    },
   },
-  "string": "bar",
 }
 `;
 
 exports[`Options: Keys onlyCommonKeys 1`] = `
 Object {
-  "array": Array [
-    2,
+  "a": 3,
+  "b": Array [
+    3,
     3,
   ],
-  "number": 2,
-  "object": Object {
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
+  "c": Object {
+    "x": 3,
+    "y": Array [
+      3,
+      "😀",
     ],
-    "d": Object {
-      "y": 2,
-    },
   },
-  "string": "bar",
 }
 `;
 
 exports[`Options: Keys onlyKeys + skipKeys 1`] = `
 Object {
-  "object": Object {
-    "b": 2,
-  },
+  "a": 3,
 }
 `;
 
 exports[`Options: Keys onlyKeys 1`] = `
 Object {
-  "object": Object {
-    "a": 1,
-    "b": 2,
+  "a": 3,
+  "c": Object {
+    "x": 3,
   },
-  "string": "bar",
 }
 `;
 
 exports[`Options: Keys onlyUniversalKeys + onlyKeys 1`] = `
 Object {
-  "object": Object {
-    "b": 2,
-  },
+  "a": 3,
 }
 `;
 
 exports[`Options: Keys onlyUniversalKeys + skipKeys 1`] = `
 Object {
-  "number": 2,
-  "object": Object {
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "y": 2,
-    },
-  },
-  "string": "bar",
+  "b": Array [
+    3,
+    3,
+  ],
 }
 `;
 
 exports[`Options: Keys onlyUniversalKeys 1`] = `
 Object {
-  "array": Array [
-    2,
+  "a": 3,
+  "b": Array [
+    3,
     3,
   ],
-  "number": 2,
-  "object": Object {
-    "b": 2,
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
-    ],
-    "d": Object {
-      "y": 2,
-    },
-  },
-  "string": "bar",
 }
 `;
 
 exports[`Options: Keys skipCommonKeys + onlyKeys 1`] = `
 Object {
-  "undefined": undefined,
+  "d": true,
 }
 `;
 
 exports[`Options: Keys skipCommonKeys + skipKeys 1`] = `
 Object {
-  "undefined": undefined,
+  "e": null,
 }
 `;
 
 exports[`Options: Keys skipCommonKeys 1`] = `
 Object {
-  "undefined": undefined,
+  "d": true,
+  "e": null,
 }
 `;
 
 exports[`Options: Keys skipKeys 1`] = `
 Object {
-  "array": Array [
-    2,
+  "b": Array [
+    3,
     3,
   ],
-  "number": 2,
-  "object": Object {
-    "c": Array [
-      2,
-      2,
-      Array [
-        2,
-        2,
-      ],
+  "c": Object {
+    "y": Array [
+      3,
+      "😀",
     ],
-    "d": Object {
-      "x": 1,
-      "y": 2,
-      "z": 2,
-    },
-    "e": null,
+    "z": 3,
   },
-  "string": "bar",
+  "d": true,
+  "e": null,
 }
 `;
 
 exports[`Options: Keys skipUniversalKeys + onlyKeys 1`] = `
 Object {
-  "undefined": undefined,
+  "c": Object {},
 }
 `;
 
 exports[`Options: Keys skipUniversalKeys + skipKeys 1`] = `
 Object {
-  "undefined": undefined,
+  "d": true,
+  "e": null,
 }
 `;
 
 exports[`Options: Keys skipUniversalKeys 1`] = `
 Object {
-  "undefined": undefined,
+  "c": Object {
+    "z": 3,
+  },
+  "d": true,
+  "e": null,
 }
 `;

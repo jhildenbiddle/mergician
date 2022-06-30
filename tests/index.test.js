@@ -2,42 +2,9 @@ const { isObject } = require('../src/util');
 const mergeDeep = require('../dist/mergedeep.cjs');
 
 // Test objects
-const testObj1 = {
-    array: [1, 2],
-    number: 1,
-    object: {
-        a: 1,
-        b: 1,
-        c: [1, 1, [1, 1]],
-        d: { x: 1, y: 1 }
-    },
-    string: 'foo',
-};
-
-const testObj2 = {
-    array: [2, 3],
-    number: 2,
-    object: {
-        b: 2,
-        c: [2, 2, [2, 2]],
-        d: { y: 2, z: 2 },
-        e: null
-    },
-    string: 'bar',
-    undefined: undefined
-};
-
-const testObj3 = {
-    array: [3, 4],
-    number: 3,
-    object: {
-        b: 3,
-        c: [3, 3, [3, 3]],
-        d: { y: 3, z: 3 },
-        e: null
-    },
-    string: 'baz'
-};
+const testObj1 = { a: 1, b: [1, 1], d: true };
+const testObj2 = { a: 2, b: [2, 2], c: { x: 2, y: [2, '😀'] }, e: null };
+const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
 
 describe('Default options', () => {
     test('deep merge two objects', () => {
@@ -56,25 +23,25 @@ describe('Default options', () => {
 describe('Options: Keys', () => {
     test('onlyKeys', () => {
         const mergedObj = mergeDeep({
-            onlyKeys: ['object', 'string', 'a', 'b']
-        })(testObj1, testObj2);
+            onlyKeys: ['a', 'c', 'x']
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('skipKeys', () => {
         const mergedObj = mergeDeep({
-            skipKeys: ['undefined', 'a', 'b']
-        })(testObj1, testObj2);
+            skipKeys: ['a', 'x']
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('onlyKeys + skipKeys', () => {
         const mergedObj = mergeDeep({
-            onlyKeys: ['object', 'string', 'a', 'b'],
-            skipKeys: ['string', 'a']
-        })(testObj1, testObj2);
+            onlyKeys: ['a', 'b'],
+            skipKeys: ['b'],
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -82,25 +49,25 @@ describe('Options: Keys', () => {
     test('onlyCommonKeys', () => {
         const mergedObj = mergeDeep({
             onlyCommonKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('onlyCommonKeys + onlyKeys', () => {
         const mergedObj = mergeDeep({
-            onlyKeys: ['object', 'undefined', 'a', 'b'],
+            onlyKeys: ['b', 'c', 'x', 'z'],
             onlyCommonKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('onlyCommonKeys + skipKeys', () => {
         const mergedObj = mergeDeep({
-            skipKeys: ['array', 'a', 'b'],
+            skipKeys: ['a', 'z'],
             onlyCommonKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -108,25 +75,25 @@ describe('Options: Keys', () => {
     test('onlyUniversalKeys', () => {
         const mergedObj = mergeDeep({
             onlyUniversalKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('onlyUniversalKeys + onlyKeys', () => {
         const mergedObj = mergeDeep({
-            onlyKeys: ['object', 'undefined', 'a', 'b'],
+            onlyKeys: ['a'],
             onlyUniversalKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('onlyUniversalKeys + skipKeys', () => {
         const mergedObj = mergeDeep({
-            skipKeys: ['array', 'a', 'b'],
+            skipKeys: ['a'],
             onlyUniversalKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -134,25 +101,25 @@ describe('Options: Keys', () => {
     test('skipCommonKeys', () => {
         const mergedObj = mergeDeep({
             skipCommonKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('skipCommonKeys + onlyKeys', () => {
         const mergedObj = mergeDeep({
-            onlyKeys: ['object', 'undefined', 'a', 'b'],
+            onlyKeys: ['d'],
             skipCommonKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('skipCommonKeys + skipKeys', () => {
         const mergedObj = mergeDeep({
-            skipKeys: ['array', 'a', 'b'],
+            skipKeys: ['d'],
             skipCommonKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -160,35 +127,39 @@ describe('Options: Keys', () => {
     test('skipUniversalKeys', () => {
         const mergedObj = mergeDeep({
             skipUniversalKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('skipUniversalKeys + onlyKeys', () => {
         const mergedObj = mergeDeep({
-            onlyKeys: ['object', 'undefined', 'a', 'b'],
+            onlyKeys: ['c'],
             skipUniversalKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 
     test('skipUniversalKeys + skipKeys', () => {
         const mergedObj = mergeDeep({
-            skipKeys: ['array', 'a', 'b'],
+            skipKeys: ['c'],
             skipUniversalKeys: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
 });
 
 describe('Options: Arrays', () => {
+    const testObj1 = { a: [1, 1] };
+    const testObj2 = { a: [2, 2, [2, 2]], b: { x: [2, '😀'] } };
+    const testObj3 = { a: [3, 3, [3, 3]], b: { x: [3, '😀'] } };
+
     test('appendArrays', () => {
         const mergedObj = mergeDeep({
             appendArrays: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -196,7 +167,7 @@ describe('Options: Arrays', () => {
     test('prependArrays', () => {
         const mergedObj = mergeDeep({
             prependArrays: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -205,7 +176,7 @@ describe('Options: Arrays', () => {
         const mergedObj = mergeDeep({
             appendArrays: true,
             dedupArrays: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -214,19 +185,30 @@ describe('Options: Arrays', () => {
         const mergedObj = mergeDeep({
             prependArrays: true,
             dedupArrays: true
-        })(testObj1, testObj2);
+        })(testObj1, testObj2, testObj3);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('dedupArrays + afterEach with deduped mergeVal)', () => {
+        const mergedObj = mergeDeep({
+            appendArrays: true,
+            dedupArrays: true,
+            afterEach(mergeVal, key, mergeObj, depth) {
+                expect(mergeVal).toHaveLength(1);
+            }
+        })({ test: [1, 1] }, { test: [1, 1] });
 
         expect(mergedObj).toMatchSnapshot();
     });
 });
 
 describe('Options: Callbacks', () => {
+    const testObj1 = { a: 1, b: { c: 'foo' } };
+    const testObj2 = { a: 2, b: { c: 'bar' } };
+
     test('filter() arguments', () => {
-        const testObj1 = { a: 1, b: { c: 'foo' } };
-        const testObj2 = { a: 2, b: { c: 'bar' } };
-
         const conditionsTested = [];
-
         const mergedObj = mergeDeep({
             filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
                 expect(isObject(srcObj)).toBe(true);
@@ -236,20 +218,20 @@ describe('Options: Callbacks', () => {
 
                 /* eslint-disable jest/no-conditional-expect */
                 if (srcVal === 1) {
-                    conditionsTested.push('srcVal/key');
                     expect(key).toBe('a');
+                    conditionsTested.push('srcVal/key');
                 }
                 if (srcVal === 2) {
-                    conditionsTested.push('srcVal/targetVal');
                     expect(targetVal).toBe(1);
+                    conditionsTested.push('srcVal/targetVal');
                 }
                 if (srcObj === testObj2 && key === 'a') {
-                    conditionsTested.push('depth:0');
                     expect(depth).toBe(0);
+                    conditionsTested.push('depth:0');
                 }
                 if (srcObj === testObj2.b && key === 'c') {
-                    conditionsTested.push('depth:1');
                     expect(depth).toBe(1);
+                    conditionsTested.push('depth:1');
                 }
                 /* eslint-enable jest/no-conditional-expect */
 
@@ -264,7 +246,7 @@ describe('Options: Callbacks', () => {
     test('filter() true', () => {
         const mergedObj = mergeDeep({
             filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
-                return key === 'string';
+                return key === 'a';
             }
         })(testObj1, testObj2);
 
@@ -274,7 +256,7 @@ describe('Options: Callbacks', () => {
     test('filter() false', () => {
         const mergedObj = mergeDeep({
             filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
-                return key !== 'string';
+                return key !== 'a';
             }
         })(testObj1, testObj2);
 
@@ -304,20 +286,20 @@ describe('Options: Callbacks', () => {
 
                 /* eslint-disable jest/no-conditional-expect */
                 if (srcVal === 1) {
-                    conditionsTested.push('srcVal/key');
                     expect(key).toBe('a');
+                    conditionsTested.push('srcVal/key');
                 }
                 if (srcVal === 2) {
-                    conditionsTested.push('srcVal/targetVal');
                     expect(targetVal).toBe(1);
+                    conditionsTested.push('srcVal/targetVal');
                 }
                 if (srcObj === testObj2 && key === 'a') {
-                    conditionsTested.push('depth:0');
                     expect(depth).toBe(0);
+                    conditionsTested.push('depth:0');
                 }
                 if (srcObj === testObj2.b && key === 'c') {
-                    conditionsTested.push('depth:1');
                     expect(depth).toBe(1);
+                    conditionsTested.push('depth:1');
                 }
                 /* eslint-enable jest/no-conditional-expect */
 
@@ -361,16 +343,16 @@ describe('Options: Callbacks', () => {
 
                 /* eslint-disable jest/no-conditional-expect */
                 if (mergeVal === 2) {
-                    conditionsTested.push('mergeVal/key');
                     expect(key).toBe('a');
+                    conditionsTested.push('mergeVal/key');
                 }
                 if (mergeVal === 2) {
-                    conditionsTested.push('depth:0');
                     expect(depth).toBe(0);
+                    conditionsTested.push('depth:0');
                 }
                 if (mergeVal === 'bar') {
-                    conditionsTested.push('depth:1');
                     expect(depth).toBe(1);
+                    conditionsTested.push('depth:1');
                 }
                 /* eslint-enable jest/no-conditional-expect */
 
