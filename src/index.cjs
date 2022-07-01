@@ -128,14 +128,17 @@ function mergeDeep(...optionsOrObjects) {
 
             for (let i = 0; i < keys.length; i++) {
                 const key = keys[i];
-                const targetVal = targetObj[key];
-
-                let srcVal = srcObj[key];
-                let mergeVal;
 
                 if (key in srcObj === false) {
                     continue;
                 }
+
+                const srcDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
+                const srcVal = srcDescriptor && 'get' in srcDescriptor ? srcDescriptor : srcObj[key];
+                const targetDescriptor = Object.getOwnPropertyDescriptor(targetObj, key);
+                const targetVal = targetDescriptor && 'get' in targetDescriptor ? targetDescriptor : targetObj[key];
+
+                let mergeVal;
 
                 if (settings.filter !== defaults.filter) {
                     const returnVal = settings.filter(srcVal, targetVal, key, srcObj, targetObj, mergeDepth);
@@ -148,21 +151,30 @@ function mergeDeep(...optionsOrObjects) {
                 if (settings.beforeEach !== defaults.beforeEach) {
                     const returnVal = settings.beforeEach(srcVal, targetVal, key, srcObj, targetObj, mergeDepth);
 
-                    srcVal = returnVal !== undefined ? returnVal : srcVal;
+                    // Accessor (getter/setter)
+                    if (returnVal && isObject(returnVal) && 'get' in returnVal) {
+                        mergeVal = {};
+
+                        Object.defineProperty(mergeVal, key, returnVal);
+                    }
+                    else {
+                        mergeVal = returnVal !== undefined ? returnVal : srcVal;
+                    }
+                }
+                else {
+                    mergeVal = srcVal;
                 }
 
-                mergeVal = srcVal;
-
-                if (Array.isArray(srcVal)) {
+                if (Array.isArray(mergeVal)) {
                     if (Array.isArray(targetVal)) {
                         if (settings.appendArrays) {
-                            mergeVal = [...targetVal, ...srcVal];
+                            mergeVal = [...targetVal, ...mergeVal];
                         }
                         else if (settings.prependArrays) {
-                            mergeVal = [...srcVal, ...targetVal];
+                            mergeVal = [...mergeVal, ...targetVal];
                         }
                         else {
-                            mergeVal = [...srcVal];
+                            mergeVal = [...mergeVal];
                         }
                     }
 
@@ -179,7 +191,7 @@ function mergeDeep(...optionsOrObjects) {
                         }
                     }
                 }
-                else if (isObject(targetVal) && isObject(srcVal)) {
+                else if (isObject(targetVal) && isObject(mergeVal) && 'get' in mergeVal === false) {
                     mergeDepth++;
 
                     mergeVal = _mergeDeep(targetVal, srcVal);
@@ -190,10 +202,24 @@ function mergeDeep(...optionsOrObjects) {
                 if (settings.afterEach !== defaults.afterEach) {
                     const returnVal = settings.afterEach(mergeVal, key, targetObj, mergeDepth);
 
-                    mergeVal = returnVal !== undefined ? returnVal : mergeVal;
+                    // Accessor (getter/setter)
+                    if (returnVal && isObject(returnVal) && 'get' in returnVal) {
+                        mergeVal = {};
+
+                        Object.defineProperty(mergeVal, key, returnVal);
+                    }
+                    else {
+                        mergeVal = returnVal !== undefined ? returnVal : mergeVal;
+                    }
                 }
 
-                targetObj[key] = mergeVal;
+                // Accessor (getter/setter)
+                if (mergeVal && isObject(mergeVal) && 'get' in mergeVal) {
+                    Object.defineProperty(targetObj, key, mergeVal);
+                }
+                else {
+                    targetObj[key] = mergeVal;
+                }
             }
 
             return targetObj;

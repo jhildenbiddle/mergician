@@ -20,6 +20,93 @@ describe('Default options', () => {
     });
 });
 
+describe('Accessors', () => {
+    test('handles getters', () => {
+        const obj1 = { a: 1, get getVal() { return 'foo'; }};
+        const obj2 = { b: 2, get getVal() { return 'bar'; }};
+        const mergedObj = mergeDeep(obj1, obj2);
+        const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
+
+        expect(typeof mergedObj.a).toBe('number');
+        expect(isObject(getDescriptor)).toBe(true);
+        expect('get' in getDescriptor).toBe(true);
+        expect(typeof getDescriptor.get).toBe('function');
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('handles setters', () => {
+        const obj1 = { a: 1, set setVal(val) { this.a = val; }};
+        const obj2 = { a: 2, set setVal(val) { this.a = val; }};
+        const mergedObj = mergeDeep(obj1, obj2);
+        const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
+
+        expect(typeof mergedObj.a).toBe('number');
+        expect(isObject(setDescriptor)).toBe(true);
+        expect('get' in setDescriptor).toBe(true);
+        expect(typeof setDescriptor.set).toBe('function');
+        mergedObj.setVal = 'foo';
+        expect(mergedObj.a).toBe('foo');
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('handles getter/setter arrays', () => {
+        const obj1 = { a: 1, get getVal() { return [1, 1]; }, set setVal(val) { this.a = [2, 2]; }};
+        const obj2 = { a: 2, get getVal() { return [3, 3]; }, set setVal(val) { this.a = [4, 4]; }};
+        const mergedObj = mergeDeep({
+            appendArrays: true,
+            dedupArrays: true
+        })(obj1, obj2);
+        const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
+        const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
+
+        expect(typeof mergedObj.a).toBe('number');
+
+        // Getter
+        expect(isObject(getDescriptor)).toBe(true);
+        expect('get' in getDescriptor).toBe(true);
+        expect(typeof getDescriptor.get).toBe('function');
+        expect(Array.isArray(mergedObj.getVal)).toBe(true);
+        expect(mergedObj.getVal).toHaveLength(2);
+
+        // Setter
+        expect(isObject(setDescriptor)).toBe(true);
+        expect('set' in setDescriptor).toBe(true);
+        expect(typeof setDescriptor.set).toBe('function');
+        mergedObj.setVal = 'foo';
+        expect(Array.isArray(mergedObj.a)).toBe(true);
+        expect(mergedObj.a).toHaveLength(2);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('handles getter/setter objects', () => {
+        const obj1 = { a: 1, get getVal() { return { x: 1 }; }, set setVal(val) { this.a = { x: 3 }; }};
+        const obj2 = { a: 2, get getVal() { return { x: 2 }; }, set setVal(val) { this.a = { x: 4 }; }};
+        const mergedObj = mergeDeep(obj1, obj2);
+        const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
+        const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
+
+        expect(typeof mergedObj.a).toBe('number');
+
+        // Getter
+        expect(isObject(getDescriptor)).toBe(true);
+        expect('get' in getDescriptor).toBe(true);
+        expect(typeof getDescriptor.get).toBe('function');
+        expect(isObject(mergedObj.getVal)).toBe(true);
+        expect(mergedObj.getVal.x).toBe(2);
+
+        // Setter
+        expect(isObject(setDescriptor)).toBe(true);
+        expect('set' in setDescriptor).toBe(true);
+        expect(typeof setDescriptor.set).toBe('function');
+        mergedObj.setVal = 'foo';
+        expect(isObject(mergedObj.a)).toBe(true);
+        expect(mergedObj.a.x).toBe(4);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+});
+
 describe('Options: Keys', () => {
     test('onlyKeys', () => {
         const mergedObj = mergeDeep({

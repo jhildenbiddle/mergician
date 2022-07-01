@@ -1,5 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Accessors handles getter/setter arrays 1`] = `
+Object {
+  "a": Array [
+    4,
+    4,
+  ],
+  "getVal": Array [
+    3,
+    3,
+  ],
+  "setVal": undefined,
+}
+`;
+
+exports[`Accessors handles getter/setter objects 1`] = `
+Object {
+  "a": Object {
+    "x": 4,
+  },
+  "getVal": Object {
+    "x": 2,
+  },
+  "setVal": undefined,
+}
+`;
+
+exports[`Accessors handles getters 1`] = `
+Object {
+  "a": 1,
+  "b": 2,
+  "getVal": "bar",
+}
+`;
+
+exports[`Accessors handles setters 1`] = `
+Object {
+  "a": "foo",
+  "setVal": undefined,
+}
+`;
+
 exports[`Default options deep merge three objects 1`] = `
 Object {
   "a": 3,
