@@ -3,9 +3,7 @@
 [![NPM](https://img.shields.io/npm/v/mergedeep.svg?style=flat-square)](https://www.npmjs.com/package/mergedeep)
 [![GitHub Workflow Status (main)](https://img.shields.io/github/workflow/status/jhildenbiddle/mergedeep/Build%20&%20Test/main?label=checks&style=flat-square)](https://github.com/jhildenbiddle/mergedeep/actions?query=branch%3Amain+)
 [![Codacy code quality](https://img.shields.io/codacy/grade/9831274fda2341129b76ff3582ec0df5/main?style=flat-square)](https://app.codacy.com/gh/jhildenbiddle/mergedeep/dashboard?branch=main)
-[![Codacy branch coverage](https://img.shields.io/codacy/coverage/9831274fda2341129b76ff3582ec0df5/main?style=flat-square)](https://app.codacy.com/gh/jhildenbiddle/mergedeep/dashboard?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/mergedeep/blob/main/LICENSE)
-[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergedeep/badge)](https://www.jsdelivr.com/package/npm/mergedeep)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=css,developers,frontend,javascript)
 
 Deep object merging/cloning with options to inspect, modify, and filter keys/values, merge arrays, and remove duplicate array items. Properly handles property accessors/descriptors (getters/setters). Returns new object without modifying sources (immutable).
