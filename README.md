@@ -8,7 +8,7 @@
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergedeep/badge)](https://www.jsdelivr.com/package/npm/mergedeep)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=css,developers,frontend,javascript)
 
-Deep recursive object merging with options to inspect, modify, and filter keys/values, merge arrays (append/prepend), and remove duplicate values from merged arrays. Returns new object without modifying sources (immutable).
+Deep object merging/cloning with options to inspect, modify, and filter keys/values, merge arrays, and remove duplicate array items. Properly handles property accessors/descriptors (getters/setters). Returns new object without modifying sources (immutable).
 
 ---
 
