@@ -55,7 +55,7 @@ const esmMinified = {
 const jsMinified = {
     ...config,
     format: 'iife',
-    globalName: pkg.name,
+    globalName: 'mergeDeep',
     minify: true,
     legalComments: 'none',
     sourcemap: true,
