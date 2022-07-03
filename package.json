@@ -1,7 +1,7 @@
 {
   "name": "mergedeep",
   "version": "1.0.0",
-  "description": "Deep object merging/cloning with options to inspect, modify, and filter keys/values, merge arrays, and remove duplicate array items. Properly handles property accessors/descriptors (getters/setters). Returns new object without modifying sources (immutable).",
+  "description": "Deep merge/clone JavaScript objects. Includes options to filter/inspect/modify properties, merge arrays, and remove duplicate array items. Properly handles property accessors (getters/setters) and descriptors. Returns new object without modifying sources (immutable).",
   "author": "John Hildenbiddle",
   "license": "MIT",
   "homepage": "https://github.com/jhildenbiddle/mergedeep#readme",
@@ -25,6 +25,7 @@
     "descriptor",
     "get",
     "getter",
+    "javascript",
     "set",
     "setter",
     "recursive",
