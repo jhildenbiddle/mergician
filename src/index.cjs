@@ -97,22 +97,22 @@ function mergeDeep(...optionsOrObjects) {
     function _mergeDeep(...objects) {
         let mergeKeyList;
 
-        if (settings.onlyCommonKeys) {
-            mergeKeyList = getInMultiple(...objects.map(obj => Object.keys(obj)));
+        if (objects.length > 1) {
+            if (settings.onlyCommonKeys) {
+                mergeKeyList = getInMultiple(...objects.map(obj => Object.keys(obj)));
+            }
+            else if (settings.onlyUniversalKeys) {
+                mergeKeyList = getInAll(...objects.map(obj => Object.keys(obj)));
+            }
+            else if (settings.skipCommonKeys) {
+                mergeKeyList = getNotInMultiple(...objects.map(obj => Object.keys(obj)));
+            }
+            else if (settings.skipUniversalKeys) {
+                mergeKeyList = getNotInAll(...objects.map(obj => Object.keys(obj)));
+            }
         }
-        else if (settings.onlyUniversalKeys) {
-            mergeKeyList = getInAll(...objects.map(obj => Object.keys(obj)));
 
-        }
-        else if (settings.skipCommonKeys) {
-            mergeKeyList = getNotInMultiple(...objects.map(obj => Object.keys(obj)));
-
-        }
-        else if (settings.skipUniversalKeys) {
-            mergeKeyList = getNotInAll(...objects.map(obj => Object.keys(obj)));
-
-        }
-        else if (settings.onlyKeys.length) {
+        if (!mergeKeyList && settings.onlyKeys.length) {
             mergeKeyList = settings.onlyKeys;
         }
 
@@ -192,10 +192,15 @@ function mergeDeep(...optionsOrObjects) {
                         }
                     }
                 }
-                else if (isObject(targetVal) && isObject(mergeVal) && 'get' in mergeVal === false) {
+                else if (isObject(mergeVal) && 'get' in mergeVal === false) {
                     mergeDepth++;
 
-                    mergeVal = _mergeDeep(targetVal, srcVal);
+                    if (isObject(targetVal)) {
+                        mergeVal = _mergeDeep(targetVal, mergeVal);
+                    }
+                    else {
+                        mergeVal = _mergeDeep(mergeVal);
+                    }
 
                     mergeDepth--;
                 }
