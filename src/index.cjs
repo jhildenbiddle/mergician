@@ -56,30 +56,31 @@ const defaults = {
  * })(obj1, obj2, obj3, ...)
  *
  * @param {...object} optionsOrObjects - Options or objects to merge
- * @param {array} [options.onlyKeys] - Array of keys to merged (others are
- * skipped)
+ * @param {array} [options.onlyKeys] - Exclusive array of keys to be merged
+ * (others are skipped)
  * @param {array} [options.skipKeys] - Array of keys to skip (others are merged)
  * @param {boolean} [options.onlyCommonKeys = false] - Merge only keys found in
  * multiple objects (ignore single occurrence keys)
- * @param {boolean} [options.onlyUniversalKeys = false] - Merge only keys found in
- * all objects
+ * @param {boolean} [options.onlyUniversalKeys = false] - Merge only keys found
+ * in all objects
  * @param {boolean} [options.skipCommonKeys = false] - Skip keys found in
- * multiple objects (merge single occurrence keys)
- * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in
- * all objects
+ * multiple objects (merge only single occurrence keys)
+ * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in all
+ * objects (merge only common keys)
  * @param {boolean} [options.appendArrays = false] - Merge array values at the
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
  * beginning of existing arrays
  * @param {boolean} [options.dedupArrays = false] - Remove duplicate values from
  * merged arrays
- * @param {function} [options.filter] - Callback for skipping merging key/value.
- * Return a "truthy" value to merge or a "falsy" value to skip.
+ * @param {function} [options.filter] - Callback used to conditionally merge or
+ * skip a property. Return a "truthy" value to merge or a "falsy" value to skip.
+ * Return no value to proceed according to other option values.
  * @param {function} [options.beforeEach] - Callback used for
- * inspecting/modifying key/value before merge. Return value is used as value to
- * merge.
+ * inspecting/modifying properties before merge. Return value is used as value
+ * to merge.
  * @param {function} [options.afterEach] - Callback used for
- * inspecting/modifying key/value after merge. Return value is used as merged
+ * inspecting/modifying properties after merge. Return value is used as merged
  * value.
  * @returns {function|object} Merge function with options applied or new merged
  * object
