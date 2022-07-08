@@ -33,7 +33,8 @@ What sets mergeDeep apart from similar utilities are the options provided for cu
 - Handles property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor)
 - Returns new object / does not modify sources (immutable)
 
-#### Platform Support <!-- omit in toc -->
+<!-- omit in toc -->
+#### Platform Support
 
 | Node | IE   | Edge | Chrome | Firefox | Safari |
 | ---- | ---- | ---- | ------ | ------- | ------ |
@@ -41,7 +42,8 @@ What sets mergeDeep apart from similar utilities are the options provided for cu
 
 ## Installation
 
-#### NPM <!-- omit in toc -->
+<!-- omit in toc -->
+#### NPM
 
 ```bash
 npm install mergedeep --save-dev
@@ -57,7 +59,8 @@ const mergeDeep = require('mergedeep');
 import mergeDeep from 'mergedeep';
 ```
 
-#### CDN <!-- omit in toc -->
+<!-- omit in toc -->
+#### CDN
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/css-vars-ponyfill) (below), [unpkg](https://unpkg.com/browse/css-vars-ponyfill/), and other CDN services that auto-publish npm packages or GitHub repos.
 
@@ -71,7 +74,8 @@ Available on [jsdelivr](https://www.jsdelivr.com/package/npm/css-vars-ponyfill) 
 import mergeDeep from 'https://cdn.jsdelivr.net/npm/mergedeep@1/dist/mergedeep.min.mjs';
 ```
 
-#### Git <!-- omit in toc -->
+<!-- omit in toc -->
+#### Git
 
 ```bash
 git clone https://github.com/jhildenbiddle/mergedeep.git
@@ -93,7 +97,8 @@ const customMergeFunction = mergeDeep({ /* Options */ });
 const merged3 = customMergeFunction(obj1, obj2, obj3);
 ```
 
-### Using the default options <!-- omit in toc -->
+<!-- omit in toc -->
+### Using the default options
 
 To merge objects using the default [options](#options), pass two or more objects directly to `mergeDeep`. A new object will be returned and the source object(s) will remain unmodified.
 
@@ -110,7 +115,8 @@ console.log(cloned === obj1); // false
 console.log(merged); // { a: 1, b: [3, 3], c: { d: true, e: false } }
 ```
 
-### Specifying custom options <!-- omit in toc -->
+<!-- omit in toc -->
+### Specifying custom options
 
 To specify merge [options](#options), pass a single object containing custom option to `mergeDeep`. A new function with the options applied will be returned, which can then be immediately invoked by passing one or more objects to be merged.
 
@@ -128,7 +134,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: 1, b: [2, 3] }
 ```
 
-### Storing and then calling a custom merge function <!-- omit in toc -->
+<!-- omit in toc -->
+### Storing and then calling a custom merge function
 
 When merge [options](#options) are specified, the returned merge function can be assigned to a variable and reused, removing the need to pass the same options to `mergeDeep` multiple times.
 
@@ -164,7 +171,8 @@ console.log(merged); // { a: 1, b: [2, 3] }
 - [beforeEach()](#beforeeach)
 - [afterEach()](#aftereach)
 
-### onlyKeys <!-- omit in toc -->
+<!-- omit in toc -->
+### onlyKeys
 
 Exclusive list of keys to be merged (others are skipped). Applies to top-level and nested keys.
 
@@ -183,7 +191,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: 1, b: { c: 2 } }
 ```
 
-### skipKeys <!-- omit in toc -->
+<!-- omit in toc -->
+### skipKeys
 
 List of keys to be skipped (others are merged). Applies to top-level and nested keys.
 
@@ -202,7 +211,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: 1, b: { d: 3 } }
 ```
 
-### onlyCommonKeys <!-- omit in toc -->
+<!-- omit in toc -->
+### onlyCommonKeys
 
 Merge only keys found in multiple objects (ignore single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
@@ -221,7 +231,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: 3, b: { c: 3 } }
 ```
 
-### onlyUniversalKeys <!-- omit in toc -->
+<!-- omit in toc -->
+### onlyUniversalKeys
 
 Merge only keys found in all objects. For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
@@ -240,7 +251,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: 3 }
 ```
 
-### skipCommonKeys <!-- omit in toc -->
+<!-- omit in toc -->
+### skipCommonKeys
 
 Skip keys found in multiple objects (merge only single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
@@ -259,7 +271,8 @@ const merged = mergeDeep({
 console.log(merged); // { e: 3 }
 ```
 
-### skipUniversalKeys <!-- omit in toc -->
+<!-- omit in toc -->
+### skipUniversalKeys
 
 Skip keys found in all objects (merge only common keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
@@ -278,7 +291,8 @@ const merged = mergeDeep({
 console.log(merged); // { b: { d: 3 }, e: 3 }
 ```
 
-### appendArrays <!-- omit in toc -->
+<!-- omit in toc -->
+### appendArrays
 
 Merge array values at the end of existing arrays.
 
@@ -297,7 +311,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: [1, 1, 2, 2, 3, 3] }
 ```
 
-### prependArrays <!-- omit in toc -->
+<!-- omit in toc -->
+### prependArrays
 
 Merge array values at the beginning of existing arrays.
 
@@ -316,7 +331,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: [3, 3, 2, 2, 1, 1] }
 ```
 
-### dedupArrays <!-- omit in toc -->
+<!-- omit in toc -->
+### dedupArrays
 
 Remove duplicate values from merged arrays. Requires either [`appendArrays`](#appendarrays) or [`prependArrays`](#prependarrays) to be `true`.
 
@@ -336,7 +352,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: [1, 2, 3] }
 ```
 
-### filter() <!-- omit in toc -->
+<!-- omit in toc -->
+### filter()
 
 Callback used to conditionally merge or skip a property.
 
@@ -366,7 +383,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: true, b: true, c: { d: true } }
 ```
 
-### beforeEach() <!-- omit in toc -->
+<!-- omit in toc -->
+### beforeEach()
 
 Callback used for inspecting/modifying properties before merge.
 
@@ -398,7 +416,8 @@ const merged = mergeDeep({
 console.log(merged); // { a: false, b: false, c: { d: false, e: 0 } }
 ```
 
-### afterEach() <!-- omit in toc -->
+<!-- omit in toc -->
+### afterEach()
 
 Callback used for inspecting/modifying properties after merge.
 
