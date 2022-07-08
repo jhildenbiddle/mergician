@@ -4,7 +4,8 @@
 [![GitHub Workflow Status (main)](https://img.shields.io/github/workflow/status/jhildenbiddle/mergedeep/Build%20&%20Test/main?label=checks&style=flat-square)](https://github.com/jhildenbiddle/mergedeep/actions?query=branch%3Amain+)
 [![Codacy code quality](https://img.shields.io/codacy/grade/9831274fda2341129b76ff3582ec0df5/main?style=flat-square)](https://app.codacy.com/gh/jhildenbiddle/mergedeep/dashboard?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/mergedeep/blob/main/LICENSE)
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=css,developers,frontend,javascript)
+[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergedeep/badge)](https://www.jsdelivr.com/package/npm/mergedeep)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=developers,frontend,javascript)
 
 mergeDeep is a flexible, light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
 
@@ -451,7 +452,7 @@ console.log(merged); // { a: 2, b: 3, c: { d: 4, e: true } }
 
 - Create a [Github issue](https://github.com/jhildenbiddle/mergedeep/issues) for bug reports, feature requests, or questions
 - Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
-- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergedeep) or ❤️ [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=developers,javascript) to support the project!
+- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergedeep) or 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=developers,frontend,javascript) to support the project!
 
 ## License
 
