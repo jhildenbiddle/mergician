@@ -105,15 +105,15 @@ To merge objects using the default [options](#options), pass two or more objects
 
 ```javascript
 const obj1 = { a: 1 };
-const obj2 = { b: [2, 2], c: { d: true } };
-const obj3 = { b: [3, 3], c: { e: false } };
+const obj2 = { b: [2, 2], c: { d: 2 } };
+const obj3 = { b: [3, 3], c: { e: 3 } };
 
 const cloned = mergeDeep({}, obj1);
 const merged = mergeDeep(obj1, obj2, obj3);
 
 console.log(cloned); // { a: 1 }
 console.log(cloned === obj1); // false
-console.log(merged); // { a: 1, b: [3, 3], c: { d: true, e: false } }
+console.log(merged); // { a: 1, b: [3, 3], c: { d: 2, e: 3 } }
 ```
 
 <!-- omit in toc -->
@@ -123,16 +123,15 @@ To specify merge [options](#options), pass a single object containing custom opt
 
 ```javascript
 const obj1 = { a: 1 };
-const obj2 = { b: [2, 2], c: { d: true } };
-const obj3 = { b: [3, 3], c: { e: false } };
+const obj2 = { b: [2, 2], c: { d: 2 } };
+const obj3 = { b: [3, 3], c: { e: 3 } };
 
 const merged = mergeDeep({
-    skipKeys: ['c'],
     appendArrays: true,
     dedupArrays: true
 })(obj1, obj2, obj3);
 
-console.log(merged); // { a: 1, b: [2, 3] }
+console.log(merged); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
 ```
 
 <!-- omit in toc -->
@@ -142,19 +141,18 @@ When merge [options](#options) are specified, the returned merge function can be
 
 ```javascript
 const obj1 = { a: 1 };
-const obj2 = { b: [2, 2], c: { d: true } };
-const obj3 = { b: [3, 3], c: { e: false } };
+const obj2 = { b: [2, 2], c: { d: 2 } };
+const obj3 = { b: [3, 3], c: { e: 3 } };
 
 const customMergeFunction = mergeDeep({
-    skipKeys: ['c'],
     appendArrays: true,
     dedupArrays: true
 });
 const cloned = customMergeFunction({}, obj2);
 const merged = customMergeFunction(obj1, obj2, obj3);
 
-console.log(cloned); // { b: [2] }
-console.log(merged); // { a: 1, b: [2, 3] }
+console.log(cloned); // { b: [2], c: { d: 2 } }
+console.log(merged); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
 ```
 
 ## Options
@@ -452,7 +450,7 @@ console.log(merged); // { a: 2, b: 3, c: { d: 4, e: true } }
 
 - Create a [Github issue](https://github.com/jhildenbiddle/mergedeep/issues) for bug reports, feature requests, or questions
 - Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
-- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergedeep) or 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=developers,frontend,javascript) to support the project!
+- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergedeep) or 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergedeep&hashtags=developers,frontend,javascript) to spread the word and support the project!
 
 ## License
 
