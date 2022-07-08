@@ -7,9 +7,19 @@ const testObj2 = { a: 2, b: [2, 2], c: { x: 2, y: [2, '😀'] }, e: null };
 const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
 
 describe('Default options', () => {
+    test('clone object', () => {
+        const mergedObj = mergeDeep({}, testObj2);
+
+        expect(mergedObj.b).not.toBe(testObj2.b);
+        expect(mergedObj.c).not.toBe(testObj2.c);
+        expect(mergedObj).toMatchSnapshot();
+    });
+
     test('deep merge two objects', () => {
         const mergedObj = mergeDeep(testObj1, testObj2);
 
+        expect(mergedObj.b).not.toBe(testObj2.b);
+        expect(mergedObj.c).not.toBe(testObj2.c);
         expect(mergedObj).toMatchSnapshot();
     });
 

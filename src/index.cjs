@@ -167,15 +167,14 @@ function mergeDeep(...optionsOrObjects) {
                 }
 
                 if (Array.isArray(mergeVal)) {
+                    mergeVal = [...mergeVal];
+
                     if (Array.isArray(targetVal)) {
                         if (settings.appendArrays) {
                             mergeVal = [...targetVal, ...mergeVal];
                         }
                         else if (settings.prependArrays) {
                             mergeVal = [...mergeVal, ...targetVal];
-                        }
-                        else {
-                            mergeVal = [...mergeVal];
                         }
                     }
 

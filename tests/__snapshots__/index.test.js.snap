@@ -41,6 +41,24 @@ Object {
 }
 `;
 
+exports[`Default options clone object 1`] = `
+Object {
+  "a": 2,
+  "b": Array [
+    2,
+    2,
+  ],
+  "c": Object {
+    "x": 2,
+    "y": Array [
+      2,
+      "😀",
+    ],
+  },
+  "e": null,
+}
+`;
+
 exports[`Default options deep merge three objects 1`] = `
 Object {
   "a": 3,
