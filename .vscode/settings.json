@@ -1,8 +1,20 @@
 {
     "cSpell.words": [
+        "aftereach",
+        "appendarrays",
+        "beforeeach",
         "Codacy",
         "dedup",
+        "deduparrays",
         "jhildenbiddle",
-        "mergedeep"
+        "mergedeep",
+        "onlycommonkeys",
+        "onlykeys",
+        "onlyuniversalkeys",
+        "prependarrays",
+        "skipcommonkeys",
+        "skipkeys",
+        "skipuniversalkeys",
+        "typeof"
     ]
 }
