@@ -26,6 +26,17 @@ Object {
 }
 `;
 
+exports[`Accessors handles getter/setter return objects from callbacks 1`] = `
+Object {
+  "a": "foo",
+  "b": 2,
+  "c": "baz",
+  "d": 2,
+  "testa": "bar",
+  "testc": "qux",
+}
+`;
+
 exports[`Accessors handles getters 1`] = `
 Object {
   "a": 1,

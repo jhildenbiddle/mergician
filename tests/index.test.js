@@ -38,7 +38,6 @@ describe('Accessors', () => {
         const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
 
         expect(typeof mergedObj.a).toBe('number');
-        expect(isObject(getDescriptor)).toBe(true);
         expect('get' in getDescriptor).toBe(true);
         expect(typeof getDescriptor.get).toBe('function');
         expect(mergedObj).toMatchSnapshot();
@@ -51,7 +50,6 @@ describe('Accessors', () => {
         const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
 
         expect(typeof mergedObj.a).toBe('number');
-        expect(isObject(setDescriptor)).toBe(true);
         expect('get' in setDescriptor).toBe(true);
         expect(typeof setDescriptor.set).toBe('function');
         mergedObj.setVal = 'foo';
@@ -72,14 +70,12 @@ describe('Accessors', () => {
         expect(typeof mergedObj.a).toBe('number');
 
         // Getter
-        expect(isObject(getDescriptor)).toBe(true);
         expect('get' in getDescriptor).toBe(true);
         expect(typeof getDescriptor.get).toBe('function');
         expect(Array.isArray(mergedObj.getVal)).toBe(true);
         expect(mergedObj.getVal).toHaveLength(2);
 
         // Setter
-        expect(isObject(setDescriptor)).toBe(true);
         expect('set' in setDescriptor).toBe(true);
         expect(typeof setDescriptor.set).toBe('function');
         mergedObj.setVal = 'foo';
@@ -99,19 +95,85 @@ describe('Accessors', () => {
         expect(typeof mergedObj.a).toBe('number');
 
         // Getter
-        expect(isObject(getDescriptor)).toBe(true);
         expect('get' in getDescriptor).toBe(true);
         expect(typeof getDescriptor.get).toBe('function');
         expect(isObject(mergedObj.getVal)).toBe(true);
         expect(mergedObj.getVal.x).toBe(2);
 
         // Setter
-        expect(isObject(setDescriptor)).toBe(true);
         expect('set' in setDescriptor).toBe(true);
         expect(typeof setDescriptor.set).toBe('function');
         mergedObj.setVal = 'foo';
         expect(isObject(mergedObj.a)).toBe(true);
         expect(mergedObj.a.x).toBe(4);
+
+        expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('handles getter/setter return objects from callbacks', () => {
+        const obj1 = { a: 1, b: 1, c: 1, d: 1 };
+        const mergedObj = mergeDeep({
+            beforeEach(srcVal, targetVal, key, srcObj, targetObj, depth) {
+                if (key === 'a') {
+                    return {
+                        get() { return 'foo'; },
+                        set() { this.testa = 'bar'; }
+                    };
+                }
+                if (key === 'b') {
+                    return {
+                        value: 2,
+                        writable: true,
+                        configurable: true,
+                        enumerable: true
+                    };
+                }
+            },
+            afterEach(mergeVal, key, mergeObj, depth) {
+                if (key === 'c') {
+                    return {
+                        get() { return 'baz'; },
+                        set() { this.testc = 'qux'; }
+                    };
+                }
+                if (key === 'd') {
+                    return {
+                        value: 2,
+                        writable: true,
+                        configurable: true,
+                        enumerable: true
+                    };
+                }
+            },
+        })({}, obj1);
+        const aDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'a');
+        const cDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'c');
+
+        expect(typeof mergedObj.a).toBe('string');
+        expect(mergedObj.a).toBe('foo');
+        expect('get' in aDescriptor).toBe(true);
+        expect(typeof aDescriptor.get).toBe('function');
+        expect('set' in aDescriptor).toBe(true);
+        expect(typeof aDescriptor.set).toBe('function');
+        expect(mergedObj.testa).toBeUndefined();
+        mergedObj.a = 2;
+        expect(mergedObj.testa).toBe('bar');
+
+        expect(typeof mergedObj.b).toBe('number');
+        expect(mergedObj.b).toBe(2);
+
+        expect(typeof mergedObj.c).toBe('string');
+        expect(mergedObj.c).toBe('baz');
+        expect('get' in cDescriptor).toBe(true);
+        expect(typeof cDescriptor.get).toBe('function');
+        expect('set' in cDescriptor).toBe(true);
+        expect(typeof cDescriptor.set).toBe('function');
+        expect(mergedObj.testc).toBeUndefined();
+        mergedObj.c = 2;
+        expect(mergedObj.testc).toBe('qux');
+
+        expect(typeof mergedObj.d).toBe('number');
+        expect(mergedObj.d).toBe(2);
 
         expect(mergedObj).toMatchSnapshot();
     });

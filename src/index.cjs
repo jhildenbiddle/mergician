@@ -24,6 +24,18 @@ const defaults = {
     afterEach: Function.prototype,
 };
 
+function isPropDescriptor(obj) {
+    if (!isObject(obj)) {
+        return false;
+    }
+
+    return (
+        'get' in obj && typeof obj.get === 'function' ||
+        'set' in obj && typeof obj.set === 'function' ||
+        'value' in obj && ('writable' in obj || 'enumerable' in obj || 'configurable' in obj)
+    );
+}
+
 /**
  * Deep recursive object merging with options to inspect, modify, and filter
  * keys/values, merge arrays (append/prepend), and remove duplicate values from
@@ -134,15 +146,13 @@ function mergeDeep(...optionsOrObjects) {
                     continue;
                 }
 
-                const srcDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
-                const srcVal = srcDescriptor && 'get' in srcDescriptor ? srcDescriptor : srcObj[key];
-                const targetDescriptor = Object.getOwnPropertyDescriptor(targetObj, key);
-                const targetVal = targetDescriptor && 'get' in targetDescriptor ? targetDescriptor : targetObj[key];
+                const srcVal = srcObj[key];
+                const targetVal = targetObj[key];
 
-                let mergeVal;
+                let mergeVal = srcVal;
 
                 if (settings.filter !== defaults.filter) {
-                    const returnVal = settings.filter(srcVal, targetVal, key, srcObj, targetObj, mergeDepth);
+                    const returnVal = settings.filter(mergeVal, targetVal, key, srcObj, targetObj, mergeDepth);
 
                     if (returnVal !== undefined && !returnVal) {
                         continue;
@@ -150,20 +160,9 @@ function mergeDeep(...optionsOrObjects) {
                 }
 
                 if (settings.beforeEach !== defaults.beforeEach) {
-                    const returnVal = settings.beforeEach(srcVal, targetVal, key, srcObj, targetObj, mergeDepth);
+                    const returnVal = settings.beforeEach(mergeVal, targetVal, key, srcObj, targetObj, mergeDepth);
 
-                    // Accessor (getter/setter)
-                    if (returnVal && isObject(returnVal) && 'get' in returnVal) {
-                        mergeVal = {};
-
-                        Object.defineProperty(mergeVal, key, returnVal);
-                    }
-                    else {
-                        mergeVal = returnVal !== undefined ? returnVal : srcVal;
-                    }
-                }
-                else {
-                    mergeVal = srcVal;
+                    mergeVal = returnVal !== undefined ? returnVal : mergeVal;
                 }
 
                 if (Array.isArray(mergeVal)) {
@@ -191,7 +190,7 @@ function mergeDeep(...optionsOrObjects) {
                         }
                     }
                 }
-                else if (isObject(mergeVal) && 'get' in mergeVal === false) {
+                else if (isObject(mergeVal) && !isPropDescriptor(mergeVal)) {
                     mergeDepth++;
 
                     if (isObject(targetVal)) {
@@ -207,23 +206,46 @@ function mergeDeep(...optionsOrObjects) {
                 if (settings.afterEach !== defaults.afterEach) {
                     const returnVal = settings.afterEach(mergeVal, key, targetObj, mergeDepth);
 
-                    // Accessor (getter/setter)
-                    if (returnVal && isObject(returnVal) && 'get' in returnVal) {
-                        mergeVal = {};
-
-                        Object.defineProperty(mergeVal, key, returnVal);
-                    }
-                    else {
-                        mergeVal = returnVal !== undefined ? returnVal : mergeVal;
-                    }
+                    mergeVal = returnVal !== undefined ? returnVal : mergeVal;
                 }
 
-                // Accessor (getter/setter)
-                if (mergeVal && isObject(mergeVal) && 'get' in mergeVal) {
+                // New descriptor returned via callback
+                if (isPropDescriptor(mergeVal)) {
+                    // Defining properties using Object.defineProperty() works
+                    // different than using the assignment operator (obj.a = 1).
+                    // Specifically, the descriptor properties 'configurable',
+                    // 'enumerable', and 'writable' default to 'false' when
+                    // using Object.defineProperty() but to 'true' when using
+                    // the assignment operator. The code below ensures that
+                    // descriptors returned from callbacks are treated as if
+                    // they were assigned using the assignment operator unless
+                    // those properties are explicitly defined in the
+                    // descriptor. This allow merging properties that may
+                    // otherwise fail due to 'configurable' or 'writable' being
+                    // set to 'false'.
+
+                    // Accessor and data descriptor
+                    mergeVal.configurable = !('configurable' in mergeVal) ? true : mergeVal.configurable;
+                    mergeVal.enumerable = !('enumerable' in mergeVal) ? true : mergeVal.enumerable;
+
+                    // Data descriptor
+                    if ('value' in mergeVal && !('writable' in mergeVal)) {
+                        mergeVal.writable = true;
+                    }
+
                     Object.defineProperty(targetObj, key, mergeVal);
                 }
                 else {
-                    targetObj[key] = mergeVal;
+                    const mergeDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
+
+                    // Accessors (getter/setter)
+                    if ('get' in mergeDescriptor) {
+                        Object.defineProperty(targetObj, key, mergeDescriptor);
+                    }
+                    // Standard values
+                    else {
+                        targetObj[key] = mergeVal;
+                    }
                 }
             }
 
