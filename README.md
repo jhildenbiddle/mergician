@@ -9,9 +9,9 @@
 
 mergeDeep is a flexible, light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
 
-What sets mergeDeep apart from similar utilities are the options provided for customizing the merge process. These options make it easy to filter properties, inspect and modify properties before and/or after merging, merge arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getter/setter functions) are also handled properly, ensuring existing functions are copied instead of their returned values and for new functions to be defined if needed.
+What sets mergeDeep apart from similar utilities are the options provided for customizing the merge process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions and descriptor values are defined properly on the newly merged object.
 
-**Note:** For simple operations that do not require the flexibility of this library, consider using native methods like [structuredClone()](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) for deep merging/cloning and the [spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) or [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) for shallow merging/cloning.
+- [Demo](https://codesandbox.io/s/mergedeep-demo-jcfft4?file=/index.js) (CodeSandbox.io)
 
 ---
 
@@ -19,7 +19,7 @@ What sets mergeDeep apart from similar utilities are the options provided for cu
 - [Installation](#installation)
 - [Usage](#usage)
 - [Options](#options)
-- [Contact](#contact)
+- [Support](#support)
 - [License](#license)
 
 ---
@@ -27,12 +27,12 @@ What sets mergeDeep apart from similar utilities are the options provided for cu
 ## Features
 
 - Deep merge/clone JavaScript objects
-- Filter keys/values
-- Inspect and modify keys/values
+- Filter properties
+- Inspect and modify properties
 - Merge arrays
 - Remove duplicate array items
-- Handles property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor)
-- Returns new object / does not modify sources (immutable)
+- Properly handle property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
+- Returns new object without modifying source objects (immutable)
 
 <!-- omit in toc -->
 #### Platform Support
@@ -88,14 +88,18 @@ There are three ways to call `mergeDeep`:
 
 ```javascript
 // Using the default options
-const merged1 = mergeDeep(obj1, obj2, obj3);
+const merged = mergeDeep(obj1, obj2, obj3);
+```
 
+```javascript
 // Specifying custom options
-const merged2 = mergeDeep({ /* Options */ })(obj1, obj2, obj3);
+const merged = mergeDeep({ /* Options */ })(obj1, obj2, obj3);
+```
 
-// Storing and then calling a custom merge function
+```javascript
+// Using a named custom merge function
 const customMergeFunction = mergeDeep({ /* Options */ });
-const merged3 = customMergeFunction(obj1, obj2, obj3);
+const merged = customMergeFunction(obj1, obj2, obj3);
 ```
 
 <!-- omit in toc -->
@@ -135,7 +139,7 @@ console.log(merged); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
 ```
 
 <!-- omit in toc -->
-### Storing and then calling a custom merge function
+### Using a named custom merge function
 
 When merge [options](#options) are specified, the returned merge function can be assigned to a variable and reused, removing the need to pass the same options to `mergeDeep` multiple times.
 
@@ -387,7 +391,7 @@ console.log(merged); // { a: true, b: true, c: { d: true } }
 
 Callback used for inspecting/modifying properties before merge.
 
-If a value is returned, that value will be used as the new value to merge. If no value is returned, the unmodified `srcVal` will be used.
+If a value is returned, that value will be used as the new value to merge. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `srcVal` will be used.
 
 - Type: Function
 - Arguments:
@@ -420,7 +424,7 @@ console.log(merged); // { a: false, b: false, c: { d: false, e: 0 } }
 
 Callback used for inspecting/modifying properties after merge.
 
-If a value is returned, that value will be used as the new merged value. If no value is returned, the unmodified `mergeVal` will be used.
+If a value is returned, that value will be used as the new merged value. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `mergeVal` will be used.
 
 - Type: Function
 - Arguments:
@@ -446,7 +450,7 @@ const merged = mergeDeep({
 console.log(merged); // { a: 2, b: 3, c: { d: 4, e: true } }
 ```
 
-## Contact
+## Support
 
 - Create a [Github issue](https://github.com/jhildenbiddle/mergedeep/issues) for bug reports, feature requests, or questions
 - Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
