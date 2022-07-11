@@ -337,7 +337,7 @@ console.log(merged); // { a: [3, 3, 2, 2, 1, 1] }
 <!-- omit in toc -->
 ### dedupArrays
 
-Remove duplicate values from merged arrays. Requires either [`appendArrays`](#appendarrays) or [`prependArrays`](#prependarrays) to be `true`.
+Remove duplicate values from merged arrays.
 
 - Type: Boolean
 - Default: `false`
@@ -347,11 +347,16 @@ const obj1 = { a: [1, 1] };
 const obj2 = { a: [2, 2] };
 const obj3 = { a: [3, 3] };
 
+const cloned = mergeDeep({
+    appendArrays: true,
+    dedupArrays: true
+})({}, obj1);
 const merged = mergeDeep({
     appendArrays: true,
     dedupArrays: true
 })(obj1, obj2, obj3);
 
+console.log(cloned); // { a: [1] }
 console.log(merged); // { a: [1, 2, 3] }
 ```
 
