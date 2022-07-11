@@ -18,6 +18,7 @@ const defaults = {
     appendArrays: false,
     prependArrays: false,
     dedupArrays: false,
+    sortArrays: false,
     // Callbacks
     filter: Function.prototype,
     beforeEach: Function.prototype,
@@ -61,6 +62,7 @@ function isPropDescriptor(obj) {
  *   appendArrays: false,
  *   prependArrays: false,
  *   dedupArrays: false,
+ *   sortArrays: false,
  *   // Callbacks
  *   filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {},
  *   beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {},
@@ -83,8 +85,10 @@ function isPropDescriptor(obj) {
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
  * beginning of existing arrays
- * @param {boolean} [options.dedupArrays = false] - Remove duplicate values from
- * merged arrays
+ * @param {boolean} [options.dedupArrays = false] - Remove duplicate array
+ * values in new merged object
+ * @param {boolean|function} [options.sortArrays = false] - Sort array values in
+ * new merged object
  * @param {function} [options.filter] - Callback used to conditionally merge or
  * skip a property. Return a "truthy" value to merge or a "falsy" value to skip.
  * Return no value to proceed according to other option values.
@@ -103,6 +107,8 @@ function mergeDeep(...optionsOrObjects) {
     const options = arguments.length === 1 ? arguments[0] : {};
     const settings = { ...defaults, ...options };
     const dedupArrayMap = new Map();
+    const sortArrayMap = new Map();
+    const sortArrayFn = typeof settings.sortArrays === 'function' ? settings.sortArrays : undefined;
 
     let mergeDepth = 0;
 
@@ -200,7 +206,34 @@ function mergeDeep(...optionsOrObjects) {
                         // If not, store a reference to the array so duplicates
                         // can be removed after merge is complete (faster)
                         else {
-                            dedupArrayMap.set(targetObj, [key]);
+                            const keyArray = dedupArrayMap.get(targetObj);
+
+                            if (keyArray && !keyArray.includes(key)) {
+                                keyArray.push(key);
+                            }
+                            else {
+                                dedupArrayMap.set(targetObj, [key]);
+                            }
+                        }
+                    }
+
+                    if (settings.sortArrays) {
+                        // If a user-defined afterEach callback exists, sort the
+                        // array so the expected value is returned (slower)
+                        if (settings.afterEach !== defaults.afterEach) {
+                            mergeVal = mergeVal.sort(sortArrayFn);
+                        }
+                        // If not, store a reference to the array so duplicates
+                        // can be removed after merge is complete (faster)
+                        else {
+                            const keyArray = sortArrayMap.get(targetObj);
+
+                            if (keyArray && !keyArray.includes(key)) {
+                                keyArray.push(key);
+                            }
+                            else {
+                                sortArrayMap.set(targetObj, [key]);
+                            }
                         }
                     }
                 }
@@ -275,6 +308,13 @@ function mergeDeep(...optionsOrObjects) {
         for (const [obj, keyArray] of dedupArrayMap.entries()) {
             for (const key of keyArray) {
                 obj[key] = [...new Set(obj[key])];
+            }
+        }
+
+        // Sort arrays
+        for (const [obj, keyArray] of sortArrayMap.entries()) {
+            for (const key of keyArray) {
+                obj[key].sort(sortArrayFn);
             }
         }
 

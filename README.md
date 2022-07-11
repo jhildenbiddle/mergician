@@ -180,6 +180,7 @@ console.log(merged2); // { b: [2, 3] }
 - [appendArrays](#appendarrays)
 - [prependArrays](#prependarrays)
 - [dedupArrays](#deduparrays)
+- [sortArrays](#sortarrays)
 - [filter()](#filter)
 - [beforeEach()](#beforeeach)
 - [afterEach()](#aftereach)
@@ -209,7 +210,7 @@ console.log(merged); // { a: 1, b: { c: 2 } }
 
 List of keys to be skipped (others are merged). Applies to top-level and nested keys.
 
-- Type: Array
+- Type: `Array`
 - Default: `[]`
 
 ```javascript
@@ -229,7 +230,7 @@ console.log(merged); // { a: 1, b: { d: 3 } }
 
 Merge only keys found in multiple objects (ignore single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -249,7 +250,7 @@ console.log(merged); // { a: 3, b: { c: 3 } }
 
 Merge only keys found in all objects. For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -269,7 +270,7 @@ console.log(merged); // { a: 3 }
 
 Skip keys found in multiple objects (merge only single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -289,7 +290,7 @@ console.log(merged); // { e: 3 }
 
 Skip keys found in all objects (merge only common keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -309,7 +310,7 @@ console.log(merged); // { b: { d: 3 }, e: 3 }
 
 Merge array values at the end of existing arrays.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -329,7 +330,7 @@ console.log(merged); // { a: [1, 1, 2, 2, 3, 3] }
 
 Merge array values at the beginning of existing arrays.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -347,9 +348,9 @@ console.log(merged); // { a: [3, 3, 2, 2, 1, 1] }
 <!-- omit in toc -->
 ### dedupArrays
 
-Remove duplicate values from merged arrays.
+Remove duplicate array values in new merged object. Arrays within arrays are not modified.
 
-- Type: Boolean
+- Type: `Boolean`
 - Default: `false`
 
 ```javascript
@@ -358,7 +359,6 @@ const obj2 = { a: [2, 2] };
 const obj3 = { a: [3, 3] };
 
 const cloned = mergeDeep({
-    appendArrays: true,
     dedupArrays: true
 })({}, obj1);
 const merged = mergeDeep({
@@ -371,13 +371,43 @@ console.log(merged); // { a: [1, 2, 3] }
 ```
 
 <!-- omit in toc -->
+### sortArrays
+
+Sort array values in new merged object. Arrays within arrays are not modified.
+
+When `true`, sorting is performed using the [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method's default comparison function. This can yield unexpected sorting results for those unfamiliar with how this comparison function works (e.g., `10` is sorted before `2`). Alternate comparison functions can be used ("natural" sorting, descending order, etc.) by passing them as the `sortArrays` option value.
+
+- Type: `Boolean` or `Function`
+- Default: `false`
+
+```javascript
+const obj1 = { a: [1, 4] };
+const obj2 = { a: [2, 5] };
+const obj3 = { a: [3, 6] };
+
+const mergedAscending = mergeDeep({
+    appendArrays: true,
+    sortArrays: true
+})(obj1, obj2, obj3);
+const mergedDescending = mergeDeep({
+    appendArrays: true,
+    sortArrays(a, b) {
+        return b - a;
+    }
+})(obj1, obj2, obj3);
+
+console.log(mergedAscending); // { a: [1, 2, 3, 4, 5, 6] }
+console.log(mergedDescending); // { a: [6, 5, 4, 3, 2, 1] }
+```
+
+<!-- omit in toc -->
 ### filter()
 
 Callback used to conditionally merge or skip a property.
 
 Return a "truthy" value to merge or a "falsy" value to skip. If no value is returned, merging/skipping will proceed based on other option values ([`onlyKeys`](#onlykeys), [`skipKeys`](#skipkeys), etc.)
 
-- Type: Function
+- Type: `Function`
 - Arguments:
   - **data**: Object containing merge data
     - **data.srcVal**: The source object's property value
@@ -409,7 +439,7 @@ Callback used for inspecting/modifying properties before merge.
 
 If a value is returned, that value will be used as the new value to merge. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `srcVal` will be used.
 
-- Type: Function
+- Type: `Function`
 - Arguments:
   - **data**: Object containing merge data
     - **data.srcVal**: The source object's property value
@@ -443,7 +473,7 @@ Callback used for inspecting/modifying properties after merge.
 
 If a value is returned, that value will be used as the new merged value. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `mergeVal` will be used.
 
-- Type: Function
+- Type: `Function`
 - Arguments:
   - **data**: Object containing merge data
     - **data.mergeVal**: The new merged value

@@ -170,8 +170,8 @@ describe('Options', () => {
 
     describe('Arrays', () => {
         const testObj1 = { a: [1, 1] };
-        const testObj2 = { a: [2, 2, [2, 2]], b: { x: [2, '😀'] } };
-        const testObj3 = { a: [3, 3, [3, 3]], b: { x: [3, '😀'] } };
+        const testObj2 = { a: [2, 2, [2, 2]], b: { x: [2, 2, '😀'] } };
+        const testObj3 = { a: [3, 3, [3, 3]], b: { x: [3, 3, '😀'] } };
 
         test('appendArrays', () => {
             const mergedObj = mergeDeep({
@@ -215,6 +215,31 @@ describe('Options', () => {
                     expect(mergeVal).toHaveLength(1);
                 }
             })({ test: [1, 1] }, { test: [1, 1] });
+
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('sortArrays with boolean', () => {
+            const mergedObj = mergeDeep({
+                appendArrays: true,
+                sortArrays: true,
+            })(testObj1, testObj2, testObj3);
+
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('sortArrays with function', () => {
+            const mergedObj = mergeDeep({
+                appendArrays: true,
+                sortArrays(a, b) {
+                    if (typeof b === 'number') {
+                        return b - a;
+                    }
+                    else {
+                        return -1;
+                    }
+                }
+            })(testObj1, testObj2, testObj3);
 
             expect(mergedObj).toMatchSnapshot();
         });

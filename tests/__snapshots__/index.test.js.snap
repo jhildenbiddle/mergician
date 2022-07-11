@@ -130,7 +130,9 @@ Object {
   "b": Object {
     "x": Array [
       2,
+      2,
       "😀",
+      3,
       3,
       "😀",
     ],
@@ -217,8 +219,72 @@ Object {
   "b": Object {
     "x": Array [
       3,
+      3,
       "😀",
       2,
+      2,
+      "😀",
+    ],
+  },
+}
+`;
+
+exports[`Options Arrays sortArrays with boolean 1`] = `
+Object {
+  "a": Array [
+    1,
+    1,
+    2,
+    2,
+    Array [
+      2,
+      2,
+    ],
+    3,
+    3,
+    Array [
+      3,
+      3,
+    ],
+  ],
+  "b": Object {
+    "x": Array [
+      2,
+      2,
+      3,
+      3,
+      "😀",
+      "😀",
+    ],
+  },
+}
+`;
+
+exports[`Options Arrays sortArrays with function 1`] = `
+Object {
+  "a": Array [
+    3,
+    3,
+    2,
+    2,
+    1,
+    1,
+    Array [
+      2,
+      2,
+    ],
+    Array [
+      3,
+      3,
+    ],
+  ],
+  "b": Object {
+    "x": Array [
+      3,
+      3,
+      2,
+      2,
+      "😀",
       "😀",
     ],
   },
