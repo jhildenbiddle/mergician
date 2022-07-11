@@ -9,7 +9,7 @@
 
 mergeDeep is a flexible, light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
 
-What sets mergeDeep apart from similar utilities are the options provided for customizing the merge process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions and descriptor values are defined properly on the newly merged object.
+What sets mergeDeep apart from similar utilities are the options provided for customizing the merge process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined properly on the newly merged object.
 
 - [Demo](https://codesandbox.io/s/mergedeep-demo-jcfft4?file=/index.js) (CodeSandbox.io)
 
@@ -30,6 +30,7 @@ What sets mergeDeep apart from similar utilities are the options provided for cu
 - Filter properties
 - Inspect and modify properties
 - Merge arrays
+- Sort arrays
 - Remove duplicate array items
 - Properly handle property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
 - Returns new object without modifying source objects (immutable)
