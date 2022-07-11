@@ -62,9 +62,9 @@ function isPropDescriptor(obj) {
  *   prependArrays: false,
  *   dedupArrays: false,
  *   // Callbacks
- *   filter(srcVal, targetVal, key, srcObj, targetObj, depth) {},
- *   beforeEach(srcVal, targetVal, key, srcObj, targetObj, depth) {},
- *   afterEach(mergeVal, key, mergeObj, depth) {},
+ *   filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {},
+ *   beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {},
+ *   afterEach({ mergeVal, key, mergeObj, depth }) {},
  * })(obj1, obj2, obj3, ...)
  *
  * @param {...object} optionsOrObjects - Options or objects to merge
@@ -152,7 +152,14 @@ function mergeDeep(...optionsOrObjects) {
                 let mergeVal = srcVal;
 
                 if (settings.filter !== defaults.filter) {
-                    const returnVal = settings.filter(mergeVal, targetVal, key, srcObj, targetObj, mergeDepth);
+                    const returnVal = settings.filter({
+                        srcVal: mergeVal,
+                        targetVal,
+                        key,
+                        srcObj,
+                        targetObj,
+                        depth: mergeDepth
+                    });
 
                     if (returnVal !== undefined && !returnVal) {
                         continue;
@@ -160,7 +167,14 @@ function mergeDeep(...optionsOrObjects) {
                 }
 
                 if (settings.beforeEach !== defaults.beforeEach) {
-                    const returnVal = settings.beforeEach(mergeVal, targetVal, key, srcObj, targetObj, mergeDepth);
+                    const returnVal = settings.beforeEach({
+                        srcVal: mergeVal,
+                        targetVal,
+                        key,
+                        srcObj,
+                        targetObj,
+                        depth: mergeDepth
+                    });
 
                     mergeVal = returnVal !== undefined ? returnVal : mergeVal;
                 }
@@ -204,7 +218,12 @@ function mergeDeep(...optionsOrObjects) {
                 }
 
                 if (settings.afterEach !== defaults.afterEach) {
-                    const returnVal = settings.afterEach(mergeVal, key, targetObj, mergeDepth);
+                    const returnVal = settings.afterEach({
+                        mergeVal,
+                        key,
+                        targetObj,
+                        depth: mergeDepth
+                    });
 
                     mergeVal = returnVal !== undefined ? returnVal : mergeVal;
                 }

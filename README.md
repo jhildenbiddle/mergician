@@ -379,12 +379,13 @@ Return a "truthy" value to merge or a "falsy" value to skip. If no value is retu
 
 - Type: Function
 - Arguments:
-  - **srcVal:** The source object's property value
-  - **targetVal:** The new merged object's current property value
-  - **key:** The object key being processed
-  - **srcObj:** The object containing the source value
-  - **targetObj:** The new merged object
-  - **depth:** The nesting level of the key being processed
+  - **data**: Object containing merge data
+    - **data.srcVal**: The source object's property value
+    - **data.targetVal**: The new merged object's current property value
+    - **data.key**: The object key being processed
+    - **data.srcObj**: The object containing the source value
+    - **data.targetObj**: The new merged object
+    - **data.depth**: The nesting level of the key being processed
 
 ```javascript
 const obj1 = { a: true };
@@ -393,7 +394,7 @@ const obj3 = { a: null, b: undefined, c: { d: true, e: '' } };
 
 const merged = mergeDeep({
     // Skip properties with falsy values
-    filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
+    filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
         return Boolean(srcVal);
     }
 })(obj1, obj2, obj3);
@@ -410,12 +411,13 @@ If a value is returned, that value will be used as the new value to merge. If an
 
 - Type: Function
 - Arguments:
-  - **srcVal:** The source object's property value
-  - **targetVal:** The new merged object's current property value
-  - **key:** The object key being processed
-  - **srcObj:** The object containing the source value
-  - **targetObj:** The new merged object
-  - **depth:** The nesting level of the key being processed
+  - **data**: Object containing merge data
+    - **data.srcVal**: The source object's property value
+    - **data.targetVal**: The new merged object's current property value
+    - **data.key**: The object key being processed
+    - **data.srcObj**: The object containing the source value
+    - **data.targetObj**: The new merged object
+    - **data.depth**: The nesting level of the key being processed
 
 ```javascript
 const obj1 = { a: null };
@@ -424,7 +426,7 @@ const obj3 = { c: { d: '', e: 0 } };
 
 const merged = mergeDeep({
     // Normalize non-zero "falsy" values to be false
-    beforeEach(srcVal, targetVal, key, srcObj, targetObj, depth) {
+    beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
         if (srcVal !== 0 && !Boolean(srcVal)) {
             return false;
         }
@@ -443,10 +445,11 @@ If a value is returned, that value will be used as the new merged value. If an `
 
 - Type: Function
 - Arguments:
-  - **mergeVal:** The new merged value
-  - **key:** The object key processed
-  - **mergeObj:** The new merged object
-  - **depth:** The nesting level of the key processed
+  - **data**: Object containing merge data
+    - **data.mergeVal**: The new merged value
+    - **data.key**: The object key processed
+    - **data.targetObj**: The new merged object
+    - **data.depth**: The nesting level of the key processed
 
 ```javascript
 const obj1 = { a: 1 };
@@ -455,7 +458,7 @@ const obj3 = { c: { d: 3, e: true } };
 
 const merged = mergeDeep({
     // Add 1 to all numbers
-    afterEach(mergeVal, key, mergeObj, depth) {
+    afterEach({ mergeVal, key, targetObj, depth }) {
         if (typeof mergeVal === 'number') {
             return mergeVal + 1;
         }

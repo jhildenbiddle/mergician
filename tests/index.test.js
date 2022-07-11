@@ -211,7 +211,7 @@ describe('Options', () => {
             const mergedObj = mergeDeep({
                 appendArrays: true,
                 dedupArrays: true,
-                afterEach(mergeVal, key, mergeObj, depth) {
+                afterEach({ mergeVal, key, targetObj, depth }) {
                     expect(mergeVal).toHaveLength(1);
                 }
             })({ test: [1, 1] }, { test: [1, 1] });
@@ -227,7 +227,7 @@ describe('Options', () => {
         test('filter() arguments', () => {
             const conditionsTested = [];
             const mergedObj = mergeDeep({
-                filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
+                filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
                     expect(isObject(srcObj)).toBe(true);
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
@@ -262,7 +262,7 @@ describe('Options', () => {
 
         test('filter() true', () => {
             const mergedObj = mergeDeep({
-                filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
+                filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
                     return key === 'a';
                 }
             })(testObj1, testObj2);
@@ -272,7 +272,7 @@ describe('Options', () => {
 
         test('filter() false', () => {
             const mergedObj = mergeDeep({
-                filter(srcVal, targetVal, key, srcObj, targetObj, depth) {
+                filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
                     return key !== 'a';
                 }
             })(testObj1, testObj2);
@@ -295,7 +295,7 @@ describe('Options', () => {
             const conditionsTested = [];
 
             const mergedObj = mergeDeep({
-                beforeEach(srcVal, targetVal, key, srcObj, targetObj, depth) {
+                beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
                     expect(isObject(srcObj)).toBe(true);
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
@@ -353,9 +353,9 @@ describe('Options', () => {
             const conditionsTested = [];
 
             const mergedObj = mergeDeep({
-                afterEach(mergeVal, key, mergeObj, depth) {
+                afterEach({ mergeVal, key, targetObj, depth }) {
                     expect(typeof key).toBe('string');
-                    expect(isObject(mergeObj)).toBe(true);
+                    expect(isObject(targetObj)).toBe(true);
                     expect(typeof depth).toBe('number');
 
                     /* eslint-disable jest/no-conditional-expect */
@@ -500,7 +500,7 @@ describe('Accessors', () => {
     test('handles getter/setter return objects from callbacks', () => {
         const obj1 = { a: 1, b: 1, c: 1, d: 1 };
         const mergedObj = mergeDeep({
-            beforeEach(srcVal, targetVal, key, srcObj, targetObj, depth) {
+            beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
                 if (key === 'a') {
                     return {
                         get() { return 'foo'; },
@@ -516,7 +516,7 @@ describe('Accessors', () => {
                     };
                 }
             },
-            afterEach(mergeVal, key, mergeObj, depth) {
+            afterEach({ mergeVal, key, targetObj, depth }) {
                 if (key === 'c') {
                     return {
                         get() { return 'baz'; },
