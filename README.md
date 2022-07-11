@@ -123,7 +123,7 @@ console.log(merged); // { a: 1, b: [3, 3], c: { d: 2, e: 3 } }
 <!-- omit in toc -->
 ### Specifying custom options
 
-To specify merge [options](#options), pass a single object containing custom option to `mergeDeep`. A new function with the options applied will be returned, which can then be immediately invoked by passing one or more objects to be merged.
+To specify merge [options](#options), pass a single object containing custom options to `mergeDeep`. A new function with the options applied will be returned, which can then be immediately invoked by passing two or more objects to be merged.
 
 ```javascript
 const obj1 = { a: 1 };
@@ -153,10 +153,20 @@ const customMergeFunction = mergeDeep({
     dedupArrays: true
 });
 const cloned = customMergeFunction({}, obj2);
-const merged = customMergeFunction(obj1, obj2, obj3);
+const merged1 = customMergeFunction(obj1, obj2, obj3);
 
 console.log(cloned); // { b: [2], c: { d: 2 } }
-console.log(merged); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
+console.log(merged1); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
+```
+
+Like `mergeDeep`, custom merge functions accept new [options](#options) passed as a single object and will return a new function with the options applied.
+
+```javascript
+const merged2 = customMergeFunction({
+    onlyKeys: ['b']
+})(obj1, obj2, obj3);
+
+console.log(merged2); // { b: [2, 3] }
 ```
 
 ## Options

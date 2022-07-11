@@ -109,7 +109,7 @@ Object {
 }
 `;
 
-exports[`Options: Arrays appendArrays 1`] = `
+exports[`Options Arrays appendArrays 1`] = `
 Object {
   "a": Array [
     1,
@@ -138,7 +138,7 @@ Object {
 }
 `;
 
-exports[`Options: Arrays dedupArrays + afterEach with deduped mergeVal) 1`] = `
+exports[`Options Arrays dedupArrays + afterEach with deduped mergeVal) 1`] = `
 Object {
   "test": Array [
     1,
@@ -146,7 +146,7 @@ Object {
 }
 `;
 
-exports[`Options: Arrays dedupArrays + appendArrays 1`] = `
+exports[`Options Arrays dedupArrays + appendArrays 1`] = `
 Object {
   "a": Array [
     1,
@@ -171,7 +171,7 @@ Object {
 }
 `;
 
-exports[`Options: Arrays dedupArrays + prependArrays 1`] = `
+exports[`Options Arrays dedupArrays + prependArrays 1`] = `
 Object {
   "a": Array [
     3,
@@ -196,7 +196,7 @@ Object {
 }
 `;
 
-exports[`Options: Arrays prependArrays 1`] = `
+exports[`Options Arrays prependArrays 1`] = `
 Object {
   "a": Array [
     3,
@@ -225,7 +225,7 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks afterEach() arguments 1`] = `
+exports[`Options Callbacks afterEach() arguments 1`] = `
 Object {
   "a": 2,
   "b": Object {
@@ -234,14 +234,14 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks afterEach() return value 1`] = `
+exports[`Options Callbacks afterEach() return value 1`] = `
 Object {
   "a": "baz",
   "b": "baz",
 }
 `;
 
-exports[`Options: Callbacks afterEach() without return value 1`] = `
+exports[`Options Callbacks afterEach() without return value 1`] = `
 Object {
   "a": 2,
   "b": Object {
@@ -250,7 +250,7 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks beforeEach() arguments 1`] = `
+exports[`Options Callbacks beforeEach() arguments 1`] = `
 Object {
   "a": 2,
   "b": Object {
@@ -259,14 +259,14 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks beforeEach() with return value 1`] = `
+exports[`Options Callbacks beforeEach() with return value 1`] = `
 Object {
   "a": "baz",
   "b": "baz",
 }
 `;
 
-exports[`Options: Callbacks beforeEach() without return value 1`] = `
+exports[`Options Callbacks beforeEach() without return value 1`] = `
 Object {
   "a": 2,
   "b": Object {
@@ -275,7 +275,7 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks filter() arguments 1`] = `
+exports[`Options Callbacks filter() arguments 1`] = `
 Object {
   "a": 2,
   "b": Object {
@@ -284,7 +284,7 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks filter() false 1`] = `
+exports[`Options Callbacks filter() false 1`] = `
 Object {
   "b": Object {
     "c": "bar",
@@ -292,13 +292,13 @@ Object {
 }
 `;
 
-exports[`Options: Callbacks filter() true 1`] = `
+exports[`Options Callbacks filter() true 1`] = `
 Object {
   "a": 2,
 }
 `;
 
-exports[`Options: Callbacks filter() without return value 1`] = `
+exports[`Options Callbacks filter() without return value 1`] = `
 Object {
   "a": 2,
   "b": Object {
@@ -307,7 +307,7 @@ Object {
 }
 `;
 
-exports[`Options: Keys onlyCommonKeys + onlyKeys 1`] = `
+exports[`Options Keys onlyCommonKeys + onlyKeys 1`] = `
 Object {
   "b": Array [
     3,
@@ -319,7 +319,7 @@ Object {
 }
 `;
 
-exports[`Options: Keys onlyCommonKeys + skipKeys 1`] = `
+exports[`Options Keys onlyCommonKeys + skipKeys 1`] = `
 Object {
   "b": Array [
     3,
@@ -335,7 +335,7 @@ Object {
 }
 `;
 
-exports[`Options: Keys onlyCommonKeys 1`] = `
+exports[`Options Keys onlyCommonKeys 1`] = `
 Object {
   "a": 3,
   "b": Array [
@@ -352,13 +352,13 @@ Object {
 }
 `;
 
-exports[`Options: Keys onlyKeys + skipKeys 1`] = `
+exports[`Options Keys onlyKeys + skipKeys 1`] = `
 Object {
   "a": 3,
 }
 `;
 
-exports[`Options: Keys onlyKeys 1`] = `
+exports[`Options Keys onlyKeys 1`] = `
 Object {
   "a": 3,
   "c": Object {
@@ -367,13 +367,13 @@ Object {
 }
 `;
 
-exports[`Options: Keys onlyUniversalKeys + onlyKeys 1`] = `
+exports[`Options Keys onlyUniversalKeys + onlyKeys 1`] = `
 Object {
   "a": 3,
 }
 `;
 
-exports[`Options: Keys onlyUniversalKeys + skipKeys 1`] = `
+exports[`Options Keys onlyUniversalKeys + skipKeys 1`] = `
 Object {
   "b": Array [
     3,
@@ -382,7 +382,7 @@ Object {
 }
 `;
 
-exports[`Options: Keys onlyUniversalKeys 1`] = `
+exports[`Options Keys onlyUniversalKeys 1`] = `
 Object {
   "a": 3,
   "b": Array [
@@ -392,26 +392,26 @@ Object {
 }
 `;
 
-exports[`Options: Keys skipCommonKeys + onlyKeys 1`] = `
+exports[`Options Keys skipCommonKeys + onlyKeys 1`] = `
 Object {
   "d": true,
 }
 `;
 
-exports[`Options: Keys skipCommonKeys + skipKeys 1`] = `
+exports[`Options Keys skipCommonKeys + skipKeys 1`] = `
 Object {
   "e": null,
 }
 `;
 
-exports[`Options: Keys skipCommonKeys 1`] = `
+exports[`Options Keys skipCommonKeys 1`] = `
 Object {
   "d": true,
   "e": null,
 }
 `;
 
-exports[`Options: Keys skipKeys 1`] = `
+exports[`Options Keys skipKeys 1`] = `
 Object {
   "b": Array [
     3,
@@ -429,25 +429,48 @@ Object {
 }
 `;
 
-exports[`Options: Keys skipUniversalKeys + onlyKeys 1`] = `
+exports[`Options Keys skipUniversalKeys + onlyKeys 1`] = `
 Object {
   "c": Object {},
 }
 `;
 
-exports[`Options: Keys skipUniversalKeys + skipKeys 1`] = `
+exports[`Options Keys skipUniversalKeys + skipKeys 1`] = `
 Object {
   "d": true,
   "e": null,
 }
 `;
 
-exports[`Options: Keys skipUniversalKeys 1`] = `
+exports[`Options Keys skipUniversalKeys 1`] = `
 Object {
   "c": Object {
     "z": 3,
   },
   "d": true,
   "e": null,
+}
+`;
+
+exports[`Options custom merge function accepts options 1`] = `
+Object {
+  "b": Array [
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+  ],
+}
+`;
+
+exports[`Options custom merge function accepts options 2`] = `
+Object {
+  "b": Array [
+    1,
+    2,
+    3,
+  ],
 }
 `;

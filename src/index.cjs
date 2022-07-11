@@ -44,7 +44,7 @@ function isPropDescriptor(obj) {
  * @preserve
  *
  * @example
- * // Without options
+ * // Without options (use default option values)
  * mergeDeep(obj1, obj2, obj3, ...);
  *
  * @example
@@ -262,11 +262,17 @@ function mergeDeep(...optionsOrObjects) {
         return result;
     }
 
-    // With options:
-    // Ex: mergeDeep({...})(obj1, obj2);
+    // With options
+    // Ex: mergeDeep({...})
     if (arguments.length === 1) {
         return function (...objects) {
-            return _mergeDeep(...objects);
+            // Options passed to custom merge function
+            if (arguments.length === 1) {
+                return mergeDeep({ ...settings, ...objects[0] });
+            }
+            else {
+                return _mergeDeep(...objects);
+            }
         };
     }
     // Without options
