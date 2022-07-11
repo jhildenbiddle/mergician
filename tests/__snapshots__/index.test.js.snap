@@ -116,19 +116,23 @@ Object {
     1,
     2,
     2,
+    3,
+    3,
+  ],
+  "b": Array [
+    2,
     Array [
       2,
       2,
     ],
-    3,
     3,
     Array [
       3,
       3,
     ],
   ],
-  "b": Object {
-    "x": Array [
+  "c": Object {
+    "d": Array [
       2,
       2,
       "😀",
@@ -140,7 +144,7 @@ Object {
 }
 `;
 
-exports[`Options Arrays dedupArrays + afterEach with deduped mergeVal) 1`] = `
+exports[`Options Arrays dedupArrays + afterEach (mergeVal should be deduped) 1`] = `
 Object {
   "test": Array [
     1,
@@ -153,6 +157,10 @@ Object {
   "a": Array [
     1,
     2,
+    3,
+  ],
+  "b": Array [
+    2,
     Array [
       2,
       2,
@@ -163,8 +171,8 @@ Object {
       3,
     ],
   ],
-  "b": Object {
-    "x": Array [
+  "c": Object {
+    "d": Array [
       2,
       "😀",
       3,
@@ -177,6 +185,11 @@ exports[`Options Arrays dedupArrays + prependArrays 1`] = `
 Object {
   "a": Array [
     3,
+    2,
+    1,
+  ],
+  "b": Array [
+    3,
     Array [
       3,
       3,
@@ -186,13 +199,33 @@ Object {
       2,
       2,
     ],
-    1,
   ],
-  "b": Object {
-    "x": Array [
+  "c": Object {
+    "d": Array [
       3,
       "😀",
       2,
+    ],
+  },
+}
+`;
+
+exports[`Options Arrays dedupArrays 1`] = `
+Object {
+  "a": Array [
+    2,
+  ],
+  "b": Array [
+    2,
+    Array [
+      2,
+      2,
+    ],
+  ],
+  "c": Object {
+    "d": Array [
+      2,
+      "😀",
     ],
   },
 }
@@ -203,21 +236,25 @@ Object {
   "a": Array [
     3,
     3,
-    Array [
-      3,
-      3,
-    ],
     2,
     2,
-    Array [
-      2,
-      2,
-    ],
     1,
     1,
   ],
-  "b": Object {
-    "x": Array [
+  "b": Array [
+    3,
+    Array [
+      3,
+      3,
+    ],
+    2,
+    Array [
+      2,
+      2,
+    ],
+  ],
+  "c": Object {
+    "d": Array [
       3,
       3,
       "😀",
@@ -229,6 +266,17 @@ Object {
 }
 `;
 
+exports[`Options Arrays sortArrays + afterEach (mergeVal should be sorted) 1`] = `
+Object {
+  "test": Array [
+    1,
+    2,
+    3,
+    4,
+  ],
+}
+`;
+
 exports[`Options Arrays sortArrays with boolean 1`] = `
 Object {
   "a": Array [
@@ -236,19 +284,23 @@ Object {
     1,
     2,
     2,
+    3,
+    3,
+  ],
+  "b": Array [
+    2,
     Array [
       2,
       2,
     ],
-    3,
     3,
     Array [
       3,
       3,
     ],
   ],
-  "b": Object {
-    "x": Array [
+  "c": Object {
+    "d": Array [
       2,
       2,
       3,
@@ -269,6 +321,10 @@ Object {
     2,
     1,
     1,
+  ],
+  "b": Array [
+    3,
+    2,
     Array [
       2,
       2,
@@ -278,8 +334,8 @@ Object {
       3,
     ],
   ],
-  "b": Object {
-    "x": Array [
+  "c": Object {
+    "d": Array [
       3,
       3,
       2,

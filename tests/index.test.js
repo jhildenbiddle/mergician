@@ -170,8 +170,8 @@ describe('Options', () => {
 
     describe('Arrays', () => {
         const testObj1 = { a: [1, 1] };
-        const testObj2 = { a: [2, 2, [2, 2]], b: { x: [2, 2, '😀'] } };
-        const testObj3 = { a: [3, 3, [3, 3]], b: { x: [3, 3, '😀'] } };
+        const testObj2 = { a: [2, 2], b: [2, [2, 2]], c: { d: [2, 2, '😀'] } };
+        const testObj3 = { a: [3, 3], b: [3, [3, 3]], c: { d: [3, 3, '😀'] } };
 
         test('appendArrays', () => {
             const mergedObj = mergeDeep({
@@ -185,6 +185,15 @@ describe('Options', () => {
             const mergedObj = mergeDeep({
                 prependArrays: true
             })(testObj1, testObj2, testObj3);
+
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('dedupArrays', () => {
+            const mergedObj = mergeDeep({
+                appendArrays: true,
+                dedupArrays: true
+            })({}, testObj2);
 
             expect(mergedObj).toMatchSnapshot();
         });
@@ -207,7 +216,7 @@ describe('Options', () => {
             expect(mergedObj).toMatchSnapshot();
         });
 
-        test('dedupArrays + afterEach with deduped mergeVal)', () => {
+        test('dedupArrays + afterEach (mergeVal should be deduped)', () => {
             const mergedObj = mergeDeep({
                 appendArrays: true,
                 dedupArrays: true,
@@ -240,6 +249,23 @@ describe('Options', () => {
                     }
                 }
             })(testObj1, testObj2, testObj3);
+
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('sortArrays + afterEach (mergeVal should be sorted)', () => {
+            const sortedArrays = [
+                [1, 2],
+                [3, 4],
+                [1, 2, 3, 4]
+            ];
+            const mergedObj = mergeDeep({
+                appendArrays: true,
+                sortArrays: true,
+                afterEach({ mergeVal, key, targetObj, depth }) {
+                    expect(sortedArrays).toContainEqual(mergeVal);
+                }
+            })({ test: [2, 1] }, { test: [4, 3] });
 
             expect(mergedObj).toMatchSnapshot();
         });
