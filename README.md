@@ -66,14 +66,14 @@ import mergeDeep from 'mergedeep';
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/css-vars-ponyfill) (below), [unpkg](https://unpkg.com/browse/css-vars-ponyfill/), and other CDN services that auto-publish npm packages or GitHub repos.
 
-```html
-<!-- Global "mergeDeep" @ latest v1.x.x (see @ version in URL) -->
-<script src="https://cdn.jsdelivr.net/npm/mergedeep@1/dist/mergedeep.min.js">
-```
-
 ```javascript
 // ES module @ latest v1.x.x (see @ version in URL)
 import mergeDeep from 'https://cdn.jsdelivr.net/npm/mergedeep@1/dist/mergedeep.min.mjs';
+```
+
+```html
+<!-- Global "mergeDeep" @ latest v1.x.x (see @ version in URL) -->
+<script src="https://cdn.jsdelivr.net/npm/mergedeep@1/dist/mergedeep.min.js">
 ```
 
 <!-- omit in toc -->
