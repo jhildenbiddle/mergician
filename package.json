@@ -47,6 +47,9 @@
     "dist"
   ],
   "main": "./dist/mergedeep.cjs",
+  "module": "./dist/mergedeep.mjs",
+  "browser": "./dist/mergedeep.min.js",
+  "unpkg": "./dist/mergedeep.min.mjs",
   "exports": {
     ".": {
       "import": "./dist/mergedeep.mjs",
