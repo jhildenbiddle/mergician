@@ -28,7 +28,7 @@ const config = {
     },
     legalComments: 'inline',
     target: ['esnext'],
-    outfile: 'dist/mergedeep.js',
+    outfile: 'dist/mergician.js',
     watch: isWatch,
 };
 
@@ -55,7 +55,7 @@ const esmMinified = {
 const jsMinified = {
     ...config,
     format: 'iife',
-    globalName: 'mergeDeep',
+    globalName: 'mergician',
     minify: true,
     legalComments: 'none',
     sourcemap: true,

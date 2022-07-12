@@ -1,5 +1,5 @@
 const { isObject } = require('../src/util');
-const mergeDeep = require('../dist/mergedeep.cjs');
+const mergician = require('../dist/mergician.cjs');
 
 // Test objects
 const testObj1 = { a: 1, b: [1, 1], d: true };
@@ -8,7 +8,7 @@ const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
 
 describe('Default options', () => {
     test('clone object', () => {
-        const mergedObj = mergeDeep({}, testObj2);
+        const mergedObj = mergician({}, testObj2);
 
         expect(mergedObj.b).not.toBe(testObj2.b);
         expect(mergedObj.c).not.toBe(testObj2.c);
@@ -16,7 +16,7 @@ describe('Default options', () => {
     });
 
     test('deep merge two objects', () => {
-        const mergedObj = mergeDeep(testObj1, testObj2);
+        const mergedObj = mergician(testObj1, testObj2);
 
         expect(mergedObj.b).not.toBe(testObj2.b);
         expect(mergedObj.c).not.toBe(testObj2.c);
@@ -24,7 +24,7 @@ describe('Default options', () => {
     });
 
     test('deep merge three objects', () => {
-        const mergedObj = mergeDeep(testObj1, testObj2, testObj3);
+        const mergedObj = mergician(testObj1, testObj2, testObj3);
 
         expect(mergedObj).toMatchSnapshot();
     });
@@ -32,14 +32,14 @@ describe('Default options', () => {
 
 describe('Options', () => {
     test('passing options returns custom merge function', () => {
-        const customMerge = mergeDeep({}); // Defaults
+        const customMerge = mergician({}); // Defaults
 
         expect(typeof customMerge).toBe('function');
     });
 
     describe('Keys', () => {
         test('onlyKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyKeys: ['a', 'c', 'x']
             })(testObj1, testObj2, testObj3);
 
@@ -47,7 +47,7 @@ describe('Options', () => {
         });
 
         test('skipKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipKeys: ['a', 'x']
             })(testObj1, testObj2, testObj3);
 
@@ -55,7 +55,7 @@ describe('Options', () => {
         });
 
         test('onlyKeys + skipKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyKeys: ['a', 'b'],
                 skipKeys: ['b'],
             })(testObj1, testObj2, testObj3);
@@ -64,7 +64,7 @@ describe('Options', () => {
         });
 
         test('onlyCommonKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyCommonKeys: true
             })(testObj1, testObj2, testObj3);
 
@@ -72,7 +72,7 @@ describe('Options', () => {
         });
 
         test('onlyCommonKeys + onlyKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyKeys: ['b', 'c', 'x', 'z'],
                 onlyCommonKeys: true
             })(testObj1, testObj2, testObj3);
@@ -81,7 +81,7 @@ describe('Options', () => {
         });
 
         test('onlyCommonKeys + skipKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipKeys: ['a', 'z'],
                 onlyCommonKeys: true
             })(testObj1, testObj2, testObj3);
@@ -90,7 +90,7 @@ describe('Options', () => {
         });
 
         test('onlyUniversalKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyUniversalKeys: true
             })(testObj1, testObj2, testObj3);
 
@@ -98,7 +98,7 @@ describe('Options', () => {
         });
 
         test('onlyUniversalKeys + onlyKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyKeys: ['a'],
                 onlyUniversalKeys: true
             })(testObj1, testObj2, testObj3);
@@ -107,7 +107,7 @@ describe('Options', () => {
         });
 
         test('onlyUniversalKeys + skipKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipKeys: ['a'],
                 onlyUniversalKeys: true
             })(testObj1, testObj2, testObj3);
@@ -116,7 +116,7 @@ describe('Options', () => {
         });
 
         test('skipCommonKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipCommonKeys: true
             })(testObj1, testObj2, testObj3);
 
@@ -124,7 +124,7 @@ describe('Options', () => {
         });
 
         test('skipCommonKeys + onlyKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyKeys: ['d'],
                 skipCommonKeys: true
             })(testObj1, testObj2, testObj3);
@@ -133,7 +133,7 @@ describe('Options', () => {
         });
 
         test('skipCommonKeys + skipKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipKeys: ['d'],
                 skipCommonKeys: true
             })(testObj1, testObj2, testObj3);
@@ -142,7 +142,7 @@ describe('Options', () => {
         });
 
         test('skipUniversalKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipUniversalKeys: true
             })(testObj1, testObj2, testObj3);
 
@@ -150,7 +150,7 @@ describe('Options', () => {
         });
 
         test('skipUniversalKeys + onlyKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 onlyKeys: ['c'],
                 skipUniversalKeys: true
             })(testObj1, testObj2, testObj3);
@@ -159,7 +159,7 @@ describe('Options', () => {
         });
 
         test('skipUniversalKeys + skipKeys', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 skipKeys: ['c'],
                 skipUniversalKeys: true
             })(testObj1, testObj2, testObj3);
@@ -174,7 +174,7 @@ describe('Options', () => {
         const testObj3 = { a: [3, 3], b: [3, [3, 3]], c: { d: [3, 3, '😀'] } };
 
         test('appendArrays', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true
             })(testObj1, testObj2, testObj3);
 
@@ -182,7 +182,7 @@ describe('Options', () => {
         });
 
         test('prependArrays', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 prependArrays: true
             })(testObj1, testObj2, testObj3);
 
@@ -190,7 +190,7 @@ describe('Options', () => {
         });
 
         test('dedupArrays', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true,
                 dedupArrays: true
             })({}, testObj2);
@@ -199,7 +199,7 @@ describe('Options', () => {
         });
 
         test('dedupArrays + appendArrays', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true,
                 dedupArrays: true
             })(testObj1, testObj2, testObj3);
@@ -208,7 +208,7 @@ describe('Options', () => {
         });
 
         test('dedupArrays + prependArrays', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 prependArrays: true,
                 dedupArrays: true
             })(testObj1, testObj2, testObj3);
@@ -217,10 +217,10 @@ describe('Options', () => {
         });
 
         test('dedupArrays + afterEach (mergeVal should be deduped)', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true,
                 dedupArrays: true,
-                afterEach({ mergeVal, key, targetObj, depth }) {
+                afterEach({ mergeVal }) {
                     expect(mergeVal).toHaveLength(1);
                 }
             })({ test: [1, 1] }, { test: [1, 1] });
@@ -229,7 +229,7 @@ describe('Options', () => {
         });
 
         test('sortArrays with boolean', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true,
                 sortArrays: true,
             })(testObj1, testObj2, testObj3);
@@ -238,7 +238,7 @@ describe('Options', () => {
         });
 
         test('sortArrays with function', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true,
                 sortArrays(a, b) {
                     if (typeof b === 'number') {
@@ -259,10 +259,10 @@ describe('Options', () => {
                 [3, 4],
                 [1, 2, 3, 4]
             ];
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 appendArrays: true,
                 sortArrays: true,
-                afterEach({ mergeVal, key, targetObj, depth }) {
+                afterEach({ mergeVal }) {
                     expect(sortedArrays).toContainEqual(mergeVal);
                 }
             })({ test: [2, 1] }, { test: [4, 3] });
@@ -277,8 +277,8 @@ describe('Options', () => {
 
         test('filter() arguments', () => {
             const conditionsTested = [];
-            const mergedObj = mergeDeep({
-                filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
+            const mergedObj = mergician({
+                filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
                     expect(isObject(srcObj)).toBe(true);
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
@@ -312,8 +312,8 @@ describe('Options', () => {
         });
 
         test('filter() true', () => {
-            const mergedObj = mergeDeep({
-                filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
+            const mergedObj = mergician({
+                filter({ key }) {
                     return key === 'a';
                 }
             })(testObj1, testObj2);
@@ -322,8 +322,8 @@ describe('Options', () => {
         });
 
         test('filter() false', () => {
-            const mergedObj = mergeDeep({
-                filter({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
+            const mergedObj = mergician({
+                filter({ key }) {
                     return key !== 'a';
                 }
             })(testObj1, testObj2);
@@ -332,7 +332,7 @@ describe('Options', () => {
         });
 
         test('filter() without return value', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 filter() {}
             })(testObj1, testObj2);
 
@@ -345,8 +345,8 @@ describe('Options', () => {
 
             const conditionsTested = [];
 
-            const mergedObj = mergeDeep({
-                beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
+            const mergedObj = mergician({
+                beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
                     expect(isObject(srcObj)).toBe(true);
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
@@ -380,7 +380,7 @@ describe('Options', () => {
         });
 
         test('beforeEach() with return value', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 beforeEach() {
                     return 'baz';
                 }
@@ -390,7 +390,7 @@ describe('Options', () => {
         });
 
         test('beforeEach() without return value', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 beforeEach() {}
             })(testObj1, testObj2);
 
@@ -403,8 +403,8 @@ describe('Options', () => {
 
             const conditionsTested = [];
 
-            const mergedObj = mergeDeep({
-                afterEach({ mergeVal, key, targetObj, depth }) {
+            const mergedObj = mergician({
+                afterEach({ depth, key, mergeVal, targetObj }) {
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
                     expect(typeof depth).toBe('number');
@@ -433,7 +433,7 @@ describe('Options', () => {
         });
 
         test('afterEach() return value', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 afterEach() {
                     return 'baz';
                 }
@@ -443,7 +443,7 @@ describe('Options', () => {
         });
 
         test('afterEach() without return value', () => {
-            const mergedObj = mergeDeep({
+            const mergedObj = mergician({
                 afterEach() {}
             })(testObj1, testObj2);
 
@@ -452,7 +452,7 @@ describe('Options', () => {
     });
 
     test('custom merge function accepts options', () => {
-        const customMerge1 = mergeDeep({ onlyKeys: ['b'], appendArrays: true });
+        const customMerge1 = mergician({ onlyKeys: ['b'], appendArrays: true });
 
         expect(typeof customMerge1).toBe('function');
 
@@ -472,7 +472,7 @@ describe('Accessors', () => {
     test('handles getters', () => {
         const obj1 = { a: 1, get getVal() { return 'foo'; }};
         const obj2 = { b: 2, get getVal() { return 'bar'; }};
-        const mergedObj = mergeDeep(obj1, obj2);
+        const mergedObj = mergician(obj1, obj2);
         const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
 
         expect(typeof mergedObj.a).toBe('number');
@@ -484,7 +484,7 @@ describe('Accessors', () => {
     test('handles setters', () => {
         const obj1 = { a: 1, set setVal(val) { this.a = val; }};
         const obj2 = { a: 2, set setVal(val) { this.a = val; }};
-        const mergedObj = mergeDeep(obj1, obj2);
+        const mergedObj = mergician(obj1, obj2);
         const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
 
         expect(typeof mergedObj.a).toBe('number');
@@ -498,7 +498,7 @@ describe('Accessors', () => {
     test('handles getter/setter arrays', () => {
         const obj1 = { a: 1, get getVal() { return [1, 1]; }, set setVal(val) { this.a = [2, 2]; }};
         const obj2 = { a: 2, get getVal() { return [3, 3]; }, set setVal(val) { this.a = [4, 4]; }};
-        const mergedObj = mergeDeep({
+        const mergedObj = mergician({
             appendArrays: true,
             dedupArrays: true
         })(obj1, obj2);
@@ -526,7 +526,7 @@ describe('Accessors', () => {
     test('handles getter/setter objects', () => {
         const obj1 = { a: 1, get getVal() { return { x: 1 }; }, set setVal(val) { this.a = { x: 3 }; }};
         const obj2 = { a: 2, get getVal() { return { x: 2 }; }, set setVal(val) { this.a = { x: 4 }; }};
-        const mergedObj = mergeDeep(obj1, obj2);
+        const mergedObj = mergician(obj1, obj2);
         const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
         const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
 
@@ -550,8 +550,8 @@ describe('Accessors', () => {
 
     test('handles getter/setter return objects from callbacks', () => {
         const obj1 = { a: 1, b: 1, c: 1, d: 1 };
-        const mergedObj = mergeDeep({
-            beforeEach({ srcVal, targetVal, key, srcObj, targetObj, depth }) {
+        const mergedObj = mergician({
+            beforeEach({ key }) {
                 if (key === 'a') {
                     return {
                         get() { return 'foo'; },
@@ -567,7 +567,7 @@ describe('Accessors', () => {
                     };
                 }
             },
-            afterEach({ mergeVal, key, targetObj, depth }) {
+            afterEach({ key }) {
                 if (key === 'c') {
                     return {
                         get() { return 'baz'; },

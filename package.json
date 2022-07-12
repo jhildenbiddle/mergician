@@ -1,16 +1,16 @@
 {
-  "name": "mergedeep",
+  "name": "mergician",
   "version": "0.1.0",
   "description": "Deep merge/clone JavaScript objects. Includes options to filter, inspect, and modify properties, merge and sort arrays, and remove duplicate array items. Properly handles property accessors (getters/setters) and descriptors. Returns new object without modifying sources (immutable).",
   "author": "John Hildenbiddle",
   "license": "MIT",
-  "homepage": "https://github.com/jhildenbiddle/mergedeep#readme",
+  "homepage": "https://github.com/jhildenbiddle/mergician#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://jhildenbiddle@github.com/jhildenbiddle/mergedeep.git"
+    "url": "git+https://jhildenbiddle@github.com/jhildenbiddle/mergician.git"
   },
   "bugs": {
-    "url": "https://github.com/jhildenbiddle/mergedeep/issues"
+    "url": "https://github.com/jhildenbiddle/mergician/issues"
   },
   "keywords": [
     "deep",
@@ -46,14 +46,14 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/mergedeep.cjs",
-  "module": "./dist/mergedeep.mjs",
-  "browser": "./dist/mergedeep.min.js",
-  "unpkg": "./dist/mergedeep.min.mjs",
+  "main": "./dist/mergician.cjs",
+  "module": "./dist/mergician.mjs",
+  "browser": "./dist/mergician.min.js",
+  "unpkg": "./dist/mergician.min.mjs",
   "exports": {
     ".": {
-      "import": "./dist/mergedeep.mjs",
-      "require": "./dist/mergedeep.cjs"
+      "import": "./dist/mergician.mjs",
+      "require": "./dist/mergician.cjs"
     }
   },
   "sideEffects": false,

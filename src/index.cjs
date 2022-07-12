@@ -46,11 +46,11 @@ function isPropDescriptor(obj) {
  *
  * @example
  * // Without options (use default option values)
- * mergeDeep(obj1, obj2, obj3, ...);
+ * mergician(obj1, obj2, obj3, ...);
  *
  * @example
  * // With options (defaults shown)
- * mergeDeep({
+ * mergician({
  *   // Keys
  *   onlyKeys: [],
  *   skipKeys: [],
@@ -103,7 +103,7 @@ function isPropDescriptor(obj) {
  * @param {...object} [objects] - Objects to merge
  * @returns {object} New merged object
  */
-function mergeDeep(...optionsOrObjects) {
+function mergician(...optionsOrObjects) {
     const options = arguments.length === 1 ? arguments[0] : {};
     const settings = { ...defaults, ...options };
     const dedupArrayMap = new Map();
@@ -112,7 +112,7 @@ function mergeDeep(...optionsOrObjects) {
 
     let mergeDepth = 0;
 
-    function _mergeDeep(...objects) {
+    function _mergician(...objects) {
         let mergeKeyList;
 
         if (objects.length > 1) {
@@ -241,10 +241,10 @@ function mergeDeep(...optionsOrObjects) {
                     mergeDepth++;
 
                     if (isObject(targetVal)) {
-                        mergeVal = _mergeDeep(targetVal, mergeVal);
+                        mergeVal = _mergician(targetVal, mergeVal);
                     }
                     else {
-                        mergeVal = _mergeDeep(mergeVal);
+                        mergeVal = _mergician(mergeVal);
                     }
 
                     mergeDepth--;
@@ -322,23 +322,23 @@ function mergeDeep(...optionsOrObjects) {
     }
 
     // With options
-    // Ex: mergeDeep({...})
+    // Ex: mergician({...})
     if (arguments.length === 1) {
         return function (...objects) {
             // Options passed to custom merge function
             if (arguments.length === 1) {
-                return mergeDeep({ ...settings, ...objects[0] });
+                return mergician({ ...settings, ...objects[0] });
             }
             else {
-                return _mergeDeep(...objects);
+                return _mergician(...objects);
             }
         };
     }
     // Without options
-    // Ex: mergeDeep(obj1, obj2);
+    // Ex: mergician(obj1, obj2);
     else {
-        return _mergeDeep(...arguments);
+        return _mergician(...arguments);
     }
 }
 
-module.exports = mergeDeep;
+module.exports = mergician;
