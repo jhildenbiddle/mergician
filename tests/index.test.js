@@ -404,7 +404,7 @@ describe('Options', () => {
             const conditionsTested = [];
 
             const mergedObj = mergician({
-                afterEach({ depth, key, mergeVal, targetObj }) {
+                afterEach({ depth, key, mergeVal, srcObj, targetObj }) {
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
                     expect(typeof depth).toBe('number');
@@ -413,10 +413,12 @@ describe('Options', () => {
                     if (mergeVal === 2) {
                         expect(key).toBe('a');
                         conditionsTested.push('mergeVal/key');
-                    }
-                    if (mergeVal === 2) {
+
                         expect(depth).toBe(0);
                         conditionsTested.push('depth:0');
+
+                        expect(srcObj).toBe(testObj2);
+                        conditionsTested.push('srcObj');
                     }
                     if (mergeVal === 'bar') {
                         expect(depth).toBe(1);
@@ -428,7 +430,7 @@ describe('Options', () => {
                 }
             })(testObj1, testObj2);
 
-            expect(conditionsTested).toHaveLength(3);
+            expect(conditionsTested).toHaveLength(4);
             expect(mergedObj).toMatchSnapshot();
         });
 

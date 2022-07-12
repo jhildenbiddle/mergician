@@ -1,8 +1,5 @@
-<!-- TODO: Sort callback arguments -->
-<!-- TODO: Add srcObject to afterEach() callback -->
-<!-- TODO: Rename repo -->
-
-# Mergician <!-- omit in toc -->
+<!-- omit in toc -->
+# Mergician
 
 [![NPM](https://img.shields.io/npm/v/mergician.svg?style=flat-square)](https://www.npmjs.com/package/mergician)
 [![GitHub Workflow Status (main)](https://img.shields.io/github/workflow/status/jhildenbiddle/mergician/Build%20&%20Test/main?label=checks&style=flat-square)](https://github.com/jhildenbiddle/mergician/actions?query=branch%3Amain+)
@@ -484,6 +481,7 @@ If a value is returned, that value will be used as the new merged value. If an `
     - **data.depth**: The nesting level of the key processed
     - **data.key**: The object key processed
     - **data.mergeVal**: The new merged value
+    - **data.srcObj**: The object containing the source value
     - **data.targetObj**: The new merged object
 
 ```javascript
