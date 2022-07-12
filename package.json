@@ -56,6 +56,7 @@
       "require": "./dist/mergedeep.cjs"
     }
   },
+  "sideEffects": false,
   "scripts": {
     "build": "node build.js",
     "clean": "rimraf coverage/* dist/*",
