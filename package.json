@@ -69,7 +69,6 @@
     "version": "npm run prepare && npm run escheck && npm t"
   },
   "devDependencies": {
-    "cpy-cli": "^4.1.0",
     "es-check": "^6.2.1",
     "esbuild": "^0.14.47",
     "eslint": "^8.18.0",
