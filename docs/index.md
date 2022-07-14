@@ -79,7 +79,7 @@ console.log(mergedWithOptions); // { a: 1, b: [2, 3], c: { d: 2 } }
 #### NPM
 
 ```bash
-npm install mergician --save-dev
+npm install mergician
 ```
 
 ```javascript
