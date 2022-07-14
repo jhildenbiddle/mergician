@@ -62,13 +62,15 @@ console.log(mergedWithOptions); // { a: 1, b: [2, 3], c: { d: 2 } }
 
 **Platform Support**
 
-<!-- https://raw.githubusercontent.com/jhildenbiddle/mergician/master/ -->
-<img src="assets/img/node.svg"> <span>Node 10+</span><br>
-<img src="assets/img/chrome.svg"> <span>Chrome 61+</span><br>
-<img src="assets/img/edge.svg"> <span>Edge 16+</span><br>
-<img src="assets/img/firefox.svg"> <span>Firefox 60+</span><br>
-<img src="assets/img/safari.svg"> <span>Safari 10.1+</span><br>
-<img src="assets/img/ie.svg"> <span>Not supported</span>
+<img src="assets/img/node.svg"> <span>Node 10+</span>
+<br>
+<img src="assets/img/chrome.svg"> <span>Chrome 61+</span>
+<br>
+<img src="assets/img/edge.svg"> <span>Edge 16+</span>
+<br>
+<img src="assets/img/firefox.svg"> <span>Firefox 60+</span>
+<br>
+<img src="assets/img/safari.svg"> <span>Safari 10.1+</span>
 
 <!-- omit in toc -->
 ## Installation

@@ -28,12 +28,15 @@ Unlike native methods and other merge/clone utilities, Mergician provides flexib
 
 **Platform Support**
 
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/node.svg"> <span>Node 10+</span><br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/chrome.svg"> <span>Chrome 61+</span><br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/edge.svg"> <span>Edge 16+</span><br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/firefox.svg"> <span>Firefox 60+</span><br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/safari.svg"> <span>Safari 10.1+</span><br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/ie.svg"> <span>Not supported</span>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/node.svg"> <span>Node 10+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/chrome.svg"> <span>Chrome 61+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/edge.svg"> <span>Edge 16+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/firefox.svg"> <span>Firefox 60+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/safari.svg"> <span>Safari 10.1+</span>
 
 ## Installation
 
