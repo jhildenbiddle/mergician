@@ -4,7 +4,7 @@
   "description": "Deep merge/clone JavaScript objects. Includes options to filter, inspect, and modify properties, merge and sort arrays, and remove duplicate array items. Properly handles property accessors (getters/setters) and descriptors. Returns new object without modifying sources (immutable).",
   "author": "John Hildenbiddle",
   "license": "MIT",
-  "homepage": "https://github.com/jhildenbiddle/mergician#readme",
+  "homepage": "https://jhildenbiddle.github.io/mergician/",
   "repository": {
     "type": "git",
     "url": "git+https://jhildenbiddle@github.com/jhildenbiddle/mergician.git"
