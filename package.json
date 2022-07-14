@@ -60,21 +60,24 @@
   "scripts": {
     "build": "node build.js",
     "clean": "rimraf coverage/* dist/*",
-    "dev": "npm run build -- --watch & jest --watch",
-    "escheck": "es-check es2018 './dist/**/*.js' --module",
+    "escheck": "es-check es2018 'dist/**/*.js' --module",
     "lint": "eslint . && markdownlint . --ignore node_modules",
-    "prepare": "npm run clean && npm run build",
-    "start": "npm run build -- --watch",
+    "prepare": "run-s clean build",
+    "serve": "node server.js",
+    "start": "run-p serve 'build -- --watch'",
     "test": "jest",
-    "version": "npm run prepare && npm run escheck && npm t"
+    "version": "run-s prepare lint escheck test"
   },
   "devDependencies": {
+    "browser-sync": "^2.27.10",
+    "compression": "^1.7.4",
     "es-check": "^6.2.1",
     "esbuild": "^0.14.47",
     "eslint": "^8.18.0",
     "eslint-plugin-jest": "^26.5.3",
     "jest": "^28.1.1",
     "markdownlint-cli": "^0.31.1",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2"
   }
 }
