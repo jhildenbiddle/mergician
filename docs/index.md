@@ -46,6 +46,8 @@ console.log(mergedWithOptions); // { a: 1, b: [2, 3], c: { d: 2 } }
 
 </div>
 
+**Tip:** Press <kbd>⇧ Shift</kbd> <kbd>⌤ Enter</kbd> to "run" the notebook.
+
 <!-- omit in toc -->
 ## Features
 
@@ -522,3 +524,6 @@ console.log(mergedObj); // { a: 2, b: 3, c: { d: 4, e: true } }
 This project is licensed under the [MIT license](https://github.com/jhildenbiddle/mergician/blob/main/LICENSE).
 
 Copyright (c) John Hildenbiddle ([@jhildenbiddle](https://twitter.com/jhildenbiddle))
+
+<!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
