@@ -8,16 +8,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, windows-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Install
         run: npm ci --ignore-scripts
-
-      - name: Lint
-        run: npm run lint
 
       - name: Build
         run: npm run build
@@ -32,8 +29,14 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
+
+      - name: ES Check
+        run: npm run escheck
 
       - name: Test
         run: npm run test
