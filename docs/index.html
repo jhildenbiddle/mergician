@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-    <meta name="description" content="Mergician - Deep merge/clone JavaScript objects. Includes options to filter, inspect, and modify properties, merge and sort arrays, and remove duplicate array items. Properly handles property accessors (getters/setters) and descriptors. Returns new object without modifying sources (immutable).">
-    <title>Mergician - a flexible, light-weight utility for deep (recursive) merging/cloning of JavaScript objects</title>
+    <meta name="description" content="Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.">
+    <title>Mergician - a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V42RNSFL2N"></script>
@@ -21,7 +21,24 @@
 <body>
     <div id="app"></div>
 
-    <!-- JavaScript -->
+    <style>
+        /* docsify-plugin-ethicalads (temporary) */
+        :root {
+            --ea-sidebar-inset: var(--sidebar-width);
+            --ea-sidebar-toggle-inset: 0;
+        }
+
+        .sidebar {
+            --ea-background: hsl(var(--mono-hue), var(--mono-saturation), 94%);
+            --ea-callout-background: hsl(var(--mono-hue), var(--mono-saturation), 89%);
+            --ea-margin: 1em 0 0 0;
+        }
+
+        .sidebar [data-ea-publisher][class].flat {
+            --ea-margin: 0 -25px;
+        }
+    </style>
+
     <script>
         // Docsify
         window.$docsify = {
@@ -34,6 +51,9 @@
 
             // NAVIGATION
             // -----------------------------------------------------------------
+            ethicalAds: {
+                eaPublisher: 'jhildenbiddle-github-io',
+            },
             alias: {
                 '.*?/changelog': 'https://raw.githubusercontent.com/jhildenbiddle/mergician/main/CHANGELOG.md',
             },
@@ -53,6 +73,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-ethicalads@1"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/external-script.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
