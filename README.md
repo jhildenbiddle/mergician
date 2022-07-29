@@ -7,13 +7,54 @@
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergician/badge)](https://www.jsdelivr.com/package/npm/mergician)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript)
 
-Mergician is a flexible, light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
+Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
+
+Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.
 
 - [Documentation & Demos](https://jhildenbiddle.github.io/mergician/)
 
-## Why?
+## Examples
 
-Unlike native methods and other merge/clone utilities, Mergician provides flexible options for customizing the merge process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.
+Basic object cloning using default options:
+
+```javascript
+const mergician = require('mergician');
+
+const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
+const clonedObj = mergician({}, obj1);
+
+// Results
+console.log(clonedObj); // { a: [1, 1], b: { c: 1, d: 1 } }
+console.log(clonedObj === obj1); // false
+console.log(clonedObj.a === obj1.a); // false
+console.log(clonedObj.b === obj1.b); // false
+```
+
+Advanced object merging using custom options:
+
+```javascript
+const mergician = require('mergician');
+
+const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
+const obj2 = { a: [2, 2], b: { c: 2 } };
+const obj3 = { e: 3 };
+
+const mergedObj = mergician({
+    skipKeys: ['d'],
+    appendArrays: true,
+    dedupArrays: true,
+    filter({ key, targetObj }) {
+        if (key === 'e') {
+            targetObj['hello'] = 'world';
+            console.log(targetObj);
+            return false;
+        }
+    }
+})(obj1, obj2, obj3);
+
+// Results
+console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
+```
 
 ## Features
 
@@ -25,6 +66,7 @@ Unlike native methods and other merge/clone utilities, Mergician provides flexib
 - Remove duplicate array items ("dedup")
 - Properly handle property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor)
 - Returns new object without modifying source objects (immutable)
+- Lightweight (1.5k min+gzip) and dependency-free
 
 **Platform Support**
 
@@ -72,7 +114,7 @@ import mergician from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.m
 
 ## Usage & Options
 
-See the [documentation site](https://jhildenbiddle.github.io/mergician/) for details and demos.
+See the [documentation site](https://jhildenbiddle.github.io/mergician/) for details.
 
 ## Contact & Support
 

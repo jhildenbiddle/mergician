@@ -9,39 +9,58 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript)
 <a class="github-button" href="https://github.com/jhildenbiddle/mergician" data-icon="octicon-star" data-show-count="true" aria-label="Star jhildenbiddle/mergician on GitHub">Star</a>
 
-Mergician is a flexible, light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
+Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
 
-<!-- omit in toc -->
-## Why?
-
-Unlike native methods and other merge/clone utilities, Mergician provides flexible options for customizing the merge process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.
+Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.
 
 <!-- omit in toc -->
 ## Demo
 
-Examples of merging/cloning objects with nested properties.
+Basic object cloning using default options:
 
 <div data-runkit>
 
 ```javascript
 const mergician = require('mergician');
 
-const obj1 = { a: 1 };
-const obj2 = { b: [2, 2], c: { d: 2 } };
-const obj3 = { b: [3, 3], c: { e: 3 } };
-
+const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const clonedObj = mergician({}, obj1);
-const mergedWithDefaults = mergician(obj1, obj2, obj3);
-const mergedWithOptions = mergician({
-    skipKeys: ['e'],
+
+// Results
+console.log(clonedObj); // { a: [1, 1], b: { c: 1, d: 1 } }
+console.log(clonedObj === obj1); // false
+console.log(clonedObj.a === obj1.a); // false
+console.log(clonedObj.b === obj1.b); // false
+```
+
+</div>
+
+Advanced object merging using custom options:
+
+<div data-runkit>
+
+```javascript
+const mergician = require('mergician');
+
+const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
+const obj2 = { a: [2, 2], b: { c: 2 } };
+const obj3 = { e: 3 };
+
+const mergedObj = mergician({
+    skipKeys: ['d'],
     appendArrays: true,
-    dedupArrays: true
+    dedupArrays: true,
+    filter({ key, targetObj }) {
+        if (key === 'e') {
+            targetObj['hello'] = 'world';
+            console.log(targetObj);
+            return false;
+        }
+    }
 })(obj1, obj2, obj3);
 
-console.log(clonedObj); // { a: 1 }
-console.log(clonedObj === obj1); // false
-console.log(mergedWithDefaults); // { a: 1, b: [3, 3], c: { d: 2, e: 3 } }
-console.log(mergedWithOptions); // { a: 1, b: [2, 3], c: { d: 2 } }
+// Results
+console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 ```
 
 </div>
@@ -59,6 +78,7 @@ console.log(mergedWithOptions); // { a: 1, b: [2, 3], c: { d: 2 } }
 - Remove duplicate array items ("dedup")
 - Properly handle property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor)
 - Returns new object without modifying source objects (immutable)
+- Lightweight (1.5k min+gzip) and dependency-free
 
 **Platform Support**
 
