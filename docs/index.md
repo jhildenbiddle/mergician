@@ -21,6 +21,7 @@ Basic object cloning using default options:
 <div data-runkit>
 
 ```javascript
+// CommonJS module shown. ES module also available (see below).
 const mergician = require('mergician');
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
@@ -40,6 +41,7 @@ Advanced object merging using custom options:
 <div data-runkit>
 
 ```javascript
+// CommonJS module shown. ES module also available (see below).
 const mergician = require('mergician');
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };

@@ -18,7 +18,8 @@ Unlike native methods and other merge/clone utilities, Mergician provides advanc
 Basic object cloning using default options:
 
 ```javascript
-const mergician = require('mergician');
+// ES module shown. CommonJS module also available (see below).
+import mergician from 'mergician';
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const clonedObj = mergician({}, obj1);
@@ -33,7 +34,8 @@ console.log(clonedObj.b === obj1.b); // false
 Advanced object merging using custom options:
 
 ```javascript
-const mergician = require('mergician');
+// ES module shown. CommonJS module also available (see below).
+import mergician from 'mergician';
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const obj2 = { a: [2, 2], b: { c: 2 } };
