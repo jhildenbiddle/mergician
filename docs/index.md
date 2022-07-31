@@ -52,7 +52,7 @@ const mergedObj = mergician({
     skipKeys: ['d'],
     appendArrays: true,
     dedupArrays: true,
-    filter({ key, targetObj }) {
+    filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
         if (key === 'e') {
             targetObj['hello'] = 'world';
             console.log(targetObj);
@@ -464,7 +464,7 @@ const obj3 = { a: null, b: undefined, c: { d: 0, e: '' } };
 
 const mergedObj = mergician({
     // Skip properties with non-zero "falsy" values
-    filter({ srcVal }) {
+    filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
         return Boolean(srcVal) || srcVal === 0;
     }
 })(obj1, obj2, obj3);
@@ -495,7 +495,7 @@ const obj3 = { c: { d: '', e: 0 } };
 
 const mergedObj = mergician({
     // Normalize non-zero "falsy" values to be false
-    beforeEach({ srcVal }) {
+    beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
         if (srcVal !== 0 && !Boolean(srcVal)) {
             return false;
         }
@@ -527,7 +527,7 @@ const obj3 = { c: { d: 3, e: true } };
 
 const mergedObj = mergician({
     // Add 1 to all numbers
-    afterEach({ mergeVal }) {
+    afterEach({ depth, key, mergeVal, srcObj, targetObj }) {
         if (typeof mergeVal === 'number') {
             return mergeVal + 1;
         }
@@ -537,14 +537,12 @@ const mergedObj = mergician({
 console.log(mergedObj); // { a: 2, b: 3, c: { d: 4, e: true } }
 ```
 
-<!-- omit in toc -->
 ## Contact & Support
 
 - Create a [Github issue](https://github.com/jhildenbiddle/mergician/issues) for bug reports, feature requests, or questions
 - Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
 - Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergician) or 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript) to spread the word and support the project!
 
-<!-- omit in toc -->
 ## License
 
 This project is licensed under the [MIT license](https://github.com/jhildenbiddle/mergician/blob/main/LICENSE).

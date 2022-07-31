@@ -45,7 +45,7 @@ const mergedObj = mergician({
     skipKeys: ['d'],
     appendArrays: true,
     dedupArrays: true,
-    filter({ key, targetObj }) {
+    filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
         if (key === 'e') {
             targetObj['hello'] = 'world';
             console.log(targetObj);
@@ -84,7 +84,7 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 
 ## Installation
 
-#### NPM
+**NPM**
 
 ```bash
 npm install mergician
@@ -100,7 +100,7 @@ import mergician from 'mergician';
 const mergician = require('mergician');
 ```
 
-#### CDN
+**CDN**
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below), [unpkg](https://unpkg.com/browse/mergician/), and other CDN services that auto-publish npm packages.
 
