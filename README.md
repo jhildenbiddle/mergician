@@ -102,7 +102,7 @@ const mergician = require('mergician');
 
 #### CDN
 
-Available on [jsdelivr](https://www.jsdelivr.com/package/npm/css-vars-ponyfill) (below), [unpkg](https://unpkg.com/browse/css-vars-ponyfill/), and other CDN services that auto-publish npm packages.
+Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below), [unpkg](https://unpkg.com/browse/mergician/), and other CDN services that auto-publish npm packages.
 
 ```javascript
 // ES module @ latest v1.x.x (see @ version in URL)
