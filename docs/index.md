@@ -1,4 +1,3 @@
-<!-- omit in toc -->
 # Mergician
 
 [![NPM](https://img.shields.io/npm/v/mergician.svg?style=flat-square)](https://www.npmjs.com/package/mergician)
@@ -13,7 +12,6 @@ Mergician is a uniquely flexible and light-weight utility for deep (recursive) m
 
 Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.
 
-<!-- omit in toc -->
 ## Demo
 
 Basic object cloning using default options:
@@ -69,7 +67,6 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 
 **Tip:** Press <kbd>⇧ Shift</kbd> <kbd>⌤ Enter</kbd> to "run" the notebook.
 
-<!-- omit in toc -->
 ## Features
 
 - Deep merge/clone JavaScript objects
@@ -94,11 +91,9 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 <br>
 <img src="assets/img/safari.svg"> <span>Safari 10.1+</span>
 
-<!-- omit in toc -->
 ## Installation
 
-<!-- omit in toc -->
-#### NPM
+**NPM**
 
 ```bash
 npm install mergician
@@ -114,8 +109,7 @@ import mergician from 'mergician';
 const mergician = require('mergician');
 ```
 
-<!-- omit in toc -->
-#### CDN
+**CDN**
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below), [unpkg](https://unpkg.com/browse/mergician/), and other CDN services that auto-publish npm packages.
 
@@ -131,7 +125,6 @@ import mergician from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.m
 
 !> Note the `@` version lock in the URLs above. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version after the `@` symbol.
 
-<!-- omit in toc -->
 ## Usage
 
 There are three ways to call `mergician`:
@@ -152,7 +145,6 @@ const customMerge = mergician({ /* Options */ });
 const mergedObj = customMerge(obj1, obj2, obj3);
 ```
 
-<!-- omit in toc -->
 ### Using the default options <!-- {docsify-ignore} -->
 
 To merge objects using the default [options](#options), pass two or more objects directly to `mergician`. A new object will be returned and the source object(s) will remain unmodified.
@@ -170,7 +162,6 @@ console.log(clonedObj === obj1); // false
 console.log(mergedObj); // { a: 1, b: [3, 3], c: { d: 2, e: 3 } }
 ```
 
-<!-- omit in toc -->
 ### Specifying custom options <!-- {docsify-ignore} -->
 
 To specify merge [options](#options), pass a single object containing custom options to `mergician`. A new function with the options applied will be returned, which can then be immediately invoked by passing two or more objects to be merged.
@@ -188,7 +179,6 @@ const mergedObj = mergician({
 console.log(mergedObj); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
 ```
 
-<!-- omit in toc -->
 ### Using a named custom merge function <!-- {docsify-ignore} -->
 
 When merge [options](#options) are specified, the returned merge function can be assigned to a variable and reused, removing the need to pass the same options to `mergician` multiple times.
@@ -219,19 +209,27 @@ const mergedObj = customMerge({
 console.log(mergedObj); // { b: [2, 3] }
 ```
 
-<!-- omit in toc -->
 ## Options
 
+**Keys**
+
+<!-- no toc -->
 - [onlyKeys](#onlykeys)
 - [skipKeys](#skipkeys)
 - [onlyCommonKeys](#onlycommonkeys)
 - [onlyUniversalKeys](#onlyuniversalkeys)
 - [skipCommonKeys](#skipcommonkeys)
 - [skipUniversalKeys](#skipuniversalkeys)
+
+**Arrays**
+
 - [appendArrays](#appendarrays)
 - [prependArrays](#prependarrays)
 - [dedupArrays](#deduparrays)
 - [sortArrays](#sortarrays)
+
+**Callbacks**
+
 - [filter()](#filter)
 - [beforeEach()](#beforeeach)
 - [afterEach()](#aftereach)
