@@ -53,7 +53,6 @@ const mergedObj = mergician({
     filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
         if (key === 'e') {
             targetObj['hello'] = 'world';
-            console.log(targetObj);
             return false;
         }
     }
