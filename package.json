@@ -44,16 +44,19 @@
     "node": ">=10.0.0"
   },
   "files": [
-    "dist"
+    "dist",
+	"types"
   ],
   "main": "./dist/mergician.cjs",
   "module": "./dist/mergician.mjs",
   "browser": "./dist/mergician.min.js",
   "unpkg": "./dist/mergician.min.mjs",
+  "typings": "./types/mergician.d.ts",
   "exports": {
     ".": {
       "import": "./dist/mergician.mjs",
-      "require": "./dist/mergician.cjs"
+      "require": "./dist/mergician.cjs",
+	  "types": "./types/mergician.d.ts"
     }
   },
   "sideEffects": false,
@@ -65,7 +68,8 @@
     "prepare": "run-s clean build",
     "serve": "node server.js",
     "start": "run-p serve 'build -- --watch'",
-    "test": "jest",
+    "test": "jest && yarn test:types",
+	"test:types": "tsc -p tests/types",
     "version": "run-s prepare lint escheck test"
   },
   "devDependencies": {
@@ -78,6 +82,8 @@
     "jest": "^28.1.1",
     "markdownlint-cli": "^0.32.1",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+	"typescript": "^4.7.4",
+	"ts-node": "^10.9.1"
   }
 }
