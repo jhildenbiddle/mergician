@@ -82,14 +82,6 @@ function getNotInMultiple(...arrays) {
  * @return {array} List of values
  */
 function getNotInAll(...arrays) {
-    // const vals = new Set(arrays.flat());
-    // const intersection = arrays.reduce((acc, curr) =>
-    //     acc.filter(Set.prototype.has, new Set(curr))
-    // );
-    // const result = [...vals].filter(v => !intersection.includes(v));
-
-    // return result;
-
     const countObj = countOccurrences(...arrays);
 
     return Object.keys(countObj).filter((v) => countObj[v] < arrays.length);
