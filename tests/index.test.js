@@ -1,5 +1,5 @@
 const { isObject } = require('../src/util');
-const mergician = require('../dist/mergician.cjs');
+const mergician = require('../src/index');
 
 // Test objects
 const testObj1 = { a: 1, b: [1, 1], d: true };
