@@ -10,7 +10,7 @@
 
 Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
 
-Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to filter properties, inspect and modify properties before/after merging, merge and sort arrays, and remove duplicate array items. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.
+Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., key unions and differences); and merge, sort, and remove duplicates from arrays. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on new merged/cloned objects.
 
 ## Demo
 
@@ -58,7 +58,7 @@ const mergedObj = mergician({
     }
 })(obj1, obj2, obj3);
 
-// Results
+// Result
 console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 ```
 
@@ -273,7 +273,7 @@ console.log(mergedObj); // { a: 1, b: { d: 3 } }
 
 ### onlyCommonKeys
 
-Merge only keys found in multiple objects (ignore single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
+Merge only keys found in multiple objects (skip single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
 - Type: `Boolean`
 - Default: `false`
@@ -330,7 +330,7 @@ console.log(mergedObj); // { e: 3 }
 
 ### skipUniversalKeys
 
-Skip keys found in all objects (merge only common keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
+Skip keys found in all objects (merge only single occurrence and common keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
 - Type: `Boolean`
 - Default: `false`

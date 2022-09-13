@@ -1,7 +1,7 @@
 {
   "name": "mergician",
   "version": "1.0.3",
-  "description": "Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects. Includes options to filter, inspect, and modify properties as well as merge, sort, and remove duplicate items from arrays. Properly handles property accessors (getters/setters) and descriptors. Returns new object without modifying sources (immutable).",
+  "description": "Uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects. Provides advanced options for customizing the merge/clone process: inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., key unions and differences); and merge, sort, and remove duplicates from arrays. Handles property accessors and descriptors, ensuring that getter/setter functions are retained and descriptor values are defined properly on new merged/cloned objects.",
   "author": "John Hildenbiddle",
   "license": "MIT",
   "homepage": "https://jhildenbiddle.github.io/mergician/",
