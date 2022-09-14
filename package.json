@@ -29,6 +29,8 @@
     "dedup",
     "duplicates",
     "sort",
+    "union",
+    "difference",
     "get",
     "getter",
     "set",
