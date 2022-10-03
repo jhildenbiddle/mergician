@@ -59,8 +59,6 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 
 ## Features
 
-Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., key unions and differences); and merge, sort, and remove duplicates from arrays. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on new merged/cloned objects.
-
 - Deep merge or clone JavaScript objects
 - Inspect, filter, and modify keys and properties
 - Merge or skip unique, common, and universal keys (i.e., key unions and differences)
