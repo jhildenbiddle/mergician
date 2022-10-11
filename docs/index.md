@@ -5,6 +5,8 @@
 [![Codacy code quality](https://img.shields.io/codacy/grade/9831274fda2341129b76ff3582ec0df5/main?style=flat-square)](https://app.codacy.com/gh/jhildenbiddle/mergician/dashboard?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/mergician/blob/main/LICENSE)
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergician/badge)](https://www.jsdelivr.com/package/npm/mergician)
+[![Sponsor this project](https://img.shields.io/static/v1?style=flat-square&label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/jhildenbiddle)
+
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript)
 <a class="github-button" href="https://github.com/jhildenbiddle/mergician" data-icon="octicon-star" data-show-count="true" aria-label="Star jhildenbiddle/mergician on GitHub">Star</a>
 
@@ -532,11 +534,22 @@ const mergedObj = mergician({
 console.log(mergedObj); // { a: 2, b: 3, c: { d: 4, e: true } }
 ```
 
+## Sponsorship
+
+A [sponsorship](https://github.com/sponsors/jhildenbiddle) is more than just a way to show appreciation for the open-source authors and projects we rely on; it can be the spark that ignites the next big idea, the inspiration to create something new, and the motivation to share so that others may benefit.
+
+If you benefit from this project, please consider supporting the author and encouraging future efforts by [becoming a sponsor](https://github.com/sponsors/jhildenbiddle).
+
+Thank you! 🙏🏻
+
+<iframe src="https://github.com/sponsors/jhildenbiddle/button" title="Sponsor jhildenbiddle" height="35" width="116" style="border: 0; margin: 0;"></iframe>
+
 ## Contact & Support
 
-- Create a [Github issue](https://github.com/jhildenbiddle/mergician/issues) for bug reports, feature requests, or questions
-- Follow [@jhildenbiddle](https://twitter.com/jhildenbiddle) for announcements
-- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergician) or 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript) to spread the word and support the project!
+- Follow 👨🏻‍💻 **@jhildenbiddle** on [Twitter](https://twitter.com/jhildenbiddle) and [GitHub](https://github.com/jhildenbiddle) for announcements
+- Create a 💬 [GitHub issue](https://github.com/jhildenbiddle/mergician/issues) for bug reports, feature requests, or questions
+- Add a ⭐️ [star on GitHub](https://github.com/jhildenbiddle/mergician) and 🐦 [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript) to promote the project
+- Become a 💖 [sponsor](https://github.com/sponsors/jhildenbiddle) to support the project and future efforts
 
 ## License
 
