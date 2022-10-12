@@ -6,9 +6,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/jhildenbiddle/mergician/blob/main/LICENSE)
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergician/badge)](https://www.jsdelivr.com/package/npm/mergician)
 [![Sponsor this project](https://img.shields.io/static/v1?style=flat-square&label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/jhildenbiddle)
-
+[![Add a star on GitHub](https://img.shields.io/github/stars/jhildenbiddle/mergician?style=social)](https://github.com/jhildenbiddle/mergician)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript)
-<a class="github-button" href="https://github.com/jhildenbiddle/mergician" data-icon="octicon-star" data-show-count="true" aria-label="Star jhildenbiddle/mergician on GitHub">Star</a>
 
 Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
 
@@ -538,7 +537,7 @@ console.log(mergedObj); // { a: 2, b: 3, c: { d: 4, e: true } }
 
 A [sponsorship](https://github.com/sponsors/jhildenbiddle) is more than just a way to show appreciation for the open-source authors and projects we rely on; it can be the spark that ignites the next big idea, the inspiration to create something new, and the motivation to share so that others may benefit.
 
-If you benefit from this project, please consider supporting the work and encouraging future efforts by [becoming a sponsor](https://github.com/sponsors/jhildenbiddle).
+If you benefit from this project, please consider lending your support and encouraging future efforts by [becoming a sponsor](https://github.com/sponsors/jhildenbiddle).
 
 Thank you! 🙏🏻
 
@@ -556,6 +555,3 @@ Thank you! 🙏🏻
 This project is licensed under the [MIT license](https://github.com/jhildenbiddle/mergician/blob/main/LICENSE).
 
 Copyright (c) John Hildenbiddle ([@jhildenbiddle](https://twitter.com/jhildenbiddle))
-
-<!-- GitHub Buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
