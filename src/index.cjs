@@ -156,9 +156,10 @@ function mergician(...optionsOrObjects) {
                 const targetVal = targetObj[key];
 
                 let mergeVal = srcVal;
+                let returnVal;
 
                 if (settings.filter !== defaults.filter) {
-                    const returnVal = settings.filter({
+                    returnVal = settings.filter({
                         depth: mergeDepth,
                         key,
                         srcObj,
@@ -173,7 +174,7 @@ function mergician(...optionsOrObjects) {
                 }
 
                 if (settings.beforeEach !== defaults.beforeEach) {
-                    const returnVal = settings.beforeEach({
+                    returnVal = settings.beforeEach({
                         depth: mergeDepth,
                         key,
                         srcObj,
@@ -251,7 +252,7 @@ function mergician(...optionsOrObjects) {
                 }
 
                 if (settings.afterEach !== defaults.afterEach) {
-                    const returnVal = settings.afterEach({
+                    returnVal = settings.afterEach({
                         depth: mergeDepth,
                         key,
                         mergeVal,
@@ -292,7 +293,7 @@ function mergician(...optionsOrObjects) {
                     const mergeDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
 
                     // Accessors (getter/setter)
-                    if ('get' in mergeDescriptor) {
+                    if (returnVal === undefined && 'get' in mergeDescriptor) {
                         Object.defineProperty(targetObj, key, mergeDescriptor);
                     }
                     // Standard values
