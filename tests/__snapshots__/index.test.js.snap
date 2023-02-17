@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Accessors handles getter/setter arrays 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     4,
     4,
   ],
-  "getVal": Array [
+  "getVal": [
     3,
     3,
   ],
@@ -15,11 +15,11 @@ Object {
 `;
 
 exports[`Accessors handles getter/setter objects 1`] = `
-Object {
-  "a": Object {
+{
+  "a": {
     "x": 4,
   },
-  "getVal": Object {
+  "getVal": {
     "x": 2,
   },
   "setVal": undefined,
@@ -27,7 +27,7 @@ Object {
 `;
 
 exports[`Accessors handles getter/setter return objects from callbacks 1`] = `
-Object {
+{
   "a": "foo",
   "b": 2,
   "c": "baz",
@@ -38,7 +38,7 @@ Object {
 `;
 
 exports[`Accessors handles getters 1`] = `
-Object {
+{
   "a": 1,
   "b": 2,
   "getVal": "bar",
@@ -46,22 +46,22 @@ Object {
 `;
 
 exports[`Accessors handles setters 1`] = `
-Object {
+{
   "a": "foo",
   "setVal": undefined,
 }
 `;
 
 exports[`Default options clone object 1`] = `
-Object {
+{
   "a": 2,
-  "b": Array [
+  "b": [
     2,
     2,
   ],
-  "c": Object {
+  "c": {
     "x": 2,
-    "y": Array [
+    "y": [
       2,
       "😀",
     ],
@@ -71,15 +71,15 @@ Object {
 `;
 
 exports[`Default options deep merge three objects 1`] = `
-Object {
+{
   "a": 3,
-  "b": Array [
+  "b": [
     3,
     3,
   ],
-  "c": Object {
+  "c": {
     "x": 3,
-    "y": Array [
+    "y": [
       3,
       "😀",
     ],
@@ -91,15 +91,15 @@ Object {
 `;
 
 exports[`Default options deep merge two objects 1`] = `
-Object {
+{
   "a": 2,
-  "b": Array [
+  "b": [
     2,
     2,
   ],
-  "c": Object {
+  "c": {
     "x": 2,
-    "y": Array [
+    "y": [
       2,
       "😀",
     ],
@@ -110,8 +110,8 @@ Object {
 `;
 
 exports[`Options Arrays appendArrays 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     1,
     1,
     2,
@@ -119,20 +119,20 @@ Object {
     3,
     3,
   ],
-  "b": Array [
+  "b": [
     2,
-    Array [
+    [
       2,
       2,
     ],
     3,
-    Array [
+    [
       3,
       3,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       2,
       2,
       "😀",
@@ -145,34 +145,34 @@ Object {
 `;
 
 exports[`Options Arrays dedupArrays + afterEach (mergeVal should be deduped) 1`] = `
-Object {
-  "test": Array [
+{
+  "test": [
     1,
   ],
 }
 `;
 
 exports[`Options Arrays dedupArrays + appendArrays 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     1,
     2,
     3,
   ],
-  "b": Array [
+  "b": [
     2,
-    Array [
+    [
       2,
       2,
     ],
     3,
-    Array [
+    [
       3,
       3,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       2,
       "😀",
       3,
@@ -182,26 +182,26 @@ Object {
 `;
 
 exports[`Options Arrays dedupArrays + prependArrays 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     3,
     2,
     1,
   ],
-  "b": Array [
+  "b": [
     3,
-    Array [
+    [
       3,
       3,
     ],
     2,
-    Array [
+    [
       2,
       2,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       3,
       "😀",
       2,
@@ -211,19 +211,19 @@ Object {
 `;
 
 exports[`Options Arrays dedupArrays 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     2,
   ],
-  "b": Array [
+  "b": [
     2,
-    Array [
+    [
       2,
       2,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       2,
       "😀",
     ],
@@ -232,8 +232,8 @@ Object {
 `;
 
 exports[`Options Arrays prependArrays 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     3,
     3,
     2,
@@ -241,20 +241,20 @@ Object {
     1,
     1,
   ],
-  "b": Array [
+  "b": [
     3,
-    Array [
+    [
       3,
       3,
     ],
     2,
-    Array [
+    [
       2,
       2,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       3,
       3,
       "😀",
@@ -267,8 +267,8 @@ Object {
 `;
 
 exports[`Options Arrays sortArrays + afterEach (mergeVal should be sorted) 1`] = `
-Object {
-  "test": Array [
+{
+  "test": [
     1,
     2,
     3,
@@ -278,8 +278,8 @@ Object {
 `;
 
 exports[`Options Arrays sortArrays with boolean 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     1,
     1,
     2,
@@ -287,20 +287,20 @@ Object {
     3,
     3,
   ],
-  "b": Array [
+  "b": [
     2,
-    Array [
+    [
       2,
       2,
     ],
     3,
-    Array [
+    [
       3,
       3,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       2,
       2,
       3,
@@ -313,8 +313,8 @@ Object {
 `;
 
 exports[`Options Arrays sortArrays with function 1`] = `
-Object {
-  "a": Array [
+{
+  "a": [
     3,
     3,
     2,
@@ -322,20 +322,20 @@ Object {
     1,
     1,
   ],
-  "b": Array [
+  "b": [
     3,
     2,
-    Array [
+    [
       2,
       2,
     ],
-    Array [
+    [
       3,
       3,
     ],
   ],
-  "c": Object {
-    "d": Array [
+  "c": {
+    "d": [
       3,
       3,
       2,
@@ -348,108 +348,108 @@ Object {
 `;
 
 exports[`Options Callbacks afterEach() arguments 1`] = `
-Object {
+{
   "a": 2,
-  "b": Object {
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Callbacks afterEach() return value 1`] = `
-Object {
+{
   "a": "baz",
   "b": "baz",
 }
 `;
 
 exports[`Options Callbacks afterEach() without return value 1`] = `
-Object {
+{
   "a": 2,
-  "b": Object {
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Callbacks beforeEach() arguments 1`] = `
-Object {
+{
   "a": 2,
-  "b": Object {
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Callbacks beforeEach() with return value 1`] = `
-Object {
+{
   "a": "baz",
   "b": "baz",
 }
 `;
 
 exports[`Options Callbacks beforeEach() without return value 1`] = `
-Object {
+{
   "a": 2,
-  "b": Object {
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Callbacks filter() arguments 1`] = `
-Object {
+{
   "a": 2,
-  "b": Object {
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Callbacks filter() false 1`] = `
-Object {
-  "b": Object {
+{
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Callbacks filter() true 1`] = `
-Object {
+{
   "a": 2,
 }
 `;
 
 exports[`Options Callbacks filter() without return value 1`] = `
-Object {
+{
   "a": 2,
-  "b": Object {
+  "b": {
     "c": "bar",
   },
 }
 `;
 
 exports[`Options Keys onlyCommonKeys + onlyKeys 1`] = `
-Object {
-  "b": Array [
+{
+  "b": [
     3,
     3,
   ],
-  "c": Object {
+  "c": {
     "x": 3,
   },
 }
 `;
 
 exports[`Options Keys onlyCommonKeys + skipKeys 1`] = `
-Object {
-  "b": Array [
+{
+  "b": [
     3,
     3,
   ],
-  "c": Object {
+  "c": {
     "x": 3,
-    "y": Array [
+    "y": [
       3,
       "😀",
     ],
@@ -458,15 +458,15 @@ Object {
 `;
 
 exports[`Options Keys onlyCommonKeys 1`] = `
-Object {
+{
   "a": 3,
-  "b": Array [
+  "b": [
     3,
     3,
   ],
-  "c": Object {
+  "c": {
     "x": 3,
-    "y": Array [
+    "y": [
       3,
       "😀",
     ],
@@ -475,29 +475,29 @@ Object {
 `;
 
 exports[`Options Keys onlyKeys + skipKeys 1`] = `
-Object {
+{
   "a": 3,
 }
 `;
 
 exports[`Options Keys onlyKeys 1`] = `
-Object {
+{
   "a": 3,
-  "c": Object {
+  "c": {
     "x": 3,
   },
 }
 `;
 
 exports[`Options Keys onlyUniversalKeys + onlyKeys 1`] = `
-Object {
+{
   "a": 3,
 }
 `;
 
 exports[`Options Keys onlyUniversalKeys + skipKeys 1`] = `
-Object {
-  "b": Array [
+{
+  "b": [
     3,
     3,
   ],
@@ -505,9 +505,9 @@ Object {
 `;
 
 exports[`Options Keys onlyUniversalKeys 1`] = `
-Object {
+{
   "a": 3,
-  "b": Array [
+  "b": [
     3,
     3,
   ],
@@ -515,32 +515,32 @@ Object {
 `;
 
 exports[`Options Keys skipCommonKeys + onlyKeys 1`] = `
-Object {
+{
   "d": true,
 }
 `;
 
 exports[`Options Keys skipCommonKeys + skipKeys 1`] = `
-Object {
+{
   "e": null,
 }
 `;
 
 exports[`Options Keys skipCommonKeys 1`] = `
-Object {
+{
   "d": true,
   "e": null,
 }
 `;
 
 exports[`Options Keys skipKeys 1`] = `
-Object {
-  "b": Array [
+{
+  "b": [
     3,
     3,
   ],
-  "c": Object {
-    "y": Array [
+  "c": {
+    "y": [
       3,
       "😀",
     ],
@@ -552,21 +552,21 @@ Object {
 `;
 
 exports[`Options Keys skipUniversalKeys + onlyKeys 1`] = `
-Object {
-  "c": Object {},
+{
+  "c": {},
 }
 `;
 
 exports[`Options Keys skipUniversalKeys + skipKeys 1`] = `
-Object {
+{
   "d": true,
   "e": null,
 }
 `;
 
 exports[`Options Keys skipUniversalKeys 1`] = `
-Object {
-  "c": Object {
+{
+  "c": {
     "z": 3,
   },
   "d": true,
@@ -575,8 +575,8 @@ Object {
 `;
 
 exports[`Options custom merge function accepts options 1`] = `
-Object {
-  "b": Array [
+{
+  "b": [
     1,
     1,
     2,
@@ -588,8 +588,8 @@ Object {
 `;
 
 exports[`Options custom merge function accepts options 2`] = `
-Object {
-  "b": Array [
+{
+  "b": [
     1,
     2,
     3,
