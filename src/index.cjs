@@ -3,7 +3,8 @@ const {
     getInAll,
     getNotInMultiple,
     getNotInAll,
-    isObject
+    isObject,
+    isPropDescriptor
 } = require('./util.cjs');
 
 const defaults = {
@@ -14,6 +15,9 @@ const defaults = {
     onlyUniversalKeys: false,
     skipCommonKeys: false,
     skipUniversalKeys: false,
+    // Values
+    noGetters: false,
+    noSetters: false,
     // Arrays
     appendArrays: false,
     prependArrays: false,
@@ -24,18 +28,6 @@ const defaults = {
     beforeEach: Function.prototype,
     afterEach: Function.prototype,
 };
-
-function isPropDescriptor(obj) {
-    if (!isObject(obj)) {
-        return false;
-    }
-
-    return (
-        'get' in obj && typeof obj.get === 'function' ||
-        'set' in obj && typeof obj.set === 'function' ||
-        'value' in obj && ('writable' in obj || 'enumerable' in obj || 'configurable' in obj)
-    );
-}
 
 /**
  * Deep recursive object merging with options to inspect, modify, and filter
@@ -58,6 +50,9 @@ function isPropDescriptor(obj) {
  *   onlyUniversalKeys: false,
  *   skipCommonKeys: false,
  *   skipUniversalKeys: false,
+ *   // Values
+ *   noGetters: false,
+ *   noSetters: false,
  *   // Arrays
  *   appendArrays: false,
  *   prependArrays: false,
@@ -81,6 +76,9 @@ function isPropDescriptor(obj) {
  * multiple objects (merge only single occurrence keys)
  * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in all
  * objects (merge only common keys)
+ * @param {boolean} [options.noGetters = false] - Merge "getter" values instead
+ * of methods
+ * @param {boolean} [options.noSetters = false] - Do not merge "setter" methods
  * @param {boolean} [options.appendArrays = false] - Merge array values at the
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
@@ -152,14 +150,25 @@ function mergician(...optionsOrObjects) {
                     continue;
                 }
 
-                const srcVal = srcObj[key];
+                const srcDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
+                const isSetterOnly = typeof srcDescriptor.set === 'function' && typeof srcDescriptor.get !== 'function';
+
+                if (isSetterOnly) {
+                    if (!settings.noSetters) {
+                        srcDescriptor.configurable = true;
+                        Object.defineProperty(targetObj, key, srcDescriptor);
+                    }
+
+                    continue;
+                }
+
                 const targetVal = targetObj[key];
 
-                let mergeVal = srcVal;
-                let returnVal;
+                let isReturnVal = false;
+                let mergeVal = srcObj[key];
 
                 if (settings.filter !== defaults.filter) {
-                    returnVal = settings.filter({
+                    const returnVal = settings.filter({
                         depth: mergeDepth,
                         key,
                         srcObj,
@@ -174,7 +183,7 @@ function mergician(...optionsOrObjects) {
                 }
 
                 if (settings.beforeEach !== defaults.beforeEach) {
-                    returnVal = settings.beforeEach({
+                    const returnVal = settings.beforeEach({
                         depth: mergeDepth,
                         key,
                         srcObj,
@@ -183,7 +192,10 @@ function mergician(...optionsOrObjects) {
                         targetVal
                     });
 
-                    mergeVal = returnVal !== undefined ? returnVal : mergeVal;
+                    if (returnVal !== undefined) {
+                        isReturnVal = true;
+                        mergeVal = returnVal;
+                    }
                 }
 
                 if (Array.isArray(mergeVal)) {
@@ -238,7 +250,7 @@ function mergician(...optionsOrObjects) {
                         }
                     }
                 }
-                else if (isObject(mergeVal) && !isPropDescriptor(mergeVal)) {
+                else if (isObject(mergeVal) && (!isReturnVal || !isPropDescriptor(mergeVal))) {
                     mergeDepth++;
 
                     if (isObject(targetVal)) {
@@ -252,7 +264,7 @@ function mergician(...optionsOrObjects) {
                 }
 
                 if (settings.afterEach !== defaults.afterEach) {
-                    returnVal = settings.afterEach({
+                    const returnVal = settings.afterEach({
                         depth: mergeDepth,
                         key,
                         mergeVal,
@@ -260,43 +272,46 @@ function mergician(...optionsOrObjects) {
                         targetObj
                     });
 
-                    mergeVal = returnVal !== undefined ? returnVal : mergeVal;
+                    if (returnVal !== undefined) {
+                        isReturnVal = true;
+                        mergeVal = returnVal;
+                    }
                 }
 
-                // New descriptor returned via callback
-                if (isPropDescriptor(mergeVal)) {
-                    // Defining properties using Object.defineProperty() works
-                    // different than using the assignment operator (obj.a = 1).
-                    // Specifically, the descriptor properties 'configurable',
-                    // 'enumerable', and 'writable' default to 'false' when
-                    // using Object.defineProperty() but to 'true' when using
-                    // the assignment operator. The code below ensures that
-                    // descriptors returned from callbacks are treated as if
-                    // they were assigned using the assignment operator unless
-                    // those properties are explicitly defined in the
-                    // descriptor. This allow merging properties that may
-                    // otherwise fail due to 'configurable' or 'writable' being
-                    // set to 'false'.
+                if (isReturnVal) {
+                    if (isPropDescriptor(mergeVal)) {
+                        // Descriptor properties 'configurable', 'enumerable',
+                        // and 'writable' default to 'false' when using
+                        // Object.defineProperty() but to 'true' when using the
+                        // assignment operator (obj.a = 1). It is therefore
+                        // necessary to set 'configurable' and 'writable'
+                        // properties to 'true' to ensure subsequent merge tasks
+                        // complete successfully.
+                        mergeVal.configurable = true;
+                        mergeVal.enumerable = !('enumerable' in mergeVal) ? true : mergeVal.enumerable;
 
-                    // Accessor and data descriptor
-                    mergeVal.configurable = !('configurable' in mergeVal) ? true : mergeVal.configurable;
-                    mergeVal.enumerable = !('enumerable' in mergeVal) ? true : mergeVal.enumerable;
+                        if ('value' in mergeVal && !('writable' in mergeVal)) {
+                            mergeVal.writable = true;
+                        }
 
-                    // Data descriptor
-                    if ('value' in mergeVal && !('writable' in mergeVal)) {
-                        mergeVal.writable = true;
+                        Object.defineProperty(targetObj, key, mergeVal);
                     }
-
-                    Object.defineProperty(targetObj, key, mergeVal);
+                    else {
+                        targetObj[key] = mergeVal;
+                    }
                 }
                 else {
                     const mergeDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
 
-                    // Accessors (getter/setter)
-                    if (returnVal === undefined && 'get' in mergeDescriptor) {
+                    if (typeof mergeDescriptor.get === 'function' && !settings.noGetters) {
+                        if (settings.noSetters) {
+                            mergeDescriptor.set = undefined;
+                        }
+
+                        // Set as configurable for subsequent merges
+                        mergeDescriptor.configurable = true;
                         Object.defineProperty(targetObj, key, mergeDescriptor);
                     }
-                    // Standard values
                     else {
                         targetObj[key] = mergeVal;
                     }

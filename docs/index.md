@@ -219,6 +219,11 @@ console.log(mergedObj); // { b: [2, 3] }
 - [skipCommonKeys](#skipcommonkeys)
 - [skipUniversalKeys](#skipuniversalkeys)
 
+**Values**
+
+- [noGetters](#nogetters)
+- [noSetters](#nosetters)
+
 **Arrays**
 
 - [appendArrays](#appendarrays)
@@ -344,6 +349,56 @@ const mergedObj = mergician({
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { b: { d: 3 }, e: 3 }
+```
+
+### noGetters
+
+Merge "getter" values instead of methods.
+
+- Type: `Boolean`
+- Default: `false`
+
+```javascript
+const obj1 = { a: 1 };
+
+Object.defineProperty(obj1, 'b', {
+    get b() {
+        return this.a + 1;
+    }
+});
+
+console.log(obj1) // { a: 1, b: [Getter] }
+
+const clonedObj = mergician({
+    noGetters: true
+})({}, obj1);
+
+console.log(mergedObj); // { a: 1, b: 2 }
+```
+
+### noSetters
+
+Do not merge "setter" methods.
+
+- Type: `Boolean`
+- Default: `false`
+
+```javascript
+const obj1 = { a: 1 };
+
+Object.defineProperty(obj1, 'b', {
+    set b(value) {
+        this.a = this.a + 1;
+    }
+});
+
+console.log(obj1) // { a: 1, b: [Setter] }
+
+const clonedObj = mergician({
+    noSetters: true
+})({}, obj1);
+
+console.log(mergedObj); // { a: 1 }
 ```
 
 ### appendArrays

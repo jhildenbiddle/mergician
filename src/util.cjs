@@ -97,11 +97,49 @@ function isObject(obj) {
     return Boolean(obj && obj.constructor.name === 'Object');
 }
 
+/**
+ * Determines if the value passed is a property descriptor
+ *
+ * @param {*} obj - Value to test
+ * @return {boolean}
+ */
+function isPropDescriptor(obj) {
+    if (!isObject(obj)) {
+        return false;
+    }
+
+    const hasFlagKey = ['writable', 'enumerable', 'configurable'].some(key => key in obj);
+    const hasMethod = ['get', 'set'].some(key => typeof obj[key] === 'function');
+    const hasMethodKeys = ['get', 'set'].every(key => key in obj);
+
+    let isDescriptor = (
+        ('value' in obj && hasFlagKey) ||
+        (hasMethod && (hasMethodKeys || hasFlagKey))
+    );
+
+    // Test for invalid key(s)
+    if (isDescriptor) {
+        const validKeys = [
+            'configurable',
+            'get',
+            'set',
+            'enumerable',
+            'value',
+            'writable'
+        ];
+
+        isDescriptor = Object.keys(obj).some(key => !(key in validKeys));
+    }
+
+    return isDescriptor;
+}
+
 module.exports = {
     countOccurrences,
     getInMultiple,
     getInAll,
     getNotInMultiple,
     getNotInAll,
-    isObject
+    isObject,
+    isPropDescriptor
 };
