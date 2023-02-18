@@ -93,8 +93,12 @@ function getNotInAll(...arrays) {
  * @param {*} obj - Value to test
  * @return {boolean}
  */
-function isObject(obj) {
-    return Boolean(obj && obj.constructor.name === 'Object');
+function isObject(value) {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        !Array.isArray(value)
+    );
 }
 
 /**
