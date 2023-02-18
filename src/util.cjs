@@ -88,6 +88,33 @@ function getNotInAll(...arrays) {
 }
 
 /**
+ * Returns array of an object's own keys and (optionally) those from the
+ * object's prototype chain.
+ *
+ * @example
+ * getObjectKeys({ a: 1 }); // ['a']
+ * getObjectKeys({ a: 1 }, true); // ['a', 'b', 'c', ...]
+ *
+ * @param {object} obj - Object to parse
+ * @param {boolean} includePrototype
+ * @return {array} List of keys
+ */
+function getObjectKeys(obj, includePrototype = true) {
+    if (includePrototype) {
+        const keys = [];
+
+        for (const key in obj) {
+            keys.push(key);
+        }
+
+        return keys;
+    }
+    else {
+        return Object.keys(obj);
+    }
+}
+
+/**
  * Determines if the value passed was created using the Object constructor
  *
  * @param {*} obj - Value to test
@@ -144,6 +171,7 @@ module.exports = {
     getInAll,
     getNotInMultiple,
     getNotInAll,
+    getObjectKeys,
     isObject,
     isPropDescriptor
 };

@@ -3,6 +3,7 @@ const {
     getInAll,
     getNotInMultiple,
     getNotInAll,
+    getObjectKeys,
     isObject,
     isPropDescriptor
 } = require('./util.cjs');
@@ -115,16 +116,16 @@ function mergician(...optionsOrObjects) {
 
         if (objects.length > 1) {
             if (settings.onlyCommonKeys) {
-                mergeKeyList = getInMultiple(...objects.map(obj => Object.keys(obj)));
+                mergeKeyList = getInMultiple(...objects.map(obj => getObjectKeys(obj)));
             }
             else if (settings.onlyUniversalKeys) {
-                mergeKeyList = getInAll(...objects.map(obj => Object.keys(obj)));
+                mergeKeyList = getInAll(...objects.map(obj => getObjectKeys(obj)));
             }
             else if (settings.skipCommonKeys) {
-                mergeKeyList = getNotInMultiple(...objects.map(obj => Object.keys(obj)));
+                mergeKeyList = getNotInMultiple(...objects.map(obj => getObjectKeys(obj)));
             }
             else if (settings.skipUniversalKeys) {
-                mergeKeyList = getNotInAll(...objects.map(obj => Object.keys(obj)));
+                mergeKeyList = getNotInAll(...objects.map(obj => getObjectKeys(obj)));
             }
         }
 
@@ -137,7 +138,7 @@ function mergician(...optionsOrObjects) {
         }
 
         const result = objects.reduce((targetObj, srcObj) => {
-            let keys = mergeKeyList || Object.keys(srcObj);
+            let keys = mergeKeyList || getObjectKeys(srcObj);
 
             if (settings.skipKeys.length) {
                 keys = keys.filter(key => settings.skipKeys.indexOf(key) === -1);
@@ -151,7 +152,8 @@ function mergician(...optionsOrObjects) {
                 }
 
                 const srcDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
-                const isSetterOnly = typeof srcDescriptor.set === 'function' && typeof srcDescriptor.get !== 'function';
+
+                const isSetterOnly = srcDescriptor && typeof srcDescriptor.set === 'function' && typeof srcDescriptor.get !== 'function';
 
                 if (isSetterOnly) {
                     if (!settings.noSetters) {
@@ -303,7 +305,7 @@ function mergician(...optionsOrObjects) {
                 else {
                     const mergeDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
 
-                    if (typeof mergeDescriptor.get === 'function' && !settings.noGetters) {
+                    if (mergeDescriptor && typeof mergeDescriptor.get === 'function' && !settings.noGetters) {
                         if (settings.noSetters) {
                             mergeDescriptor.set = undefined;
                         }
