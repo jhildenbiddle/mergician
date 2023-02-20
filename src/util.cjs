@@ -96,11 +96,11 @@ function getNotInAll(...arrays) {
  * getObjectKeys({ a: 1 }, true); // ['a', 'b', 'c', ...]
  *
  * @param {object} obj - Object to parse
- * @param {boolean} includePrototype
+ * @param {boolean} includeProto include key/values from prototype
  * @return {array} List of keys
  */
-function getObjectKeys(obj, includePrototype = true) {
-    if (includePrototype) {
+function getObjectKeys(obj, includeProto = false) {
+    if (includeProto) {
         const keys = [];
 
         for (const key in obj) {

@@ -24,6 +24,8 @@ const defaults = {
     prependArrays: false,
     dedupArrays: false,
     sortArrays: false,
+    // Prototype
+    hoistProto: false,
     // Callbacks
     filter: Function.prototype,
     beforeEach: Function.prototype,
@@ -60,6 +62,8 @@ const defaults = {
  *   prependArrays: false,
  *   dedupArrays: false,
  *   sortArrays: false,
+ *   // Prototype
+ *   hoistProto: false,
  *   // Callbacks
  *   filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
  *   beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
@@ -91,6 +95,8 @@ const defaults = {
  * values in new merged object
  * @param {boolean|function} [options.sortArrays = false] - Sort array values in
  * new merged object
+ * @param {boolean} [options.hoistProto = false] - Clone prototype properties as
+ * direct properties of merged/cloned object
  * @param {function} [options.filter] - Callback used to conditionally merge or
  * skip a property. Return a "truthy" value to merge or a "falsy" value to skip.
  * Return no value to proceed according to other option values.
@@ -116,21 +122,25 @@ function mergician(...optionsOrObjects) {
 
     let mergeDepth = 0;
 
+    function _getObjectKeys(obj) {
+        return getObjectKeys(obj, settings.hoistProto);
+    }
+
     function _mergician(...objects) {
         let mergeKeyList;
 
         if (objects.length > 1) {
             if (settings.onlyCommonKeys) {
-                mergeKeyList = getInMultiple(...objects.map(obj => getObjectKeys(obj)));
+                mergeKeyList = getInMultiple(...objects.map(obj => _getObjectKeys(obj)));
             }
             else if (settings.onlyUniversalKeys) {
-                mergeKeyList = getInAll(...objects.map(obj => getObjectKeys(obj)));
+                mergeKeyList = getInAll(...objects.map(obj => _getObjectKeys(obj)));
             }
             else if (settings.skipCommonKeys) {
-                mergeKeyList = getNotInMultiple(...objects.map(obj => getObjectKeys(obj)));
+                mergeKeyList = getNotInMultiple(...objects.map(obj => _getObjectKeys(obj)));
             }
             else if (settings.skipUniversalKeys) {
-                mergeKeyList = getNotInAll(...objects.map(obj => getObjectKeys(obj)));
+                mergeKeyList = getNotInAll(...objects.map(obj => _getObjectKeys(obj)));
             }
         }
 
@@ -143,7 +153,7 @@ function mergician(...optionsOrObjects) {
         }
 
         const result = objects.reduce((targetObj, srcObj) => {
-            let keys = mergeKeyList || getObjectKeys(srcObj);
+            let keys = mergeKeyList || _getObjectKeys(srcObj);
 
             if (settings.skipKeys.length) {
                 keys = keys.filter(key => settings.skipKeys.indexOf(key) === -1);

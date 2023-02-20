@@ -48,12 +48,14 @@ const testObjPerson = { firstname: 'John', lastname: 'Smith' };
 const testObjGetter = Object.assign({}, testObjPerson);
 const testObjSetter = Object.assign({}, testObjPerson);
 const testObjGetterSetter = Object.assign({}, testObjPerson);
+const testObjProto = { a: 1 };
 
-// Apply property descriptors to test objects
+// Apply property descriptors and prototypes to test objects
 Object.defineProperty(testObjPerson, 'fullname', propFullName);
 Object.defineProperty(testObjGetter, 'fullname', propGetFullName);
 Object.defineProperty(testObjSetter, 'fullname', propSetFullName);
 Object.defineProperty(testObjGetterSetter, 'fullname', propGetSetFullName);
+Object.getPrototypeOf(testObjProto).b = true;
 
 
 // Tests
@@ -66,6 +68,22 @@ describe('Default options', () => {
         expect(mergedObj.c).not.toBe(testObj2.c);
         expect(mergedObj).toMatchSnapshot();
     });
+
+    // test('clone object prototype', () => {
+    //     const testObj = { a: 1 };
+    //     const testObjProto = Object.getPrototypeOf(testObj);
+
+    //     // testObjProto.b = true;
+
+    //     // const mergedObj = mergician({}, testObj);
+    //     // const mergedObjProto = Object.getPrototypeOf(mergedObj);
+
+    //     // expect(testObj).not.toHaveProperty('b');
+    //     expect(testObjProto).toHaveProperty('b');
+    //     // expect(mergedObj).not.toHaveProperty('b');
+    //     // expect(mergedObjProto).not.toBe(testObjProto);
+    //     // expect(mergedObjProto).not.toHaveProperty('b');
+    // });
 
     test('clone circular object', () => {
         const mergedObj = mergician({}, testCircularObj);
@@ -226,6 +244,26 @@ describe('Options', () => {
             })(testObj1, testObj2, testObj3);
 
             expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('hoistProto = false', () => {
+            const mergedObj = mergician({
+                hoistProto: false
+            })({}, testObjProto);
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'a')).toBe(true);
+            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'b')).toBe(false);
+        });
+
+        test('hoistProto = true', () => {
+            const mergedObj = mergician({
+                hoistProto: true
+            })({}, testObjProto);
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'a')).toBe(true);
+            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'b')).toBe(true);
         });
     });
 

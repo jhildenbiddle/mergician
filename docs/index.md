@@ -231,6 +231,10 @@ console.log(mergedObj); // { b: [2, 3] }
 - [dedupArrays](#deduparrays)
 - [sortArrays](#sortarrays)
 
+**Prototype**
+
+- [hoistProto](#hoistproto)
+
 **Callbacks**
 
 - [filter()](#filter)
@@ -488,6 +492,31 @@ const mergedDescending = mergician({
 
 console.log(mergedAscending); // { a: [1, 2, 3, 4, 5, 6] }
 console.log(mergedDescending); // { a: [6, 5, 4, 3, 2, 1] }
+```
+
+### hoistProto()
+
+Clone prototype properties as direct properties of merged/cloned object.
+
+- Type: `Boolean`
+- Default: `false`
+
+```js
+const obj = { a: 1 };
+const objProto = Object.getPrototypeOf(obj);
+
+console.log(obj); // { a: 1 }
+console.log(obj.b); // 2
+console.log(objProto); // { b: 2 }
+console.log(obj.hasOwnProperty('a')); // true
+console.log(obj.hasOwnProperty('b')); // false
+
+const clonedObj = mergician({
+    hoistProto: true
+})({}, obj);
+
+console.log(clonedObj); // { a: 1, b: 2 }
+console.log(clonedObj.hasOwnProperty('b')); // true
 ```
 
 ### filter()
