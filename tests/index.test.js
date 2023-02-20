@@ -219,6 +219,48 @@ describe('Options', () => {
         });
     });
 
+    describe('Values', () => {
+        test('mergeGetterValues = false', () => {
+            const mergedObj = mergician({
+                mergeGetterValues: false
+            })({}, testObjGetter);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(fullNameDescriptor).toHaveProperty('get');
+        });
+
+        test('mergeGetterValues = true', () => {
+            const mergedObj = mergician({
+                mergeGetterValues: true
+            })({}, testObjGetter);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(fullNameDescriptor).not.toHaveProperty('get');
+        });
+
+        test('skipSetters = false', () => {
+            const mergedObj = mergician({
+                skipSetters: false
+            })({}, testObjSetter);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(typeof fullNameDescriptor.set).toBe('function');
+        });
+
+        test('skipSetters = true', () => {
+            const mergedObj = mergician({
+                skipSetters: true
+            })({}, testObjSetter);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(fullNameDescriptor).toBeUndefined();
+        });
+    });
+
     describe('Arrays', () => {
         const testObj1 = { a: [1, 1] };
         const testObj2 = { a: [2, 2], b: [2, [2, 2]], c: { d: [2, 2, '😀'] } };

@@ -580,6 +580,37 @@ exports[`Options Keys skipUniversalKeys 1`] = `
 }
 `;
 
+exports[`Options Values mergeGetterValues = false 1`] = `
+{
+  "firstname": "John",
+  "fullname": "John Smith",
+  "lastname": "Smith",
+}
+`;
+
+exports[`Options Values mergeGetterValues = true 1`] = `
+{
+  "firstname": "John",
+  "fullname": "John Smith",
+  "lastname": "Smith",
+}
+`;
+
+exports[`Options Values skipSetters = false 1`] = `
+{
+  "firstname": "John",
+  "fullname": undefined,
+  "lastname": "Smith",
+}
+`;
+
+exports[`Options Values skipSetters = true 1`] = `
+{
+  "firstname": "John",
+  "lastname": "Smith",
+}
+`;
+
 exports[`Options custom merge function accepts options 1`] = `
 {
   "b": [
