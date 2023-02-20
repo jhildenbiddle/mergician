@@ -1,11 +1,62 @@
 const { isObject } = require('../src/util');
 const mergician = require('../src/index');
 
-// Test objects
+// Test Objects
+// ============================================================================
+// Property descriptors
+const propFullName = {
+    value: 'John Smith',
+    writable: true,
+    enumerable: true,
+    configurable: true
+};
+const propGetFullName = {
+    get() {
+        return `${this.firstname} ${this.lastname}`;
+    },
+    enumerable: true,
+    configurable: true
+};
+const propSetFullName = {
+    set(val) {
+        const names = val.trim().split(' ');
+        this.firstname = names[0];
+        this.lastname = names[1];
+    },
+    enumerable: true,
+    configurable: true
+};
+const propGetSetFullName = {
+    get() {
+        return `${this.firstname} ${this.lastname}`;
+    },
+    set(val) {
+        const names = val.trim().split(' ');
+        this.firstname = names[0];
+        this.lastname = names[1];
+    },
+    enumerable: true,
+    configurable: true
+};
+
+// Objects
 const testObj1 = { a: 1, b: [1, 1], d: true };
 const testObj2 = { a: 2, b: [2, 2], c: { x: 2, y: [2, '😀'] }, e: null };
 const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
+const testObjPerson = { firstname: 'John', lastname: 'Smith' };
+const testObjGetter = Object.assign({}, testObjPerson);
+const testObjSetter = Object.assign({}, testObjPerson);
+const testObjGetterSetter = Object.assign({}, testObjPerson);
 
+// Apply property descriptors to test objects
+Object.defineProperty(testObjPerson, 'fullname', propFullName);
+Object.defineProperty(testObjGetter, 'fullname', propGetFullName);
+Object.defineProperty(testObjSetter, 'fullname', propSetFullName);
+Object.defineProperty(testObjGetterSetter, 'fullname', propGetSetFullName);
+
+
+// Tests
+// ============================================================================
 describe('Default options', () => {
     test('clone object', () => {
         const mergedObj = mergician({}, testObj2);
@@ -384,9 +435,14 @@ describe('Options', () => {
                 beforeEach() {
                     return 'baz';
                 }
-            })(testObj1, testObj2);
+            })(testObj1, testObj2, testObjGetterSetter);
 
             expect(mergedObj).toMatchSnapshot();
+
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+
+            expect(fullNameDescriptor).not.toHaveProperty('get');
+            expect(fullNameDescriptor).not.toHaveProperty('set');
         });
 
         test('beforeEach() without return value', () => {
@@ -439,9 +495,14 @@ describe('Options', () => {
                 afterEach() {
                     return 'baz';
                 }
-            })(testObj1, testObj2);
+            })(testObj1, testObj2, testObjGetterSetter);
 
             expect(mergedObj).toMatchSnapshot();
+
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+
+            expect(fullNameDescriptor).not.toHaveProperty('get');
+            expect(fullNameDescriptor).not.toHaveProperty('set');
         });
 
         test('afterEach() without return value', () => {
