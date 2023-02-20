@@ -52,6 +52,13 @@ exports[`Accessors handles setters 1`] = `
 }
 `;
 
+exports[`Default options clone circular object 1`] = `
+{
+  "a": 1,
+  "circular": [Circular],
+}
+`;
+
 exports[`Default options clone object 1`] = `
 {
   "a": 2,
@@ -432,6 +439,27 @@ exports[`Options Callbacks filter() without return value 1`] = `
   "b": {
     "c": "bar",
   },
+}
+`;
+
+exports[`Options Callbacks onCircular() arguments 1`] = `
+{
+  "a": 1,
+  "circular": [Circular],
+}
+`;
+
+exports[`Options Callbacks onCircular() with return value 1`] = `
+{
+  "a": 1,
+  "circular": true,
+}
+`;
+
+exports[`Options Callbacks onCircular() without return value 1`] = `
+{
+  "a": 1,
+  "circular": [Circular],
 }
 `;
 

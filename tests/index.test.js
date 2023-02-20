@@ -43,6 +43,7 @@ const propGetSetFullName = {
 const testObj1 = { a: 1, b: [1, 1], d: true };
 const testObj2 = { a: 2, b: [2, 2], c: { x: 2, y: [2, '😀'] }, e: null };
 const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
+const testCircularObj = { a: 1, get circular() { return this; } };
 const testObjPerson = { firstname: 'John', lastname: 'Smith' };
 const testObjGetter = Object.assign({}, testObjPerson);
 const testObjSetter = Object.assign({}, testObjPerson);
@@ -64,6 +65,15 @@ describe('Default options', () => {
         expect(mergedObj.b).not.toBe(testObj2.b);
         expect(mergedObj.c).not.toBe(testObj2.c);
         expect(mergedObj).toMatchSnapshot();
+    });
+
+    test('clone circular object', () => {
+        const mergedObj = mergician({}, testCircularObj);
+
+        expect(mergedObj).toMatchSnapshot();
+        expect(mergedObj.a).toBe(1);
+        expect(mergedObj.circular.a).toBe(1);
+        expect(mergedObj.circular.circular.a).toBe(1);
     });
 
     test('deep merge two objects', () => {
@@ -440,10 +450,10 @@ describe('Options', () => {
 
             const mergedObj = mergician({
                 beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
-                    expect(isObject(srcObj)).toBe(true);
-                    expect(typeof key).toBe('string');
-                    expect(isObject(targetObj)).toBe(true);
                     expect(typeof depth).toBe('number');
+                    expect(typeof key).toBe('string');
+                    expect(isObject(srcObj)).toBe(true);
+                    expect(isObject(targetObj)).toBe(true);
 
                     /* eslint-disable jest/no-conditional-expect */
                     if (srcVal === 1) {
@@ -503,9 +513,9 @@ describe('Options', () => {
 
             const mergedObj = mergician({
                 afterEach({ depth, key, mergeVal, srcObj, targetObj }) {
+                    expect(typeof depth).toBe('number');
                     expect(typeof key).toBe('string');
                     expect(isObject(targetObj)).toBe(true);
-                    expect(typeof depth).toBe('number');
 
                     /* eslint-disable jest/no-conditional-expect */
                     if (mergeVal === 2) {
@@ -551,6 +561,42 @@ describe('Options', () => {
             const mergedObj = mergician({
                 afterEach() {}
             })(testObj1, testObj2);
+
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('onCircular() arguments', () => {
+            const mergedObj = mergician({
+                onCircular({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+                    expect(typeof depth).toBe('number');
+                    expect(typeof key).toBe('string');
+                    expect(isObject(srcObj)).toBe(true);
+                    expect(isObject(srcVal)).toBe(true);
+                    expect(srcVal).toBe(srcObj);
+                    expect(isObject(targetObj)).toBe(true);
+                }
+            })({}, testCircularObj);
+
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('onCircular() without return value', () => {
+            const mergedObj = mergician({
+                onCircular() {}
+            })({}, testCircularObj);
+
+            expect(mergedObj).toMatchSnapshot();
+            expect(mergedObj.a).toBe(1);
+            expect(mergedObj.circular.a).toBe(1);
+            expect(mergedObj.circular.circular.a).toBe(1);
+        });
+
+        test('onCircular() with return value', () => {
+            const mergedObj = mergician({
+                onCircular() {
+                    return true;
+                }
+            })({}, testCircularObj);
 
             expect(mergedObj).toMatchSnapshot();
         });

@@ -236,6 +236,7 @@ console.log(mergedObj); // { b: [2, 3] }
 - [filter()](#filter)
 - [beforeEach()](#beforeeach)
 - [afterEach()](#aftereach)
+- [onCircular()](#oncircular)
 
 ### onlyKeys
 
@@ -583,6 +584,34 @@ const mergedObj = mergician({
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 2, b: 3, c: { d: 4, e: true } }
+```
+
+### onCircular()
+
+Callback used for handling circular object references during merge.
+
+If a value is returned, that value will be used as the new value to merge. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `srcVal` will be used.
+
+- Type: `Function`
+- Arguments:
+  - **data**: Object containing merge data
+    - **data.depth**: The nesting level of the key being processed
+    - **data.key**: The object key being processed
+    - **data.srcObj**: The object containing the source value
+    - **data.srcVal**: The source object's property value
+    - **data.targetObj**: The new merged object
+    - **data.targetVal**: The new merged object's current property value
+
+```javascript
+const circularObj = { a: 1, get b() { return this; } };
+const clonedObj = mergician({
+    // Replace circular object reference with '[Circular]' string
+    onCircular({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+        return '[Circular]';
+    }
+})({}, circularObj);
+
+console.log(clonedObj); // { a: 1, b: '[Circular]' }
 ```
 
 ## Sponsorship

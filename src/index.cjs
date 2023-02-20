@@ -28,6 +28,7 @@ const defaults = {
     filter: Function.prototype,
     beforeEach: Function.prototype,
     afterEach: Function.prototype,
+    onCircular: Function.prototype,
 };
 
 /**
@@ -63,6 +64,7 @@ const defaults = {
  *   filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
  *   beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
  *   afterEach({ depth, key, mergeVal, srcObj, targetObj }) {},
+ *   onCircular({ depth, key, srcObj, srcVal, targetObj, targetVal }) {}
  * })(obj1, obj2, obj3, ...)
  *
  * @param {...object} optionsOrObjects - Options or objects to merge
@@ -98,6 +100,8 @@ const defaults = {
  * @param {function} [options.afterEach] - Callback used for
  * inspecting/modifying properties after merge. Return value is used as merged
  * value.
+ * @param {function} [options.onCircular] - Callback used for handling circular
+ * object references during merge
  * @returns {function|object} Merge function with options applied or new merged
  * object
  * @param {...object} [objects] - Objects to merge
@@ -153,7 +157,6 @@ function mergician(...optionsOrObjects) {
                 }
 
                 const srcDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
-
                 const isSetterOnly = srcDescriptor && typeof srcDescriptor.set === 'function' && typeof srcDescriptor.get !== 'function';
 
                 if (isSetterOnly) {
@@ -164,6 +167,9 @@ function mergician(...optionsOrObjects) {
 
                     continue;
                 }
+
+                const seenObjects = new WeakSet();
+                seenObjects.add(srcObj, targetObj);
 
                 const targetVal = targetObj[key];
 
@@ -199,6 +205,38 @@ function mergician(...optionsOrObjects) {
                         isReturnVal = true;
                         mergeVal = returnVal;
                     }
+                }
+
+                // Circular references
+                if (typeof mergeVal === 'object' && mergeVal !== null) {
+                    if (seenObjects.has(mergeVal)) {
+                        const returnVal = settings.onCircular({
+                            depth: mergeDepth,
+                            key,
+                            srcObj,
+                            srcVal: mergeVal,
+                            targetObj,
+                            targetVal
+                        });
+
+                        if (returnVal !== undefined) {
+                            isReturnVal = true;
+                            mergeVal = returnVal;
+
+                            if (typeof mergeVal === 'object' && mergeVal !== null) {
+                                seenObjects.add(mergeVal);
+                            }
+                        }
+
+                        if (mergeVal === srcObj) {
+                            mergeVal = targetObj;
+                        }
+
+                        targetObj[key] = mergeVal;
+                        continue;
+                    }
+
+                    seenObjects.add(mergeVal);
                 }
 
                 if (Array.isArray(mergeVal)) {
