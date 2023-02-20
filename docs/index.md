@@ -221,8 +221,8 @@ console.log(mergedObj); // { b: [2, 3] }
 
 **Values**
 
-- [noGetters](#nogetters)
-- [noSetters](#nosetters)
+- [mergeGetterValues](#mergegettervalues)
+- [skipSetters](#skipsetters)
 
 **Arrays**
 
@@ -351,7 +351,7 @@ const mergedObj = mergician({
 console.log(mergedObj); // { b: { d: 3 }, e: 3 }
 ```
 
-### noGetters
+### mergeGetterValues
 
 Merge "getter" values instead of methods.
 
@@ -359,46 +359,43 @@ Merge "getter" values instead of methods.
 - Default: `false`
 
 ```javascript
-const obj1 = { a: 1 };
-
-Object.defineProperty(obj1, 'b', {
+const obj1 = {
+    a: 1,
     get b() {
         return this.a + 1;
     }
-});
-
-console.log(obj1) // { a: 1, b: [Getter] }
-
-const clonedObj = mergician({
-    noGetters: true
+};
+const clonedObj1 = mergician({}, obj1);
+const clonedObj2 = mergician({
+    mergeGetterValues: true
 })({}, obj1);
 
-console.log(mergedObj); // { a: 1, b: 2 }
+console.log(obj1);       // { a: 1, b: [Getter] }
+console.log(clonedObj1); // { a: 1, b: [Getter] }
+console.log(clonedObj2); // { a: 1, b: 2 }
 ```
 
-### noSetters
+### skipSetters
 
-Do not merge "setter" methods.
+Do not merge "setter" methods. Note that "setters" will be available during callback functions.
 
 - Type: `Boolean`
 - Default: `false`
 
 ```javascript
-const obj1 = { a: 1 };
-
-Object.defineProperty(obj1, 'b', {
-    set b(value) {
-        this.a = this.a + 1;
+const obj1 = {
+    firstname: 'John',
+    lastname: 'Smith',
+    set fullname() {
+        return this.fullname = `${this.firstname} ${this.lastname}`;
     }
-});
-
-console.log(obj1) // { a: 1, b: [Setter] }
-
+};
 const clonedObj = mergician({
-    noSetters: true
+    skipSetters: true
 })({}, obj1);
 
-console.log(mergedObj); // { a: 1 }
+console.log(obj1);      // { firstname: 'John', lastname: 'Smith', fullname: [Setter] }
+console.log(clonedObj); // { firstname: 'John', lastname: 'Smith' }
 ```
 
 ### appendArrays

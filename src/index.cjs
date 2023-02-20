@@ -17,8 +17,8 @@ const defaults = {
     skipCommonKeys: false,
     skipUniversalKeys: false,
     // Values
-    noGetters: false,
-    noSetters: false,
+    mergeGetterValues: false,
+    skipSetters: false,
     // Arrays
     appendArrays: false,
     prependArrays: false,
@@ -52,8 +52,8 @@ const defaults = {
  *   skipCommonKeys: false,
  *   skipUniversalKeys: false,
  *   // Values
- *   noGetters: false,
- *   noSetters: false,
+ *   mergeGetterValues: false,
+ *   skipSetters: false,
  *   // Arrays
  *   appendArrays: false,
  *   prependArrays: false,
@@ -77,9 +77,10 @@ const defaults = {
  * multiple objects (merge only single occurrence keys)
  * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in all
  * objects (merge only common keys)
- * @param {boolean} [options.noGetters = false] - Merge "getter" values instead
- * of methods
- * @param {boolean} [options.noSetters = false] - Do not merge "setter" methods
+ * @param {boolean} [options.mergeGetterValues = false] - Merge "getter" values
+ * instead of methods
+ * @param {boolean} [options.skipSetters = false] - Do not merge "setter"
+ * methods
  * @param {boolean} [options.appendArrays = false] - Merge array values at the
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
@@ -156,7 +157,7 @@ function mergician(...optionsOrObjects) {
                 const isSetterOnly = srcDescriptor && typeof srcDescriptor.set === 'function' && typeof srcDescriptor.get !== 'function';
 
                 if (isSetterOnly) {
-                    if (!settings.noSetters) {
+                    if (!settings.skipSetters) {
                         srcDescriptor.configurable = true;
                         Object.defineProperty(targetObj, key, srcDescriptor);
                     }
@@ -305,8 +306,8 @@ function mergician(...optionsOrObjects) {
                 else {
                     const mergeDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
 
-                    if (mergeDescriptor && typeof mergeDescriptor.get === 'function' && !settings.noGetters) {
-                        if (settings.noSetters) {
+                    if (mergeDescriptor && typeof mergeDescriptor.get === 'function' && !settings.mergeGetterValues) {
+                        if (settings.skipSetters) {
                             mergeDescriptor.set = undefined;
                         }
 
