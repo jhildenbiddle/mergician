@@ -120,6 +120,11 @@ function mergician(...optionsOrObjects) {
     const sortArrayMap = new Map();
     const sortArrayFn = typeof settings.sortArrays === 'function' ? settings.sortArrays : undefined;
 
+    // Store circular references from source and reassign to target
+    // Key = original source reference
+    // Value = cloned/merged target reference
+    const circularRefs = new WeakMap();
+
     let mergeDepth = 0;
 
     function _getObjectKeys(obj) {
@@ -153,6 +158,8 @@ function mergician(...optionsOrObjects) {
         }
 
         const result = objects.reduce((targetObj, srcObj) => {
+            circularRefs.set(srcObj, targetObj);
+
             let keys = mergeKeyList || _getObjectKeys(srcObj);
 
             if (settings.skipKeys.length) {
@@ -161,8 +168,20 @@ function mergician(...optionsOrObjects) {
 
             for (let i = 0; i < keys.length; i++) {
                 const key = keys[i];
+                const targetVal = targetObj[key];
+
+                let isReturnVal = false;
+                let mergeVal;
 
                 if (key in srcObj === false) {
+                    continue;
+                }
+
+                try {
+                    mergeVal = srcObj[key];
+                }
+                catch(err) {
+                    console.error(err);
                     continue;
                 }
 
@@ -177,14 +196,6 @@ function mergician(...optionsOrObjects) {
 
                     continue;
                 }
-
-                const seenObjects = new WeakSet();
-                seenObjects.add(srcObj, targetObj);
-
-                const targetVal = targetObj[key];
-
-                let isReturnVal = false;
-                let mergeVal = srcObj[key];
 
                 if (settings.filter !== defaults.filter) {
                     const returnVal = settings.filter({
@@ -219,34 +230,25 @@ function mergician(...optionsOrObjects) {
 
                 // Circular references
                 if (typeof mergeVal === 'object' && mergeVal !== null) {
-                    if (seenObjects.has(mergeVal)) {
+                    if (circularRefs.has(srcObj[key])) {
                         const returnVal = settings.onCircular({
                             depth: mergeDepth,
                             key,
                             srcObj,
-                            srcVal: mergeVal,
+                            srcVal: srcObj[key],
                             targetObj,
                             targetVal
                         });
 
-                        if (returnVal !== undefined) {
-                            isReturnVal = true;
-                            mergeVal = returnVal;
-
-                            if (typeof mergeVal === 'object' && mergeVal !== null) {
-                                seenObjects.add(mergeVal);
-                            }
+                        if (returnVal === undefined) {
+                            mergeVal = circularRefs.get(srcObj[key]);
+                            targetObj[key] = mergeVal;
+                            continue;
                         }
 
-                        if (mergeVal === srcObj) {
-                            mergeVal = targetObj;
-                        }
-
-                        targetObj[key] = mergeVal;
-                        continue;
+                        isReturnVal = true;
+                        mergeVal = returnVal;
                     }
-
-                    seenObjects.add(mergeVal);
                 }
 
                 if (Array.isArray(mergeVal)) {

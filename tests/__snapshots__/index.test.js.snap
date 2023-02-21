@@ -476,19 +476,6 @@ exports[`Options Keys hoistProto = true 1`] = `
 }
 `;
 
-exports[`Options Keys mergeProto = false 1`] = `
-{
-  "a": 1,
-}
-`;
-
-exports[`Options Keys mergeProto = true 1`] = `
-{
-  "a": 1,
-  "b": true,
-}
-`;
-
 exports[`Options Keys onlyCommonKeys + onlyKeys 1`] = `
 {
   "b": [
