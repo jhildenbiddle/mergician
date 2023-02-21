@@ -118,7 +118,7 @@ import mergician from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.m
 
 ```html
 <!-- Global "mergician" @ latest v1.x.x (see @ version in URL) -->
-<script src="https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.js">
+<script src="https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.js"></script>
 ```
 
 !> Note the `@` version lock in the URLs above. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version after the `@` symbol.
