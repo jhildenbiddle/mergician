@@ -1,5 +1,17 @@
 # Change Log
 
+## Unreleased
+
+- Add `hoistProto` option
+- Add `mergeGetterValues` option
+- Add `skipSetters` option
+- Add support for circular references
+- Add unminified IIFE distributable
+- Fix callback return values not replacing getter/setter properties
+- Fix internal object detection
+- Fix missing `</script>` tag in docs
+- Update dependencies
+
 ## 1.0.1 - 1.0.3
 
 *2022-07-28 - 2022-08-01*
