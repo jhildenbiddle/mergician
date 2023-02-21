@@ -157,7 +157,7 @@ function mergician(...optionsOrObjects) {
             mergeKeyList = mergeKeyList.filter(key => settings.onlyKeys.includes(key));
         }
 
-        const result = objects.reduce((targetObj, srcObj) => {
+        const newObj = objects.reduce((targetObj, srcObj) => {
             circularRefs.set(srcObj, targetObj);
 
             let keys = mergeKeyList || _getObjectKeys(srcObj);
@@ -388,7 +388,7 @@ function mergician(...optionsOrObjects) {
             }
         }
 
-        return result;
+        return newObj;
     }
 
     // With options
