@@ -52,10 +52,15 @@ const esmMinified = {
     outfile: config.outfile.replace(/\.js$/, '.min.mjs'),
 };
 
-const jsMinified = {
+const iife = {
     ...config,
     format: 'iife',
     globalName: 'mergician',
+    outfile: config.outfile.replace(/\.js$/, '.js'),
+};
+
+const iifeMinified = {
+    ...iife,
     minify: true,
     legalComments: 'none',
     sourcemap: true,
@@ -68,7 +73,7 @@ const jsMinified = {
 // eslint-disable-next-line no-console
 console.log(`esbuild: ${isWatch ? 'watching' : 'building'}...`);
 
-[cjs, esm, esmMinified, jsMinified].forEach(config => {
+[cjs, esm, esmMinified, iife, iifeMinified].forEach(config => {
     esbuild
         .build(config)
         .then(() => {
