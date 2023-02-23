@@ -268,9 +268,9 @@ describe('Options', () => {
     });
 
     describe('Values', () => {
-        test('mergeGetterValues = false', () => {
+        test('invokeGetters = false', () => {
             const mergedObj = mergician({
-                mergeGetterValues: false
+                invokeGetters: false
             })({}, testObjGetter);
             const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
 
@@ -278,9 +278,9 @@ describe('Options', () => {
             expect(fullNameDescriptor).toHaveProperty('get');
         });
 
-        test('mergeGetterValues = true', () => {
+        test('invokeGetters = true', () => {
             const mergedObj = mergician({
-                mergeGetterValues: true
+                invokeGetters: true
             })({}, testObjGetter);
             const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
 

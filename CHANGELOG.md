@@ -2,9 +2,9 @@
 
 ## Unreleased
 
-- Add `hoistProto` option
-- Add `mergeGetterValues` option
+- Add `invokeGetters` option
 - Add `skipSetters` option
+- Add `hoistProto` option
 - Add support for circular references
 - Add unminified IIFE distributable
 - Fix callback return values not replacing getter/setter properties

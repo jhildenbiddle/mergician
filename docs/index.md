@@ -221,7 +221,7 @@ console.log(mergedObj); // { b: [2, 3] }
 
 **Values**
 
-- [mergeGetterValues](#mergegettervalues)
+- [invokeGetters](#invokegetters)
 - [skipSetters](#skipsetters)
 
 **Arrays**
@@ -356,9 +356,9 @@ const mergedObj = mergician({
 console.log(mergedObj); // { b: { d: 3 }, e: 3 }
 ```
 
-### mergeGetterValues
+### invokeGetters
 
-Merge "getter" values instead of methods.
+Invoke "getter" methods and merge returned values.
 
 - Type: `Boolean`
 - Default: `false`
@@ -372,7 +372,7 @@ const obj1 = {
 };
 const clonedObj1 = mergician({}, obj1);
 const clonedObj2 = mergician({
-    mergeGetterValues: true
+    invokeGetters: true
 })({}, obj1);
 
 console.log(obj1);       // { a: 1, b: [Getter] }
@@ -382,7 +382,7 @@ console.log(clonedObj2); // { a: 1, b: 2 }
 
 ### skipSetters
 
-Do not merge "setter" methods. Note that "setters" will be available during callback functions.
+Skip "setter" methods during merge. These methods wil be accessible to callback functions so that they can be called directly and/or replaced with alternate values if necessary.
 
 - Type: `Boolean`
 - Default: `false`

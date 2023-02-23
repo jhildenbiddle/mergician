@@ -17,7 +17,7 @@ const defaults = {
     skipCommonKeys: false,
     skipUniversalKeys: false,
     // Values
-    mergeGetterValues: false,
+    invokeGetters: false,
     skipSetters: false,
     // Arrays
     appendArrays: false,
@@ -55,7 +55,7 @@ const defaults = {
  *   skipCommonKeys: false,
  *   skipUniversalKeys: false,
  *   // Values
- *   mergeGetterValues: false,
+ *   invokeGetters: false,
  *   skipSetters: false,
  *   // Arrays
  *   appendArrays: false,
@@ -83,10 +83,10 @@ const defaults = {
  * multiple objects (merge only single occurrence keys)
  * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in all
  * objects (merge only common keys)
- * @param {boolean} [options.mergeGetterValues = false] - Merge "getter" values
- * instead of methods
- * @param {boolean} [options.skipSetters = false] - Do not merge "setter"
- * methods
+ * @param {boolean} [options.invokeGetters = false] - Invoke "getter" methods
+ * and merge returned values
+ * @param {boolean} [options.skipSetters = false] - Skip "setter" methods during
+ * merge
  * @param {boolean} [options.appendArrays = false] - Merge array values at the
  * end of existing arrays
  * @param {boolean} [options.prependArrays = false] - Merge array values at the
@@ -356,7 +356,7 @@ function mergician(...optionsOrObjects) {
                 else {
                     const mergeDescriptor = Object.getOwnPropertyDescriptor(srcObj, key);
 
-                    if (mergeDescriptor && typeof mergeDescriptor.get === 'function' && !settings.mergeGetterValues) {
+                    if (mergeDescriptor && typeof mergeDescriptor.get === 'function' && !settings.invokeGetters) {
                         if (settings.skipSetters) {
                             mergeDescriptor.set = undefined;
                         }

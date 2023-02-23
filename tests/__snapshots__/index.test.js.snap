@@ -622,7 +622,7 @@ exports[`Options Keys skipUniversalKeys 1`] = `
 }
 `;
 
-exports[`Options Values mergeGetterValues = false 1`] = `
+exports[`Options Values invokeGetters = false 1`] = `
 {
   "firstname": "John",
   "fullname": "John Smith",
@@ -630,7 +630,7 @@ exports[`Options Values mergeGetterValues = false 1`] = `
 }
 `;
 
-exports[`Options Values mergeGetterValues = true 1`] = `
+exports[`Options Values invokeGetters = true 1`] = `
 {
   "firstname": "John",
   "fullname": "John Smith",
