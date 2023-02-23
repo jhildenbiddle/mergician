@@ -1,6 +1,8 @@
 # Change Log
 
-## Unreleased
+## 1.1.0
+
+*2023-02-23*
 
 - Add `invokeGetters` option
 - Add `skipSetters` option

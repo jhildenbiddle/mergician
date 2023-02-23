@@ -69,22 +69,6 @@ describe('Default options', () => {
         expect(mergedObj).toMatchSnapshot();
     });
 
-    // test('clone object prototype', () => {
-    //     const testObj = { a: 1 };
-    //     const testObjProto = Object.getPrototypeOf(testObj);
-
-    //     // testObjProto.b = true;
-
-    //     // const mergedObj = mergician({}, testObj);
-    //     // const mergedObjProto = Object.getPrototypeOf(mergedObj);
-
-    //     // expect(testObj).not.toHaveProperty('b');
-    //     expect(testObjProto).toHaveProperty('b');
-    //     // expect(mergedObj).not.toHaveProperty('b');
-    //     // expect(mergedObjProto).not.toBe(testObjProto);
-    //     // expect(mergedObjProto).not.toHaveProperty('b');
-    // });
-
     test('clone circular object', () => {
         const mergedObj = mergician({}, testCircularObj);
 
