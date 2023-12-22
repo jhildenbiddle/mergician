@@ -100,18 +100,24 @@ function getNotInAll(...arrays) {
  * @return {array} List of keys
  */
 function getObjectKeys(obj, includeProto = false) {
+    const keys =  [...Object.getOwnPropertyNames(obj)];
+
     if (includeProto) {
-        const keys = [];
+        const newProto = Object.getPrototypeOf({});
+        const newProtoDescriptors = Object.getOwnPropertyDescriptors(newProto);
+        const objProto = Object.getPrototypeOf(obj);
+        const objProtoDescriptors = Object.getOwnPropertyDescriptors(objProto);
+        const objProtoKeys = Object.getOwnPropertyNames(objProtoDescriptors);
 
-        for (const key in obj) {
-            keys.push(key);
-        }
+        // Add unique and skip standard prototype keys
+        objProtoKeys.forEach(key => {
+            if (key !== '__proto__' && !(key in newProtoDescriptors)) {
+                keys.push(key);
+            }
+        });
+    }
 
-        return keys;
-    }
-    else {
-        return Object.keys(obj);
-    }
+    return keys;
 }
 
 /**

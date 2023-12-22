@@ -48,14 +48,13 @@ const testObjPerson = { firstname: 'John', lastname: 'Smith' };
 const testObjGetter = Object.assign({}, testObjPerson);
 const testObjSetter = Object.assign({}, testObjPerson);
 const testObjGetterSetter = Object.assign({}, testObjPerson);
-const testObjProto = { a: 1 };
+const testObjProto = Object.create({ b: true }, Object.getOwnPropertyDescriptors({ a: 1 }));
 
 // Apply property descriptors and prototypes to test objects
 Object.defineProperty(testObjPerson, 'fullname', propFullName);
 Object.defineProperty(testObjGetter, 'fullname', propGetFullName);
 Object.defineProperty(testObjSetter, 'fullname', propSetFullName);
 Object.defineProperty(testObjGetterSetter, 'fullname', propGetSetFullName);
-Object.getPrototypeOf(testObjProto).b = true;
 
 
 // Tests
