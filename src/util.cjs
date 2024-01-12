@@ -88,33 +88,27 @@ function getNotInAll(...arrays) {
 }
 
 /**
- * Returns array of an object's own keys and (optionally) those from the
- * object's prototype chain.
+ * Returns array of an object's own keys and (optionally) the enumerable keys
+ * from the object's prototype chain.
  *
  * @example
  * getObjectKeys({ a: 1 }); // ['a']
  * getObjectKeys({ a: 1 }, true); // ['a', 'b', 'c', ...]
  *
  * @param {object} obj - Object to parse
- * @param {boolean} includeProto include key/values from prototype
+ * @param {boolean} enumerable include all enumerable keys
  * @return {array} List of keys
  */
-function getObjectKeys(obj, includeProto = false) {
-    const keys =  [...Object.getOwnPropertyNames(obj)];
+function getObjectKeys(obj, enumerable = false) {
+    let keys = [];
 
-    if (includeProto) {
-        const newProto = Object.getPrototypeOf({});
-        const newProtoDescriptors = Object.getOwnPropertyDescriptors(newProto);
-        const objProto = Object.getPrototypeOf(obj);
-        const objProtoDescriptors = Object.getOwnPropertyDescriptors(objProto);
-        const objProtoKeys = Object.getOwnPropertyNames(objProtoDescriptors);
-
-        // Add unique and skip standard prototype keys
-        objProtoKeys.forEach(key => {
-            if (key !== '__proto__' && !(key in newProtoDescriptors)) {
-                keys.push(key);
-            }
-        });
+    if (enumerable) {
+        for (const key in obj) {
+            keys.push(key);
+        }
+    }
+    else {
+        keys = Object.getOwnPropertyNames(obj);
     }
 
     return keys;

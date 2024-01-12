@@ -3,78 +3,84 @@ const mergician = require('../src/index');
 
 // Test Objects
 // ============================================================================
-// Property descriptors
-const propFullName = {
-    value: 'John Smith',
-    writable: true,
-    enumerable: true,
-    configurable: true
-};
-const propGetFullName = {
-    get() {
-        return `${this.firstname} ${this.lastname}`;
-    },
-    enumerable: true,
-    configurable: true
-};
-const propSetFullName = {
-    set(val) {
-        const names = val.trim().split(' ');
-        this.firstname = names[0];
-        this.lastname = names[1];
-    },
-    enumerable: true,
-    configurable: true
-};
-const propGetSetFullName = {
-    get() {
-        return `${this.firstname} ${this.lastname}`;
-    },
-    set(val) {
-        const names = val.trim().split(' ');
-        this.firstname = names[0];
-        this.lastname = names[1];
-    },
-    enumerable: true,
-    configurable: true
-};
-
-// Objects
-const testObj1 = { a: 1, b: [1, 1], d: true };
+const testObj1 = { a: 1, b: [1, 1], c: { x: 1 }, d: true };
 const testObj2 = { a: 2, b: [2, 2], c: { x: 2, y: [2, '😀'] }, e: null };
 const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
-const testCircularObj = { a: 1, get circular() { return this; } };
-const testObjPerson = { firstname: 'John', lastname: 'Smith' };
-const testObjGetter = Object.assign({}, testObjPerson);
-const testObjSetter = Object.assign({}, testObjPerson);
-const testObjGetterSetter = Object.assign({}, testObjPerson);
-const testObjProto = Object.create({ b: true }, Object.getOwnPropertyDescriptors({ a: 1 }));
-
-// Apply property descriptors and prototypes to test objects
-Object.defineProperty(testObjPerson, 'fullname', propFullName);
-Object.defineProperty(testObjGetter, 'fullname', propGetFullName);
-Object.defineProperty(testObjSetter, 'fullname', propSetFullName);
-Object.defineProperty(testObjGetterSetter, 'fullname', propGetSetFullName);
-
+const testObjCircular = { a: 1, get circular() { return this; } };
+const testObjEnumerable = Object.create(Object.prototype, {
+    enumerableTrue: {
+        configurable: true,
+        enumerable: true,
+        value: true,
+        writable: true,
+    },
+    enumerableFalse: {
+        configurable: true,
+        enumerable: false,
+        value: false,
+        writable: true,
+    }
+});
+const testPerson = Object.create(
+    // Prototype
+    Object.getOwnPropertyDescriptors(testObjEnumerable),
+    // Properties
+    {
+        firstName: {
+            enumerable: true,
+            value: 'John',
+            writable: true,
+        },
+        lastName: {
+            enumerable: true,
+            value: 'Smith',
+            writable: false,
+        },
+        fullName: {
+            enumerable: false,
+            get() {
+                return `${this.firstName} ${this.lastName}`;
+            },
+            set(val) {
+                const names = val.trim().split(' ');
+                this.firstName = names[0] || '';
+                this.lastName = names[1] || '';
+            },
+        }
+    }
+);
 
 // Tests
 // ============================================================================
 describe('Default options', () => {
-    test('clone object', () => {
-        const mergedObj = mergician({}, testObj2);
+    test('clones own enumerable properties', () => {
+        const mergedObj = mergician({}, testObj1);
+        const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
+        const testDescriptors = Object.getOwnPropertyDescriptors(testObj1);
 
-        expect(mergedObj.b).not.toBe(testObj2.b);
-        expect(mergedObj.c).not.toBe(testObj2.c);
-        expect(mergedObj).toMatchSnapshot();
+        expect(mergedObj.a).toBe(testObj1.a);
+        expect(mergedObj.b).not.toBe(testObj1.b);
+        expect(mergedObj.c).not.toBe(testObj1.c);
+        expect(mergedDescriptors).toMatchObject(testDescriptors);
     });
 
-    test('clone circular object', () => {
-        const mergedObj = mergician({}, testCircularObj);
+    test('clones own non-enumerable properties', () => {
+        const mergedObj = mergician({}, testObjEnumerable);
+        const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
+        const testDescriptors = Object.getOwnPropertyDescriptors(testObjEnumerable);
 
-        expect(mergedObj).toMatchSnapshot();
+        expect(mergedObj.enumerableTrue).toBe(true);
+        expect(mergedObj.enumerableFalse).toBe(false);
+        expect(mergedDescriptors).toMatchObject(testDescriptors);
+    });
+
+    test('clones circular object', () => {
+        const mergedObj = mergician({}, testObjCircular);
+
         expect(mergedObj.a).toBe(1);
         expect(mergedObj.circular.a).toBe(1);
         expect(mergedObj.circular.circular.a).toBe(1);
+        expect(mergedObj).toMatchSnapshot();
     });
 
     test('deep merge two objects', () => {
@@ -213,7 +219,7 @@ describe('Options', () => {
 
         test('skipUniversalKeys + onlyKeys', () => {
             const mergedObj = mergician({
-                onlyKeys: ['c'],
+                onlyKeys: ['d'],
                 skipUniversalKeys: true
             })(testObj1, testObj2, testObj3);
 
@@ -229,24 +235,32 @@ describe('Options', () => {
             expect(mergedObj).toMatchSnapshot();
         });
 
-        test('hoistProto = false', () => {
+        test('hoistEnumerable = false', () => {
             const mergedObj = mergician({
-                hoistProto: false
-            })({}, testObjProto);
+                hoistEnumerable: false
+            })({}, testPerson);
+            const testPersonProto = Object.getPrototypeOf(testPerson);
+            const testPersonProtoKeys = Object.getOwnPropertyNames(testPersonProto);
 
+            expect(testPersonProtoKeys.length).toBeGreaterThan(0);
+            testPersonProtoKeys.forEach((key) => {
+                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(false);
+            });
             expect(mergedObj).toMatchSnapshot();
-            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'a')).toBe(true);
-            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'b')).toBe(false);
         });
 
-        test('hoistProto = true', () => {
+        test('hoistEnumerable = true', () => {
             const mergedObj = mergician({
-                hoistProto: true
-            })({}, testObjProto);
+                hoistEnumerable: true
+            })({}, testPerson);
+            const testPersonProto = Object.getPrototypeOf(testPerson);
+            const testPersonProtoKeys = Object.keys(testPersonProto);
 
+            expect(testPersonProtoKeys.length).toBeGreaterThan(0);
+            testPersonProtoKeys.forEach((key) => {
+                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(true);
+            });
             expect(mergedObj).toMatchSnapshot();
-            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'a')).toBe(true);
-            expect(Object.prototype.hasOwnProperty.call(mergedObj, 'b')).toBe(true);
         });
     });
 
@@ -254,41 +268,47 @@ describe('Options', () => {
         test('invokeGetters = false', () => {
             const mergedObj = mergician({
                 invokeGetters: false
-            })({}, testObjGetter);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+            })({}, testPerson);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
 
-            expect(mergedObj).toMatchSnapshot();
             expect(fullNameDescriptor).toHaveProperty('get');
+            expect(mergedObj.fullName).toEqual(testPerson.fullName);
         });
 
         test('invokeGetters = true', () => {
             const mergedObj = mergician({
                 invokeGetters: true
-            })({}, testObjGetter);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+            })({}, testPerson);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
 
-            expect(mergedObj).toMatchSnapshot();
             expect(fullNameDescriptor).not.toHaveProperty('get');
+            expect(fullNameDescriptor).toHaveProperty('value');
+            expect(fullNameDescriptor.value).toEqual(mergedObj.fullName);
         });
 
         test('skipSetters = false', () => {
             const mergedObj = mergician({
                 skipSetters: false
-            })({}, testObjSetter);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+            })({}, testPerson);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
+            const fullNameValue = '   Jane Doe   ';
 
-            expect(mergedObj).toMatchSnapshot();
+            mergedObj.fullName = fullNameValue;
+
             expect(typeof fullNameDescriptor.set).toBe('function');
+            expect(mergedObj.fullName).toEqual(fullNameValue.trim());
         });
 
         test('skipSetters = true', () => {
             const mergedObj = mergician({
                 skipSetters: true
-            })({}, testObjSetter);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
+            })({}, testPerson);
+            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
 
-            expect(mergedObj).toMatchSnapshot();
-            expect(fullNameDescriptor).toBeUndefined();
+            mergedObj.fullName = 'Fail';
+
+            expect(fullNameDescriptor.set).toBeUndefined();
+            expect(mergedObj.fullName).toEqual(testPerson.fullName);
         });
     });
 
@@ -508,14 +528,9 @@ describe('Options', () => {
                 beforeEach() {
                     return 'baz';
                 }
-            })(testObj1, testObj2, testObjGetterSetter);
+            })({}, testPerson);
 
             expect(mergedObj).toMatchSnapshot();
-
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
-
-            expect(fullNameDescriptor).not.toHaveProperty('get');
-            expect(fullNameDescriptor).not.toHaveProperty('set');
         });
 
         test('beforeEach() without return value', () => {
@@ -568,14 +583,9 @@ describe('Options', () => {
                 afterEach() {
                     return 'baz';
                 }
-            })(testObj1, testObj2, testObjGetterSetter);
+            })(testObj1, testObj2);
 
             expect(mergedObj).toMatchSnapshot();
-
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullname');
-
-            expect(fullNameDescriptor).not.toHaveProperty('get');
-            expect(fullNameDescriptor).not.toHaveProperty('set');
         });
 
         test('afterEach() without return value', () => {
@@ -596,7 +606,7 @@ describe('Options', () => {
                     expect(srcVal).toBe(srcObj);
                     expect(isObject(targetObj)).toBe(true);
                 }
-            })({}, testCircularObj);
+            })({}, testObjCircular);
 
             expect(mergedObj).toMatchSnapshot();
         });
@@ -604,7 +614,7 @@ describe('Options', () => {
         test('onCircular() without return value', () => {
             const mergedObj = mergician({
                 onCircular() {}
-            })({}, testCircularObj);
+            })({}, testObjCircular);
 
             expect(mergedObj).toMatchSnapshot();
             expect(mergedObj.a).toBe(1);
@@ -617,7 +627,7 @@ describe('Options', () => {
                 onCircular() {
                     return true;
                 }
-            })({}, testCircularObj);
+            })({}, testObjCircular);
 
             expect(mergedObj).toMatchSnapshot();
         });
@@ -726,22 +736,24 @@ describe('Accessors', () => {
             beforeEach({ key }) {
                 if (key === 'a') {
                     return {
+                        enumerable: true,
                         get() { return 'foo'; },
                         set() { this.testa = 'bar'; }
                     };
                 }
                 if (key === 'b') {
                     return {
+                        configurable: true,
+                        enumerable: true,
                         value: 2,
                         writable: true,
-                        configurable: true,
-                        enumerable: true
                     };
                 }
             },
             afterEach({ key }) {
                 if (key === 'c') {
                     return {
+                        enumerable: true,
                         get() { return 'baz'; },
                         set() { this.testc = 'qux'; }
                     };

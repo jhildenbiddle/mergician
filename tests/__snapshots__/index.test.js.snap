@@ -52,28 +52,10 @@ exports[`Accessors handles setters 1`] = `
 }
 `;
 
-exports[`Default options clone circular object 1`] = `
+exports[`Default options clones circular object 1`] = `
 {
   "a": 1,
   "circular": [Circular],
-}
-`;
-
-exports[`Default options clone object 1`] = `
-{
-  "a": 2,
-  "b": [
-    2,
-    2,
-  ],
-  "c": {
-    "x": 2,
-    "y": [
-      2,
-      "😀",
-    ],
-  },
-  "e": null,
 }
 `;
 
@@ -367,9 +349,6 @@ exports[`Options Callbacks afterEach() return value 1`] = `
 {
   "a": "baz",
   "b": "baz",
-  "firstname": "baz",
-  "fullname": "baz",
-  "lastname": "baz",
 }
 `;
 
@@ -393,11 +372,9 @@ exports[`Options Callbacks beforeEach() arguments 1`] = `
 
 exports[`Options Callbacks beforeEach() with return value 1`] = `
 {
-  "a": "baz",
-  "b": "baz",
-  "firstname": "baz",
-  "fullname": "baz",
-  "lastname": "baz",
+  "firstName": "baz",
+  "fullName": "baz",
+  "lastName": "baz",
 }
 `;
 
@@ -463,16 +440,18 @@ exports[`Options Callbacks onCircular() without return value 1`] = `
 }
 `;
 
-exports[`Options Keys hoistProto = false 1`] = `
+exports[`Options Keys hoistEnumerable = false 1`] = `
 {
-  "a": 1,
+  "firstName": "John",
+  "lastName": "Smith",
 }
 `;
 
-exports[`Options Keys hoistProto = true 1`] = `
+exports[`Options Keys hoistEnumerable = true 1`] = `
 {
-  "a": 1,
-  "b": true,
+  "enumerableTrue": true,
+  "firstName": "John",
+  "lastName": "Smith",
 }
 `;
 
@@ -496,10 +475,6 @@ exports[`Options Keys onlyCommonKeys + skipKeys 1`] = `
   ],
   "c": {
     "x": 3,
-    "y": [
-      3,
-      "😀",
-    ],
   },
 }
 `;
@@ -513,10 +488,6 @@ exports[`Options Keys onlyCommonKeys 1`] = `
   ],
   "c": {
     "x": 3,
-    "y": [
-      3,
-      "😀",
-    ],
   },
 }
 `;
@@ -548,6 +519,9 @@ exports[`Options Keys onlyUniversalKeys + skipKeys 1`] = `
     3,
     3,
   ],
+  "c": {
+    "x": 3,
+  },
 }
 `;
 
@@ -558,6 +532,9 @@ exports[`Options Keys onlyUniversalKeys 1`] = `
     3,
     3,
   ],
+  "c": {
+    "x": 3,
+  },
 }
 `;
 
@@ -600,7 +577,7 @@ exports[`Options Keys skipKeys 1`] = `
 
 exports[`Options Keys skipUniversalKeys + onlyKeys 1`] = `
 {
-  "c": {},
+  "d": true,
 }
 `;
 
@@ -613,42 +590,8 @@ exports[`Options Keys skipUniversalKeys + skipKeys 1`] = `
 
 exports[`Options Keys skipUniversalKeys 1`] = `
 {
-  "c": {
-    "z": 3,
-  },
   "d": true,
   "e": null,
-}
-`;
-
-exports[`Options Values invokeGetters = false 1`] = `
-{
-  "firstname": "John",
-  "fullname": "John Smith",
-  "lastname": "Smith",
-}
-`;
-
-exports[`Options Values invokeGetters = true 1`] = `
-{
-  "firstname": "John",
-  "fullname": "John Smith",
-  "lastname": "Smith",
-}
-`;
-
-exports[`Options Values skipSetters = false 1`] = `
-{
-  "firstname": "John",
-  "fullname": undefined,
-  "lastname": "Smith",
-}
-`;
-
-exports[`Options Values skipSetters = true 1`] = `
-{
-  "firstname": "John",
-  "lastname": "Smith",
 }
 `;
 
