@@ -1,7 +1,7 @@
 {
   "name": "mergician",
   "version": "1.1.0",
-  "description": "Uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects. Handles descriptor values, accessor functions, and custom prototype properties. Provides advanced options for customizing the merge/clone process: inspect, filter, and modify properties; merge or skip common, universal, and unique keys (intersections, unions, and differences); merge, sort, and remove duplicate array items; and merge, hoist, and skip prototype properties.",
+  "description": "Uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects. Supports descriptor values, accessor functions, and custom prototypes. Provides advanced options for customizing the clone/merge process.",
   "author": "John Hildenbiddle",
   "license": "MIT",
   "homepage": "https://jhildenbiddle.github.io/mergician/",
