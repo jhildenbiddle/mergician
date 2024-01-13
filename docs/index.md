@@ -9,9 +9,9 @@
 [![Add a star on GitHub](https://img.shields.io/github/stars/jhildenbiddle/mergician?style=social)](https://github.com/jhildenbiddle/mergician)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fjhildenbiddle%2Fmergician&hashtags=developers,frontend,javascript)
 
-Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
+Mergician is a uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects.
 
-Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., intersections, unions, and differences); and merge, sort, and remove duplicates from arrays. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on new merged/cloned objects.
+Unlike native methods and other clone/merge utilities, Mergician faithfully handles [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and custom prototype properties while providing options for customizing the clone/merge process. These options make it easy to inspect, filter, and modify properties; merge or skip common, universal, and unique keys (i.e., intersections, unions, and differences); merge, sort, and remove duplicate array items; and merge, hoist, and skip prototype properties.
 
 ## Demo
 
@@ -496,7 +496,7 @@ console.log(mergedDescending); // { a: [6, 5, 4, 3, 2, 1] }
 
 ### hoistEnumerable()
 
-Clone enumerable prototype properties as direct properties of merged/cloned object.
+Clone enumerable prototype properties as direct properties of new clone/merge object.
 
 - Type: `Boolean`
 - Default: `false`

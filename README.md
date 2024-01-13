@@ -7,9 +7,9 @@
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/mergician/badge)](https://www.jsdelivr.com/package/npm/mergician)
 [![Sponsor this project](https://img.shields.io/static/v1?style=flat-square&label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/jhildenbiddle)
 
-Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects.
+Mergician is a uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects.
 
-Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., intersections, unions, and differences); and merge, sort, and remove duplicates from arrays. Property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on new merged/cloned objects.
+Unlike native methods and other clone/merge utilities, Mergician faithfully handles [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and custom prototype properties while providing options for customizing the clone/merge process. These options make it easy to inspect, filter, and modify properties; merge or skip common, universal, and unique keys (i.e., intersections, unions, and differences); merge, sort, and remove duplicate array items; and merge, hoist, and skip prototype properties.
 
 - [Documentation & Demos](https://jhildenbiddle.github.io/mergician/)
 
