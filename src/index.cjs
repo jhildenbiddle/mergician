@@ -157,7 +157,7 @@ function mergician(...optionsOrObjects) {
             mergeKeyList = mergeKeyList.filter(key => settings.onlyKeys.includes(key));
         }
 
-        const newObj = objects.reduce((targetObj, srcObj) => {
+        let newObj = objects.reduce((targetObj, srcObj) => {
             circularRefs.set(srcObj, targetObj);
 
             let keys = mergeKeyList || _getObjectKeys(srcObj);
@@ -402,6 +402,24 @@ function mergician(...optionsOrObjects) {
             }
         }
 
+        // Detect custom prototype properties
+        const customProtos = objects.reduce((protosArr, obj) => {
+            const proto = Object.getPrototypeOf(obj);
+
+            if (proto && proto !== Object.prototype) {
+                protosArr.push(proto);
+            }
+
+            return protosArr;
+        }, []);
+
+        // Merge custom prototype properties
+        if (customProtos.length) {
+            const mergeProto = _mergician(...customProtos);
+
+            newObj = Object.create(mergeProto, Object.getOwnPropertyDescriptors(newObj));
+        }
+
         return newObj;
     }
 
@@ -421,26 +439,7 @@ function mergician(...optionsOrObjects) {
     // Without options
     // Ex: mergician(obj1, obj2);
     else {
-        let mergeObj = _mergician(...arguments);
-
-        // Detect custom prototypes (e.g, class instances, Object.create, etc.)
-        const customProtos = [...arguments].reduce((protosArr, obj) => {
-            const proto = Object.getPrototypeOf(obj);
-
-            if (proto !== Object.prototype) {
-                protosArr.push(proto);
-            }
-
-            return protosArr;
-        }, []);
-
-        if (customProtos.length) {
-            const mergeProto = _mergician({}, ...customProtos);
-
-            mergeObj = Object.create(mergeProto, Object.getOwnPropertyDescriptors(mergeObj));
-        }
-
-        return mergeObj;
+        return _mergician(...arguments);
     }
 }
 

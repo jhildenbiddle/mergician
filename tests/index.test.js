@@ -93,6 +93,27 @@ describe('Default options', () => {
 
         expect(mergedObj).toMatchSnapshot();
     });
+
+    test('deep custom prototype properties', () => {
+        const testObj1 = Object.create(
+            {
+                value() { return 1; }
+            },
+            Object.getOwnPropertyDescriptors({ foo: true })
+        );
+        const testObj2 = Object.create(
+            {
+                value() { return 2; }
+            },
+            Object.getOwnPropertyDescriptors({ bar: true })
+        );
+        const mergedObj = mergician(testObj1, testObj2);
+
+        expect(mergedObj).toHaveProperty('foo');
+        expect(mergedObj).toHaveProperty('bar');
+        expect(mergedObj).toHaveProperty('value');
+        expect(mergedObj.value()).toBe(2);
+    });
 });
 
 describe('Options', () => {
