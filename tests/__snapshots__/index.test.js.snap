@@ -52,7 +52,7 @@ exports[`Accessors handles setters 1`] = `
 }
 `;
 
-exports[`Default options clones circular object 1`] = `
+exports[`Default options clone circular object 1`] = `
 {
   "a": 1,
   "circular": [Circular],

@@ -377,9 +377,9 @@ function mergician(...optionsOrObjects) {
                     }
                 }
 
-                if (!mergeDescriptor.get && !mergeDescriptor.set && !mergeDescriptor.value) {
+                if (!mergeDescriptor.get && !mergeDescriptor.set && !('value' in mergeDescriptor)) {
                     mergeDescriptor.value = mergeVal;
-                    mergeDescriptor.writable = true;
+                    mergeDescriptor.writable = srcDescriptor && 'writable' in srcDescriptor ? srcDescriptor.writable : true;
                 }
 
                 Object.defineProperty(targetObj, key, mergeDescriptor);
@@ -421,7 +421,26 @@ function mergician(...optionsOrObjects) {
     // Without options
     // Ex: mergician(obj1, obj2);
     else {
-        return _mergician(...arguments);
+        let mergeObj = _mergician(...arguments);
+
+        // Detect custom prototypes (e.g, class instances, Object.create, etc.)
+        const customProtos = [...arguments].reduce((protosArr, obj) => {
+            const proto = Object.getPrototypeOf(obj);
+
+            if (proto !== Object.prototype) {
+                protosArr.push(proto);
+            }
+
+            return protosArr;
+        }, []);
+
+        if (customProtos.length) {
+            const mergeProto = _mergician({}, ...customProtos);
+
+            mergeObj = Object.create(mergeProto, Object.getOwnPropertyDescriptors(mergeObj));
+        }
+
+        return mergeObj;
     }
 }
 

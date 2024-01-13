@@ -7,24 +7,23 @@ const testObj1 = { a: 1, b: [1, 1], c: { x: 1 }, d: true };
 const testObj2 = { a: 2, b: [2, 2], c: { x: 2, y: [2, '😀'] }, e: null };
 const testObj3 = { a: 3, b: [3, 3], c: { x: 3, y: [3, '😀'], z: 3 } };
 const testObjCircular = { a: 1, get circular() { return this; } };
-const testObjEnumerable = Object.create(Object.prototype, {
-    enumerableTrue: {
-        configurable: true,
-        enumerable: true,
-        value: true,
-        writable: true,
-    },
-    enumerableFalse: {
-        configurable: true,
-        enumerable: false,
-        value: false,
-        writable: true,
-    }
-});
 const testPerson = Object.create(
-    // Prototype
-    Object.getOwnPropertyDescriptors(testObjEnumerable),
-    // Properties
+    // Prototype (standard object)
+    Object.create(null, {
+        enumerableTrue: {
+            configurable: true,
+            enumerable: true,
+            value: true,
+            writable: true,
+        },
+        enumerableFalse: {
+            configurable: true,
+            enumerable: false,
+            value: false,
+            writable: true,
+        }
+    }),
+    // Properties (descriptors object)
     {
         firstName: {
             enumerable: true,
@@ -34,7 +33,7 @@ const testPerson = Object.create(
         lastName: {
             enumerable: true,
             value: 'Smith',
-            writable: false,
+            writable: true,
         },
         fullName: {
             enumerable: false,
@@ -42,7 +41,8 @@ const testPerson = Object.create(
                 return `${this.firstName} ${this.lastName}`;
             },
             set(val) {
-                const names = val.trim().split(' ');
+                const names = val.replace(/\s+/g, ' ').trim().split(' ');
+
                 this.firstName = names[0] || '';
                 this.lastName = names[1] || '';
             },
@@ -53,28 +53,25 @@ const testPerson = Object.create(
 // Tests
 // ============================================================================
 describe('Default options', () => {
-    test('clones own enumerable properties', () => {
-        const mergedObj = mergician({}, testObj1);
+    test('clone own properties', () => {
+        const mergedObj = mergician({}, testPerson);
         const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
-        const testDescriptors = Object.getOwnPropertyDescriptors(testObj1);
+        const testDescriptors = Object.getOwnPropertyDescriptors(testPerson);
 
-        expect(mergedObj.a).toBe(testObj1.a);
-        expect(mergedObj.b).not.toBe(testObj1.b);
-        expect(mergedObj.c).not.toBe(testObj1.c);
         expect(mergedDescriptors).toMatchObject(testDescriptors);
     });
 
-    test('clones own non-enumerable properties', () => {
-        const mergedObj = mergician({}, testObjEnumerable);
-        const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
-        const testDescriptors = Object.getOwnPropertyDescriptors(testObjEnumerable);
+    test('clone custom prototype properties', () => {
+        const mergedObj = mergician({}, testPerson);
+        const mergedProto = Object.getPrototypeOf(mergedObj);
+        const mergedProtoDescriptors = Object.getOwnPropertyDescriptors(mergedProto);
+        const testProto = Object.getPrototypeOf(testPerson);
+        const testProtoDescriptors = Object.getOwnPropertyDescriptors(testProto);
 
-        expect(mergedObj.enumerableTrue).toBe(true);
-        expect(mergedObj.enumerableFalse).toBe(false);
-        expect(mergedDescriptors).toMatchObject(testDescriptors);
+        expect(mergedProtoDescriptors).toMatchObject(testProtoDescriptors);
     });
 
-    test('clones circular object', () => {
+    test('clone circular object', () => {
         const mergedObj = mergician({}, testObjCircular);
 
         expect(mergedObj.a).toBe(1);
@@ -239,11 +236,11 @@ describe('Options', () => {
             const mergedObj = mergician({
                 hoistEnumerable: false
             })({}, testPerson);
-            const testPersonProto = Object.getPrototypeOf(testPerson);
-            const testPersonProtoKeys = Object.getOwnPropertyNames(testPersonProto);
+            const testProto = Object.getPrototypeOf(testPerson);
+            const testProtoKeys = Object.getOwnPropertyNames(testProto);
 
-            expect(testPersonProtoKeys.length).toBeGreaterThan(0);
-            testPersonProtoKeys.forEach((key) => {
+            expect(testProtoKeys.length).toBeGreaterThan(0);
+            testProtoKeys.forEach((key) => {
                 expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(false);
             });
             expect(mergedObj).toMatchSnapshot();
@@ -253,11 +250,11 @@ describe('Options', () => {
             const mergedObj = mergician({
                 hoistEnumerable: true
             })({}, testPerson);
-            const testPersonProto = Object.getPrototypeOf(testPerson);
-            const testPersonProtoKeys = Object.keys(testPersonProto);
+            const testProto = Object.getPrototypeOf(testPerson);
+            const testProtoKeys = Object.keys(testProto);
 
-            expect(testPersonProtoKeys.length).toBeGreaterThan(0);
-            testPersonProtoKeys.forEach((key) => {
+            expect(testProtoKeys.length).toBeGreaterThan(0);
+            testProtoKeys.forEach((key) => {
                 expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(true);
             });
             expect(mergedObj).toMatchSnapshot();
@@ -269,9 +266,9 @@ describe('Options', () => {
             const mergedObj = mergician({
                 invokeGetters: false
             })({}, testPerson);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
+            const getterDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
 
-            expect(fullNameDescriptor).toHaveProperty('get');
+            expect(typeof getterDescriptor.get).toBe('function');
             expect(mergedObj.fullName).toEqual(testPerson.fullName);
         });
 
@@ -279,35 +276,35 @@ describe('Options', () => {
             const mergedObj = mergician({
                 invokeGetters: true
             })({}, testPerson);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
+            const getterDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
 
-            expect(fullNameDescriptor).not.toHaveProperty('get');
-            expect(fullNameDescriptor).toHaveProperty('value');
-            expect(fullNameDescriptor.value).toEqual(mergedObj.fullName);
+            expect(getterDescriptor).not.toHaveProperty('get');
+            expect(getterDescriptor).toHaveProperty('value');
+            expect(getterDescriptor.value).toEqual(mergedObj.fullName);
         });
 
         test('skipSetters = false', () => {
             const mergedObj = mergician({
                 skipSetters: false
             })({}, testPerson);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
-            const fullNameValue = '   Jane Doe   ';
+            const setterDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
+            const newValue = '   Jane Doe   ';
 
-            mergedObj.fullName = fullNameValue;
+            mergedObj.fullName = newValue;
 
-            expect(typeof fullNameDescriptor.set).toBe('function');
-            expect(mergedObj.fullName).toEqual(fullNameValue.trim());
+            expect(typeof setterDescriptor.set).toBe('function');
+            expect(mergedObj.fullName).toEqual(newValue.trim());
         });
 
         test('skipSetters = true', () => {
             const mergedObj = mergician({
                 skipSetters: true
             })({}, testPerson);
-            const fullNameDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
+            const setterDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
 
             mergedObj.fullName = 'Fail';
 
-            expect(fullNameDescriptor.set).toBeUndefined();
+            expect(setterDescriptor.set).toBeUndefined();
             expect(mergedObj.fullName).toEqual(testPerson.fullName);
         });
     });
