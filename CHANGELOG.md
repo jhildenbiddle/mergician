@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.0.0
+
+*TBD*
+
+- ❗️ Breaking: Clone/merge non-enumerable properties
+- ❗️ Breaking: Clone/merge custom prototype properties
+- ❗️ Breaking: Remove hoistProto option
+- Add `hoistEnumerable` option
+
 ## 1.1.0
 
 *2023-02-23*
