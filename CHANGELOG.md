@@ -4,10 +4,11 @@
 
 *TBD*
 
-- ❗️ Breaking: Clone/merge non-enumerable properties
-- ❗️ Breaking: Clone/merge custom prototype properties
-- ❗️ Breaking: Remove hoistProto option
+- ❗️ Breaking: Clone/merge non-enumerable properties (default)
+- ❗️ Breaking: Clone/merge custom prototype properties (default)
+- ❗️ Breaking: Remove `hoistProto` option
 - Add `hoistEnumerable` option
+- Add `skipProto` option
 
 ## 1.1.0
 

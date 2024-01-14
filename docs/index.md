@@ -515,6 +515,37 @@ console.log(clonedObj); // { a: 1, b: 2 }
 console.log(Object.getPrototypeOf(clonedObj)); // {}
 ```
 
+### skipProto()
+
+Skip merging of custom prototype properties.
+
+- Type: `Boolean`
+- Default: `false`
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name; // <= Own property
+  }
+
+  greeting() { // <= Prototype property
+    return `My name is ${this.name}.`;
+  }
+}
+
+const John = new Person('John');
+
+console.log(John); // { name: 'John' };
+console.log(John.greeting()); // My name is John.
+
+const cloneObj = mergician({
+    skipProto: true
+})({}, John);
+
+console.log(cloneObj); // { name: 'John' };
+console.log(cloneObj.greeting()); // undefined
+```
+
 ### filter()
 
 Callback used to conditionally merge or skip a property.

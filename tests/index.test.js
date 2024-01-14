@@ -280,6 +280,27 @@ describe('Options', () => {
             });
             expect(mergedObj).toMatchSnapshot();
         });
+
+        test('skipProto = false', () => {
+            const mergedObj = mergician({
+                skipProto: false
+            })({}, testPerson);
+            const mergedProto = Object.getPrototypeOf(mergedObj);
+            const mergedProtoDescriptors = Object.getOwnPropertyNames(mergedProto);
+            const testProto = Object.getPrototypeOf(testPerson);
+            const testProtoDescriptors = Object.getOwnPropertyNames(testProto);
+
+            expect(mergedProtoDescriptors).toMatchObject(testProtoDescriptors);
+        });
+
+        test('skipProto = true', () => {
+            const mergedObj = mergician({
+                skipProto: true
+            })({}, testPerson);
+            const mergedProto = Object.getPrototypeOf(mergedObj);
+
+            expect(mergedProto).toMatchObject(Object.prototype);
+        });
     });
 
     describe('Values', () => {

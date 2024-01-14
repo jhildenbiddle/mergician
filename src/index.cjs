@@ -26,6 +26,7 @@ const defaults = {
     sortArrays: false,
     // Prototype
     hoistEnumerable: false,
+    skipProto: false,
     // Callbacks
     filter: Function.prototype,
     beforeEach: Function.prototype,
@@ -64,6 +65,7 @@ const defaults = {
  *   sortArrays: false,
  *   // Prototype
  *   hoistEnumerable: false,
+ *   skipProto: false,
  *   // Callbacks
  *   filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
  *   beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
@@ -95,8 +97,10 @@ const defaults = {
  * values in new merged object
  * @param {boolean|function} [options.sortArrays = false] - Sort array values in
  * new merged object
- * @param {boolean} [options.hoistEnumerable = false] - Clone enumerable
- * prototype properties as direct properties of merged/cloned object
+ * @param {boolean} [options.hoistEnumerable = false] - Merge enumerable
+ * prototype properties as direct properties of merged object
+ * @param {boolean} [options.skipProto = false] - Skip merging of custom
+ * prototype properties
  * @param {function} [options.filter] - Callback used to conditionally merge or
  * skip a property. Return a "truthy" value to merge or a "falsy" value to skip.
  * Return no value to proceed according to other option values.
@@ -157,7 +161,7 @@ function mergician(...optionsOrObjects) {
             mergeKeyList = mergeKeyList.filter(key => settings.onlyKeys.includes(key));
         }
 
-        let newObj = objects.reduce((targetObj, srcObj) => {
+        const newObjProps = objects.reduce((targetObj, srcObj) => {
             circularRefs.set(srcObj, targetObj);
 
             let keys = mergeKeyList || _getObjectKeys(srcObj);
@@ -402,25 +406,26 @@ function mergician(...optionsOrObjects) {
             }
         }
 
-        // Detect custom prototype properties
-        const customProtos = objects.reduce((protosArr, obj) => {
-            const proto = Object.getPrototypeOf(obj);
+        // Detect and merge custom prototype properties if available
+        if (!settings.skipProto) {
+            const customProtos = objects.reduce((protosArr, obj) => {
+                const proto = Object.getPrototypeOf(obj);
 
-            if (proto && proto !== Object.prototype) {
-                protosArr.push(proto);
+                if (proto && proto !== Object.prototype) {
+                    protosArr.push(proto);
+                }
+
+                return protosArr;
+            }, []);
+
+            if (customProtos.length) {
+                const newObjProto = _mergician(...customProtos);
+
+                return Object.create(newObjProto, Object.getOwnPropertyDescriptors(newObjProps));
             }
-
-            return protosArr;
-        }, []);
-
-        // Merge custom prototype properties
-        if (customProtos.length) {
-            const mergeProto = _mergician(...customProtos);
-
-            newObj = Object.create(mergeProto, Object.getOwnPropertyDescriptors(newObj));
         }
 
-        return newObj;
+        return newObjProps;
     }
 
     // With options
