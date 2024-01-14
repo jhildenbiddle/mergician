@@ -16,6 +16,22 @@ const bannerData = [
     `${pkg.license} license`
 ];
 
+// Custom plugins
+const buildPlugin = {
+    name: 'watch-plugin',
+    setup(build) {
+        const options = build.initialOptions;
+        const { entryPoints, outfile } = options;
+
+        build.onEnd ((result) => {
+            const statusEmoji = result.errors.length ? '🔴' : '🟢';
+
+            // eslint-disable-next-line no-console
+            console.log(`${statusEmoji} esbuild: ${entryPoints} => ${outfile}`);
+        });
+    },
+};
+
 
 // Config
 // =============================================================================
@@ -27,9 +43,9 @@ const config = {
         js: `/*!\n * ${ bannerData.join('\n * ') }\n */`
     },
     legalComments: 'inline',
+    plugins: [buildPlugin],
     target: ['esnext'],
     outfile: 'dist/mergician.js',
-    watch: isWatch,
 };
 
 const cjs = {
@@ -73,12 +89,13 @@ const iifeMinified = {
 // eslint-disable-next-line no-console
 console.log(`esbuild: ${isWatch ? 'watching' : 'building'}...`);
 
-[cjs, esm, esmMinified, iife, iifeMinified].forEach(config => {
-    esbuild
-        .build(config)
-        .then(() => {
-            // eslint-disable-next-line no-console
-            console.log(`esbuild: ${config.entryPoints} => ${config.outfile}`);
-        })
-        .catch(() => process.exit(1));
+[cjs, esm, esmMinified, iife, iifeMinified].forEach(async (config) => {
+    if (isWatch) {
+        const ctx = await esbuild.context(config);
+
+        await ctx.watch();
+    }
+    else {
+        esbuild.build(config);
+    }
 });
