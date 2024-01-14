@@ -455,6 +455,21 @@ exports[`Options Keys hoistEnumerable = true 1`] = `
 }
 `;
 
+exports[`Options Keys hoistProto = false 1`] = `
+{
+  "firstName": "John",
+  "lastName": "Smith",
+}
+`;
+
+exports[`Options Keys hoistProto = true 1`] = `
+{
+  "enumerableTrue": true,
+  "firstName": "John",
+  "lastName": "Smith",
+}
+`;
+
 exports[`Options Keys onlyCommonKeys + onlyKeys 1`] = `
 {
   "b": [

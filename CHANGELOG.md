@@ -8,6 +8,7 @@
 - ❗️ Breaking: Clone/merge custom prototype properties (default)
 - ❗️ Breaking: Remove `hoistProto` option
 - Add `hoistEnumerable` option
+- Add `hoistProto` option
 - Add `skipProto` option
 
 ## 1.1.0

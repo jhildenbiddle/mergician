@@ -496,7 +496,7 @@ console.log(mergedDescending); // { a: [6, 5, 4, 3, 2, 1] }
 
 ### hoistEnumerable()
 
-Clone enumerable prototype properties as direct properties of new clone/merge object.
+Merge enumerable prototype properties as direct properties of new merge object.
 
 - Type: `Boolean`
 - Default: `false`
@@ -513,6 +513,39 @@ const clonedObj = mergician({
 
 console.log(clonedObj); // { a: 1, b: 2 }
 console.log(Object.getPrototypeOf(clonedObj)); // {}
+```
+
+### hoistProto()
+
+Merge custom prototype properties as direct properties of new merge object.
+
+- Type: `Boolean`
+- Default: `false`
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name; // <= Own property
+  }
+
+  greeting() { // <= Prototype property
+    return `My name is ${this.name}.`;
+  }
+}
+
+const John = new Person('John');
+
+console.log(John.greeting()); // My name is John.
+console.log(John.hasOwnProperty('greeting')); // false
+console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // true
+
+const cloneObj = mergician({
+    hoistProto: true
+})({}, John);
+
+console.log(cloneObj.greeting()); // My name is John.
+console.log(John.hasOwnProperty('greeting')); // true
+console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // false
 ```
 
 ### skipProto()
@@ -537,6 +570,7 @@ const John = new Person('John');
 
 console.log(John); // { name: 'John' };
 console.log(John.greeting()); // My name is John.
+console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // true
 
 const cloneObj = mergician({
     skipProto: true
@@ -544,6 +578,7 @@ const cloneObj = mergician({
 
 console.log(cloneObj); // { name: 'John' };
 console.log(cloneObj.greeting()); // undefined
+console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // false
 ```
 
 ### filter()

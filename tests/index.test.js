@@ -281,14 +281,44 @@ describe('Options', () => {
             expect(mergedObj).toMatchSnapshot();
         });
 
+        test('hoistProto = false', () => {
+            const mergedObj = mergician({
+                hoistProto: false
+            })({}, testPerson);
+            const testProto = Object.getPrototypeOf(testPerson);
+            const testProtoKeys = Object.getOwnPropertyNames(testProto);
+
+            expect(testProtoKeys.length).toBeGreaterThan(0);
+            testProtoKeys.forEach((key) => {
+                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(false);
+            });
+            expect(mergedObj).toMatchSnapshot();
+        });
+
+        test('hoistProto = true', () => {
+            const mergedObj = mergician({
+                hoistProto: true
+            })({}, testPerson);
+            const mergedProto = Object.getPrototypeOf(mergedObj);
+            const testProto = Object.getPrototypeOf(testPerson);
+            const testProtoKeys = Object.getOwnPropertyNames(testProto);
+
+            expect(testProtoKeys.length).toBeGreaterThan(0);
+            testProtoKeys.forEach((key) => {
+                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(true);
+            });
+            expect(mergedObj).toMatchSnapshot();
+            expect(mergedProto).toMatchObject(Object.prototype);
+        });
+
         test('skipProto = false', () => {
             const mergedObj = mergician({
                 skipProto: false
             })({}, testPerson);
             const mergedProto = Object.getPrototypeOf(mergedObj);
-            const mergedProtoDescriptors = Object.getOwnPropertyNames(mergedProto);
+            const mergedProtoDescriptors = Object.getOwnPropertyDescriptors(mergedProto);
             const testProto = Object.getPrototypeOf(testPerson);
-            const testProtoDescriptors = Object.getOwnPropertyNames(testProto);
+            const testProtoDescriptors = Object.getOwnPropertyDescriptors(testProto);
 
             expect(mergedProtoDescriptors).toMatchObject(testProtoDescriptors);
         });

@@ -26,6 +26,7 @@ const defaults = {
     sortArrays: false,
     // Prototype
     hoistEnumerable: false,
+    hoistProto: false,
     skipProto: false,
     // Callbacks
     filter: Function.prototype,
@@ -65,6 +66,7 @@ const defaults = {
  *   sortArrays: false,
  *   // Prototype
  *   hoistEnumerable: false,
+ *   hoistProto: false,
  *   skipProto: false,
  *   // Callbacks
  *   filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
@@ -99,6 +101,8 @@ const defaults = {
  * new merged object
  * @param {boolean} [options.hoistEnumerable = false] - Merge enumerable
  * prototype properties as direct properties of merged object
+ * @param {boolean} [options.hoistProto = false] - Merge custom prototype
+ * properties as direct properties of merged object
  * @param {boolean} [options.skipProto = false] - Skip merging of custom
  * prototype properties
  * @param {function} [options.filter] - Callback used to conditionally merge or
@@ -406,6 +410,8 @@ function mergician(...optionsOrObjects) {
             }
         }
 
+        let newObj = newObjProps;
+
         // Detect and merge custom prototype properties if available
         if (!settings.skipProto) {
             const customProtos = objects.reduce((protosArr, obj) => {
@@ -421,11 +427,16 @@ function mergician(...optionsOrObjects) {
             if (customProtos.length) {
                 const newObjProto = _mergician(...customProtos);
 
-                return Object.create(newObjProto, Object.getOwnPropertyDescriptors(newObjProps));
+                if (settings.hoistProto) {
+                    newObj = _mergician(newObjProto, newObjProps);
+                }
+                else {
+                    newObj = Object.create(newObjProto, Object.getOwnPropertyDescriptors(newObjProps));
+                }
             }
         }
 
-        return newObjProps;
+        return newObj;
     }
 
     // With options
