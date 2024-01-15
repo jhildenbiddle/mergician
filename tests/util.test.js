@@ -4,12 +4,55 @@ const {
     getInAll,
     getNotInMultiple,
     getNotInAll,
+    getObjectKeys,
     isObject
 } = require('../src/util');
 
 const arr1 = ['a', 'b', 'c'];
 const arr2 = ['b', 'c', 'd'];
 const arr3 = ['c', 'd', 'e'];
+const testObj = Object.create(
+    // Prototype (standard object)
+    Object.create(null, {
+        enumerableTrue: {
+            configurable: true,
+            enumerable: true,
+            value: true,
+            writable: true,
+        },
+        enumerableFalse: {
+            configurable: true,
+            enumerable: false,
+            value: false,
+            writable: true,
+        }
+    }),
+    // Properties (descriptors object)
+    {
+        firstName: {
+            enumerable: true,
+            value: 'John',
+            writable: true,
+        },
+        lastName: {
+            enumerable: true,
+            value: 'Smith',
+            writable: true,
+        },
+        fullName: {
+            enumerable: false,
+            get() {
+                return `${this.firstName} ${this.lastName}`;
+            },
+            set(val) {
+                const names = val.replace(/\s+/g, ' ').trim().split(' ');
+
+                this.firstName = names[0] || '';
+                this.lastName = names[1] || '';
+            },
+        }
+    }
+);
 
 describe('countOccurrences', () => {
     test('generates map', () => {
@@ -70,6 +113,20 @@ describe('getNotInAll', () => {
 
     test('gets values not found in three arrays', () => {
         const result = getNotInAll(arr1, arr2, arr3);
+
+        expect(result).toMatchSnapshot();
+    });
+});
+
+describe('getObjectKeys', () => {
+    test('gets own properties', () => {
+        const result = getObjectKeys(testObj);
+
+        expect(result).toMatchSnapshot();
+    });
+
+    test('gets enumerable properties', () => {
+        const result = getObjectKeys(testObj, true);
 
         expect(result).toMatchSnapshot();
     });

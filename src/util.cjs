@@ -20,23 +20,6 @@ function countOccurrences(...arrays) {
 }
 
 /**
- * Returns values found in multiple (possibly all) arrays
- *
- * @example
- * getInMultiple([1, 2], [2, 3]); // [2]
- * getInMultiple([1, 2, 3], [2, 3, 4], [3, 4, 5]); // [2, 3, 4]
- * getInMultiple([1, 2, 3, 'x'], [2, 3, 4, 'x'], [3, 4, 5]); // [2, 3, 4, 'x']
- *
- * @param {...array} arrays - Arrays to be compared
- * @return {array} List of values
- */
-function getInMultiple(...arrays) {
-    const countObj = countOccurrences(...arrays);
-
-    return Object.keys(countObj).filter((v) => countObj[v] > 1);
-}
-
-/**
  * Returns values found in all arrays
  *
  * @example
@@ -54,20 +37,20 @@ function getInAll(...arrays) {
 }
 
 /**
- * Returns values found in one array only (i.e. not multiple)
+ * Returns values found in multiple (possibly all) arrays
  *
  * @example
- * getNotInMultiple([1, 2], [2, 3]); // [1, 3]
- * getNotInMultiple([1, 2, 3], [2, 3, 4], [3, 4, 5]); // [1, 5]
- * getNotInMultiple([1, 2, 3, 'x'], [2, 3, 4, 'x'], [3, 4, 5]); // [1, 5]
+ * getInMultiple([1, 2], [2, 3]); // [2]
+ * getInMultiple([1, 2, 3], [2, 3, 4], [3, 4, 5]); // [2, 3, 4]
+ * getInMultiple([1, 2, 3, 'x'], [2, 3, 4, 'x'], [3, 4, 5]); // [2, 3, 4, 'x']
  *
  * @param {...array} arrays - Arrays to be compared
  * @return {array} List of values
  */
-function getNotInMultiple(...arrays) {
+function getInMultiple(...arrays) {
     const countObj = countOccurrences(...arrays);
 
-    return Object.keys(countObj).filter((v) => countObj[v] === 1);
+    return Object.keys(countObj).filter((v) => countObj[v] > 1);
 }
 
 /**
@@ -88,6 +71,23 @@ function getNotInAll(...arrays) {
 }
 
 /**
+ * Returns values found in one array only (i.e. not multiple)
+ *
+ * @example
+ * getNotInMultiple([1, 2], [2, 3]); // [1, 3]
+ * getNotInMultiple([1, 2, 3], [2, 3, 4], [3, 4, 5]); // [1, 5]
+ * getNotInMultiple([1, 2, 3, 'x'], [2, 3, 4, 'x'], [3, 4, 5]); // [1, 5]
+ *
+ * @param {...array} arrays - Arrays to be compared
+ * @return {array} List of values
+ */
+function getNotInMultiple(...arrays) {
+    const countObj = countOccurrences(...arrays);
+
+    return Object.keys(countObj).filter((v) => countObj[v] === 1);
+}
+
+/**
  * Returns array of an object's own keys and (optionally) the enumerable keys
  * from the object's prototype chain.
  *
@@ -96,19 +96,16 @@ function getNotInAll(...arrays) {
  * getObjectKeys({ a: 1 }, true); // ['a', 'b', 'c', ...]
  *
  * @param {object} obj - Object to parse
- * @param {boolean} enumerable include all enumerable keys
+ * @param {boolean} hoistEnumerable include enumerable prototype properties
  * @return {array} List of keys
  */
-function getObjectKeys(obj, enumerable = false) {
-    let keys = [];
+function getObjectKeys(obj, hoistEnumerable = false) {
+    const keys = Object.getOwnPropertyNames(obj);
 
-    if (enumerable) {
+    if (hoistEnumerable) {
         for (const key in obj) {
-            keys.push(key);
+            !keys.includes(key) && keys.push(key);
         }
-    }
-    else {
-        keys = Object.getOwnPropertyNames(obj);
     }
 
     return keys;

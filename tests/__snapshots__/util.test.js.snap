@@ -67,3 +67,20 @@ exports[`getNotInMultiple gets values found in one of two arrays 1`] = `
   "d",
 ]
 `;
+
+exports[`getObjectKeys gets enumerable properties 1`] = `
+[
+  "firstName",
+  "lastName",
+  "fullName",
+  "enumerableTrue",
+]
+`;
+
+exports[`getObjectKeys gets own properties 1`] = `
+[
+  "firstName",
+  "lastName",
+  "fullName",
+]
+`;
