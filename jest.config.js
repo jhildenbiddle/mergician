@@ -1,6 +1,4 @@
-// Jest Configuration: https://jestjs.io/docs/configuration
-
-module.exports = {
+export default {
     collectCoverage: true,
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',

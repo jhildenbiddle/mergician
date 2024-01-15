@@ -10,7 +10,10 @@ module.exports = {
         'dist'
     ],
     'plugins': [],
-    'parserOptions': {},
+    'parserOptions': {
+        'sourceType': 'module',
+        // ecmaVersion: 2019,
+    },
     'rules': {
         'array-bracket-spacing'      : ['error'],
         'array-callback-return'      : ['error'],

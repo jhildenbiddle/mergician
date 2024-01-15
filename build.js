@@ -1,6 +1,7 @@
-const esbuild = require('esbuild');
-const pkg = { ...require('./package.json') };
+import * as esbuild from 'esbuild';
+import fs from 'node:fs';
 
+const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const isWatch = process.argv.includes('--watch');
 
 // Copyright
