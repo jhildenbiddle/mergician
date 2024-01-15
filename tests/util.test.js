@@ -5,7 +5,8 @@ const {
     getNotInMultiple,
     getNotInAll,
     getObjectKeys,
-    isObject
+    isObject,
+    isPropDescriptor
 } = require('../src/util');
 
 const arr1 = ['a', 'b', 'c'];
@@ -143,5 +144,55 @@ describe('isObject', () => {
 
     test('false for function', () => {
         expect(isObject(Function.prototype)).toBe(false);
+    });
+});
+
+describe('isPropDescriptor', () => {
+    test('false when not an object', () => {
+        const result = isPropDescriptor(null);
+
+        expect(result).toBe(false);
+    });
+
+    test('false without a descriptor property', () => {
+        const result = isPropDescriptor({ a: 1 });
+
+        expect(result).toBe(false);
+    });
+
+    test('true with value and another descriptor prop', () => {
+        const result = isPropDescriptor({
+            configurable: true,
+            value: true,
+        });
+
+        expect(result).toBe(true);
+    });
+
+    test('true with get and a descriptor prop', () => {
+        const result = isPropDescriptor({
+            get() { return true; },
+            enumerable: true,
+        });
+
+        expect(result).toBe(true);
+    });
+
+    test('true with set and a descriptor prop', () => {
+        const result = isPropDescriptor({
+            set() { this.test = true; },
+            enumerable: true,
+        });
+
+        expect(result).toBe(true);
+    });
+
+    test('true with only get and set', () => {
+        const result = isPropDescriptor({
+            get() { return true; },
+            set() { this.test = true; },
+        });
+
+        expect(result).toBe(true);
     });
 });
