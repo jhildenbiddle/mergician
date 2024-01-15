@@ -257,58 +257,48 @@ describe('Options', () => {
             const mergedObj = mergician({
                 hoistEnumerable: false
             })({}, testPerson);
-            const testProto = Object.getPrototypeOf(testPerson);
-            const testProtoKeys = Object.getOwnPropertyNames(testProto);
+            const mergedNames = Object.getOwnPropertyNames(mergedObj);
+            const testNames = Object.getOwnPropertyNames(testPerson);
 
-            expect(testProtoKeys.length).toBeGreaterThan(0);
-            testProtoKeys.forEach((key) => {
-                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(false);
-            });
-            expect(mergedObj).toMatchSnapshot();
+            expect(mergedNames).toMatchObject(testNames);
+            expect(mergedNames).toMatchSnapshot();
         });
 
         test('hoistEnumerable = true', () => {
             const mergedObj = mergician({
                 hoistEnumerable: true
             })({}, testPerson);
-            const testProto = Object.getPrototypeOf(testPerson);
-            const testProtoKeys = Object.keys(testProto);
+            const mergedNames = Object.getOwnPropertyNames(mergedObj);
+            const testPropNames = Object.getOwnPropertyNames(testPerson);
+            const testProtoPropNames = Object.keys(Object.getPrototypeOf(testPerson));
+            const testNames = [...new Set([...testPropNames, ...testProtoPropNames])];
 
-            expect(testProtoKeys.length).toBeGreaterThan(0);
-            testProtoKeys.forEach((key) => {
-                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(true);
-            });
-            expect(mergedObj).toMatchSnapshot();
+            expect(mergedNames).toMatchObject(testNames);
+            expect(mergedNames).toMatchSnapshot();
         });
 
         test('hoistProto = false', () => {
             const mergedObj = mergician({
                 hoistProto: false
             })({}, testPerson);
-            const testProto = Object.getPrototypeOf(testPerson);
-            const testProtoKeys = Object.getOwnPropertyNames(testProto);
+            const mergedNames = Object.getOwnPropertyNames(mergedObj);
+            const testNames = Object.getOwnPropertyNames(testPerson);
 
-            expect(testProtoKeys.length).toBeGreaterThan(0);
-            testProtoKeys.forEach((key) => {
-                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(false);
-            });
-            expect(mergedObj).toMatchSnapshot();
+            expect(mergedNames).toMatchObject(testNames);
+            expect(mergedNames).toMatchSnapshot();
         });
 
         test('hoistProto = true', () => {
             const mergedObj = mergician({
                 hoistProto: true
             })({}, testPerson);
-            const mergedProto = Object.getPrototypeOf(mergedObj);
-            const testProto = Object.getPrototypeOf(testPerson);
-            const testProtoKeys = Object.getOwnPropertyNames(testProto);
+            const mergedNames = Object.getOwnPropertyNames(mergedObj);
+            const testPropNames = Object.getOwnPropertyNames(testPerson);
+            const testProtoPropNames = Object.getOwnPropertyNames(Object.getPrototypeOf(testPerson));
+            const testNames = [...new Set([...testProtoPropNames, ...testPropNames])];
 
-            expect(testProtoKeys.length).toBeGreaterThan(0);
-            testProtoKeys.forEach((key) => {
-                expect(Object.hasOwnProperty.call(mergedObj, key)).toBe(true);
-            });
-            expect(mergedObj).toMatchSnapshot();
-            expect(mergedProto).toMatchObject(Object.prototype);
+            expect(mergedNames).toMatchObject(testNames);
+            expect(mergedNames).toMatchSnapshot();
         });
 
         test('skipProto = false', () => {

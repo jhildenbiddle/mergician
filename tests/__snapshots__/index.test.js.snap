@@ -441,33 +441,38 @@ exports[`Options Callbacks onCircular() without return value 1`] = `
 `;
 
 exports[`Options Keys hoistEnumerable = false 1`] = `
-{
-  "firstName": "John",
-  "lastName": "Smith",
-}
+[
+  "firstName",
+  "lastName",
+  "fullName",
+]
 `;
 
 exports[`Options Keys hoistEnumerable = true 1`] = `
-{
-  "enumerableTrue": true,
-  "firstName": "John",
-  "lastName": "Smith",
-}
+[
+  "firstName",
+  "lastName",
+  "fullName",
+  "enumerableTrue",
+]
 `;
 
 exports[`Options Keys hoistProto = false 1`] = `
-{
-  "firstName": "John",
-  "lastName": "Smith",
-}
+[
+  "firstName",
+  "lastName",
+  "fullName",
+]
 `;
 
 exports[`Options Keys hoistProto = true 1`] = `
-{
-  "enumerableTrue": true,
-  "firstName": "John",
-  "lastName": "Smith",
-}
+[
+  "enumerableTrue",
+  "enumerableFalse",
+  "firstName",
+  "lastName",
+  "fullName",
+]
 `;
 
 exports[`Options Keys onlyCommonKeys + onlyKeys 1`] = `
