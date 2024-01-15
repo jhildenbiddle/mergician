@@ -1,4 +1,4 @@
-const {
+import {
     countOccurrences,
     getInMultiple,
     getInAll,
@@ -7,7 +7,7 @@ const {
     getObjectKeys,
     isObject,
     isPropDescriptor
-} = require('../src/util');
+} from '../src/util.js';
 
 const arr1 = ['a', 'b', 'c'];
 const arr2 = ['b', 'c', 'd'];

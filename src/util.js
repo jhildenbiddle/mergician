@@ -7,7 +7,7 @@
  * @param {...array} arrays - Arrays to be compared
  * @return {object} Array values and their occurrence count
  */
-function countOccurrences(...arrays) {
+export function countOccurrences(...arrays) {
     const countObj = {};
 
     arrays.forEach(array => {
@@ -30,7 +30,7 @@ function countOccurrences(...arrays) {
  * @param {...array} arrays - Arrays to be compared
  * @return {array} List of values
  */
-function getInAll(...arrays) {
+export function getInAll(...arrays) {
     return arrays.reduce((acc, curr) =>
         acc.filter(Set.prototype.has, new Set(curr))
     );
@@ -47,7 +47,7 @@ function getInAll(...arrays) {
  * @param {...array} arrays - Arrays to be compared
  * @return {array} List of values
  */
-function getInMultiple(...arrays) {
+export function getInMultiple(...arrays) {
     const countObj = countOccurrences(...arrays);
 
     return Object.keys(countObj).filter((v) => countObj[v] > 1);
@@ -64,7 +64,7 @@ function getInMultiple(...arrays) {
  * @param {...array} arrays - Arrays to be compared
  * @return {array} List of values
  */
-function getNotInAll(...arrays) {
+export function getNotInAll(...arrays) {
     const countObj = countOccurrences(...arrays);
 
     return Object.keys(countObj).filter((v) => countObj[v] < arrays.length);
@@ -81,7 +81,7 @@ function getNotInAll(...arrays) {
  * @param {...array} arrays - Arrays to be compared
  * @return {array} List of values
  */
-function getNotInMultiple(...arrays) {
+export function getNotInMultiple(...arrays) {
     const countObj = countOccurrences(...arrays);
 
     return Object.keys(countObj).filter((v) => countObj[v] === 1);
@@ -99,7 +99,7 @@ function getNotInMultiple(...arrays) {
  * @param {boolean} hoistEnumerable include enumerable prototype properties
  * @return {array} List of keys
  */
-function getObjectKeys(obj, hoistEnumerable = false) {
+export function getObjectKeys(obj, hoistEnumerable = false) {
     const keys = Object.getOwnPropertyNames(obj);
 
     if (hoistEnumerable) {
@@ -117,7 +117,7 @@ function getObjectKeys(obj, hoistEnumerable = false) {
  * @param {*} obj - Value to test
  * @return {boolean}
  */
-function isObject(value) {
+export function isObject(value) {
     return (
         typeof value === 'object' &&
         value !== null &&
@@ -131,7 +131,7 @@ function isObject(value) {
  * @param {*} obj - Value to test
  * @return {boolean}
  */
-function isPropDescriptor(obj) {
+export function isPropDescriptor(obj) {
     if (!isObject(obj)) {
         return false;
     }
@@ -161,14 +161,3 @@ function isPropDescriptor(obj) {
 
     return isDescriptor;
 }
-
-module.exports = {
-    countOccurrences,
-    getInMultiple,
-    getInAll,
-    getNotInMultiple,
-    getNotInAll,
-    getObjectKeys,
-    isObject,
-    isPropDescriptor
-};

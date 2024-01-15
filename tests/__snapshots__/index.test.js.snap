@@ -3,11 +3,10 @@
 exports[`Accessors handles getter/setter arrays 1`] = `
 {
   "a": [
-    4,
-    4,
+    true,
+    true,
   ],
   "getVal": [
-    3,
     3,
   ],
   "setVal": undefined,

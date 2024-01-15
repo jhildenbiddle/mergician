@@ -38,7 +38,7 @@ const buildPlugin = {
 // =============================================================================
 // Base
 const config = {
-    entryPoints: ['src/index.cjs'],
+    entryPoints: ['src/index.js'],
     bundle: true,
     banner: {
         js: `/*!\n * ${ bannerData.join('\n * ') }\n */`

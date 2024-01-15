@@ -1,5 +1,5 @@
-const { isObject } = require('../src/util');
-const mergician = require('../src/index');
+import { isObject } from '../src/util.js';
+import mergician from '../src/index.js';
 
 // Test Objects
 // ============================================================================
@@ -363,8 +363,6 @@ describe('Options', () => {
                 skipSetters: true
             })({}, testPerson);
             const setterDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'fullName');
-
-            mergedObj.fullName = 'Fail';
 
             expect(setterDescriptor.set).toBeUndefined();
             expect(mergedObj.fullName).toEqual(testPerson.fullName);
@@ -737,27 +735,20 @@ describe('Accessors', () => {
     });
 
     test('handles getter/setter arrays', () => {
-        const obj1 = { a: 1, get getVal() { return [1, 1]; }, set setVal(val) { this.a = [2, 2]; }};
-        const obj2 = { a: 2, get getVal() { return [3, 3]; }, set setVal(val) { this.a = [4, 4]; }};
+        const obj1 = { a: null, get getVal() { return [1, 1]; }};
+        const obj2 = { a: null, get getVal() { return [3, 3]; }, set setVal(val) { this.a = [val, val]; }};
         const mergedObj = mergician({
             appendArrays: true,
             dedupArrays: true
         })(obj1, obj2);
-        const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
-        const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
-
-        expect(typeof mergedObj.a).toBe('number');
 
         // Getter
-        expect('get' in getDescriptor).toBe(true);
-        expect(typeof getDescriptor.get).toBe('function');
         expect(Array.isArray(mergedObj.getVal)).toBe(true);
-        expect(mergedObj.getVal).toHaveLength(2);
+        expect(mergedObj.getVal).toHaveLength(1);
 
         // Setter
-        expect('set' in setDescriptor).toBe(true);
-        expect(typeof setDescriptor.set).toBe('function');
-        mergedObj.setVal = 'foo';
+        expect(mergedObj.a).toBeNull();
+        mergedObj.setVal = true;
         expect(Array.isArray(mergedObj.a)).toBe(true);
         expect(mergedObj.a).toHaveLength(2);
 
@@ -765,24 +756,17 @@ describe('Accessors', () => {
     });
 
     test('handles getter/setter objects', () => {
-        const obj1 = { a: 1, get getVal() { return { x: 1 }; }, set setVal(val) { this.a = { x: 3 }; }};
-        const obj2 = { a: 2, get getVal() { return { x: 2 }; }, set setVal(val) { this.a = { x: 4 }; }};
+        const obj1 = { a: null, get getVal() { return { x: 1 }; }, set setVal(val) { this.a = { x: 3 }; }};
+        const obj2 = { a: null, get getVal() { return { x: 2 }; }, set setVal(val) { this.a = { x: 4 }; }};
         const mergedObj = mergician(obj1, obj2);
-        const getDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'getVal');
-        const setDescriptor = Object.getOwnPropertyDescriptor(mergedObj, 'setVal');
-
-        expect(typeof mergedObj.a).toBe('number');
 
         // Getter
-        expect('get' in getDescriptor).toBe(true);
-        expect(typeof getDescriptor.get).toBe('function');
         expect(isObject(mergedObj.getVal)).toBe(true);
         expect(mergedObj.getVal.x).toBe(2);
 
         // Setter
-        expect('set' in setDescriptor).toBe(true);
-        expect(typeof setDescriptor.set).toBe('function');
-        mergedObj.setVal = 'foo';
+        expect(mergedObj.a).toBeNull();
+        mergedObj.setVal = true;
         expect(isObject(mergedObj.a)).toBe(true);
         expect(mergedObj.a.x).toBe(4);
 

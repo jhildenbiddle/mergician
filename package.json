@@ -69,7 +69,7 @@
     "prepare": "run-s clean build",
     "serve": "node server.js",
     "start": "run-p serve 'build -- --watch'",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "version": "run-s prepare lint escheck test"
   },
   "devDependencies": {

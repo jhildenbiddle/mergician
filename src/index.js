@@ -1,4 +1,4 @@
-const {
+import {
     getInMultiple,
     getInAll,
     getNotInMultiple,
@@ -6,7 +6,7 @@ const {
     getObjectKeys,
     isObject,
     isPropDescriptor
-} = require('./util.cjs');
+} from './util.js';
 
 const defaults = {
     // Keys
@@ -121,7 +121,7 @@ const defaults = {
  * @param {...object} [objects] - Objects to merge
  * @returns {object} New merged object
  */
-function mergician(...optionsOrObjects) {
+export default function mergician(...optionsOrObjects) {
     const options = arguments.length === 1 ? arguments[0] : {};
     const settings = { ...defaults, ...options };
     const dedupArrayMap = new Map();
@@ -346,7 +346,7 @@ function mergician(...optionsOrObjects) {
 
                 if (isPropDescriptor(mergeVal)) {
                     mergeDescriptor = { ...mergeVal };
-                    mergeVal = mergeDescriptor.get ? mergeDescriptor.get() : mergeDescriptor.value;
+                    mergeVal = mergeDescriptor.get ? srcObj[key] : mergeDescriptor.value;
                 }
                 else {
                     mergeDescriptor = {
@@ -367,7 +367,7 @@ function mergician(...optionsOrObjects) {
                     // Invoke getters
                     if (typeof get === 'function') {
                         if (settings.invokeGetters) {
-                            mergeDescriptor.value = get();
+                            mergeDescriptor.value = mergeVal;
                         }
                         else {
                             mergeDescriptor.get = get;
@@ -375,7 +375,7 @@ function mergician(...optionsOrObjects) {
                     }
 
                     // Skip setters
-                    if (typeof set === 'function' && !settings.skipSetters && !Object.hasOwnProperty.call(mergeDescriptor, 'value')) {
+                    if (!settings.skipSetters && typeof set === 'function' && !Object.hasOwnProperty.call(mergeDescriptor, 'value')) {
                         mergeDescriptor.set = set;
                     }
 
@@ -399,7 +399,16 @@ function mergician(...optionsOrObjects) {
         // Remove duplicate
         for (const [obj, keyArray] of dedupArrayMap.entries()) {
             for (const key of keyArray) {
-                obj[key] = [...new Set(obj[key])];
+                const propDescriptor = Object.getOwnPropertyDescriptor(obj, key);
+                const { configurable, enumerable, writable } = propDescriptor;
+
+                // Set static value to handle arrays received from srcObj getter
+                Object.defineProperty(obj, key, {
+                    configurable,
+                    enumerable,
+                    value: [...new Set(obj[key])],
+                    writable: writable !== undefined ? writable : true,
+                });
             }
         }
 
@@ -458,5 +467,3 @@ function mergician(...optionsOrObjects) {
         return _mergician(...arguments);
     }
 }
-
-module.exports = mergician;
