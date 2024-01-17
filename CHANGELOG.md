@@ -4,12 +4,14 @@
 
 *TBD*
 
-- ❗️ Breaking: Clone/merge non-enumerable properties (default)
-- ❗️ Breaking: Clone/merge custom prototype properties (default)
+- ❗️ Breaking: Switch to named export
+- ❗️ Breaking: Add clone/merge non-enumerable properties by default
+- ❗️ Breaking: Add clone/merge custom prototype properties by default
 - ❗️ Breaking: Remove `hoistProto` option
 - Add `hoistEnumerable` option
 - Add `hoistProto` option
 - Add `skipProto` option
+- Add TypeScript support via type declarations
 
 ## 1.1.0
 

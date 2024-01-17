@@ -20,7 +20,7 @@ Basic object cloning using default options:
 
 ```javascript
 // CommonJS module shown. ES module also available (see below).
-const mergician = require('mergician');
+const { mergician } = require('mergician');
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const clonedObj = mergician({}, obj1);
@@ -40,7 +40,7 @@ Advanced object merging using custom options:
 
 ```javascript
 // CommonJS module shown. ES module also available (see below).
-const mergician = require('mergician');
+const { mergician } = require('mergician');
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const obj2 = { a: [2, 2], b: { c: 2 } };
@@ -98,12 +98,12 @@ npm install mergician
 
 ```javascript
 // ES module
-import mergician from 'mergician';
+import { mergician } from 'mergician';
 ```
 
 ```javascript
 // CommonJS module
-const mergician = require('mergician');
+const { mergician } = require('mergician');
 ```
 
 **CDN**
@@ -112,7 +112,7 @@ Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below),
 
 ```javascript
 // ES module @ latest v1.x.x (see @ version in URL)
-import mergician from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.mjs';
+import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.mjs';
 ```
 
 ```html

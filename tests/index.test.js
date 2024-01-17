@@ -1,5 +1,5 @@
 import { isObject } from '../src/util.js';
-import mergician from '../src/index.js';
+import { mergician } from '../src/index.js';
 
 // Test Objects
 // ============================================================================

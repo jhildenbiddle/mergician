@@ -196,7 +196,7 @@ const defaults = {
  * (single argument) or new merged object (multiple arguments)
  * @preserve
  */
-export default function mergician(optionsOrObject, ...objects) {
+export function mergician(optionsOrObject, ...objects) {
     const options = arguments.length === 1 ? arguments[0] : {};
     const settings = { ...defaults, ...options };
     const dedupArrayMap = new Map();
