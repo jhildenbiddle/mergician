@@ -50,6 +50,7 @@ const baseConfig = {
 
 const cjs = {
     ...baseConfig,
+    platform: 'node',
     format: 'cjs',
     outfile: baseConfig.outfile.replace(/\.js$/, '.cjs'),
 };
