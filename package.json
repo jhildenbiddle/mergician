@@ -54,6 +54,7 @@
   "module": "./dist/mergician.mjs",
   "browser": "./dist/mergician.min.js",
   "unpkg": "./dist/mergician.min.mjs",
+  "types": "./dist/mergician.d.ts",
   "exports": {
     ".": {
       "import": "./dist/mergician.mjs",
@@ -62,13 +63,16 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "node build.js",
+    "build": "run-p build:js build:types",
+    "build:js": "node build-js.js",
+    "build:types": "node build-types.js",
+    "dev": "run-p serve 'build:js -- --watch' 'build:types -- --watch'",
     "clean": "rimraf coverage/* dist/*",
     "escheck": "es-check es2018 'dist/**/*.js' --module",
     "lint": "eslint . && markdownlint . --ignore node_modules",
     "prepare": "run-s clean build",
     "serve": "node server.js",
-    "start": "run-p serve 'build -- --watch'",
+    "start": "npm run dev",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "version": "run-s prepare lint escheck test"
   },

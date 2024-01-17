@@ -36,8 +36,7 @@ const buildPlugin = {
 
 // Config
 // =============================================================================
-// Base
-const config = {
+const baseConfig = {
     entryPoints: ['src/index.js'],
     bundle: true,
     banner: {
@@ -50,15 +49,15 @@ const config = {
 };
 
 const cjs = {
-    ...config,
+    ...baseConfig,
     format: 'cjs',
-    outfile: config.outfile.replace(/\.js$/, '.cjs'),
+    outfile: baseConfig.outfile.replace(/\.js$/, '.cjs'),
 };
 
 const esm = {
-    ...config,
+    ...baseConfig,
     format: 'esm',
-    outfile: config.outfile.replace(/\.js$/, '.mjs'),
+    outfile: baseConfig.outfile.replace(/\.js$/, '.mjs'),
 };
 
 const esmMinified = {
@@ -66,14 +65,14 @@ const esmMinified = {
     minify: true,
     legalComments: 'none',
     sourcemap: true,
-    outfile: config.outfile.replace(/\.js$/, '.min.mjs'),
+    outfile: baseConfig.outfile.replace(/\.js$/, '.min.mjs'),
 };
 
 const iife = {
-    ...config,
+    ...baseConfig,
     format: 'iife',
     globalName: 'mergician',
-    outfile: config.outfile.replace(/\.js$/, '.js'),
+    outfile: baseConfig.outfile.replace(/\.js$/, '.js'),
 };
 
 const iifeMinified = {
@@ -81,14 +80,14 @@ const iifeMinified = {
     minify: true,
     legalComments: 'none',
     sourcemap: true,
-    outfile: config.outfile.replace(/\.js$/, '.min.js'),
+    outfile: baseConfig.outfile.replace(/\.js$/, '.min.js'),
 };
 
 
 // Build
 // =============================================================================
 // eslint-disable-next-line no-console
-console.log(`esbuild: ${isWatch ? 'watching' : 'building'}...`);
+console.log(`Building${isWatch ? ' and watching' : ''} JavaScript...\n`);
 
 [cjs, esm, esmMinified, iife, iifeMinified].forEach(async (config) => {
     if (isWatch) {

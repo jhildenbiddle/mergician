@@ -8,6 +8,98 @@ import {
     isPropDescriptor
 } from './util.js';
 
+/**
+ * @typedef {Object} MergicianOptions
+ * @property {string[]} [onlyKeys] - Exclusive array of keys to be merged
+ * (others are skipped)
+ * @property {string[]} [skipKeys] - Array of keys to skip (others are
+ * merged)
+ * @property {boolean} [onlyCommonKeys=false] - Merge only keys found
+ * in multiple objects (ignore single occurrence keys)
+ * @property {boolean} [onlyUniversalKeys=false] - Merge only keys
+ * found in all objects
+ * @property {boolean} [skipCommonKeys=false] - Skip keys found in
+ * multiple objects (merge only single occurrence keys)
+ * @property {boolean} [skipUniversalKeys=false] - Skip keys found in
+ * all objects (merge only common keys)
+ * @property {boolean} [invokeGetters=false] - Invoke "getter" methods
+ * and merge returned values
+ * @property {boolean} [skipSetters=false] - Skip "setter" methods
+ * during merge
+ * @property {boolean} [appendArrays=false] - Merge array values at
+ * the end of existing arrays
+ * @property {boolean} [prependArrays=false] - Merge array values at
+ * the beginning of existing arrays
+ * @property {boolean} [dedupArrays=false] - Remove duplicate array
+ * values in new merged object
+ * @property {boolean|function} [sortArrays=false] - Sort array values
+ * in new merged object
+ * @property {boolean} [hoistEnumerable=false] - Merge enumerable
+ * prototype properties as direct properties of merged object
+ * @property {boolean} [hoistProto=false] - Merge custom prototype
+ * properties as direct properties of merged object
+ * @property {boolean} [skipProto=false] - Skip merging of custom
+ * prototype properties
+ * @property {filterCallback} [filter] - Callback used to conditionally merge
+ * or skip a property. Return a "truthy" value to merge or a "falsy" value to
+ * skip. Return no value to proceed according to other option values.
+ * @property {beforeEachCallback} [beforeEach] - Callback used for
+ * inspecting/modifying properties before merge. Return value is used as value
+ * to merge.
+ * @property {afterEachCallback} [afterEach] - Callback used for
+ * inspecting/modifying properties after merge. Return value is used as merged
+ * value.
+ * @property {onCircularCallback} [onCircular] - Callback used for handling
+ * circular object references during merge
+ * @preserve
+ */
+
+/**
+ * @callback filterCallback
+ * @param {callbackData} callbackData
+ * @preserve
+ */
+
+/**
+ * @callback beforeEachCallback
+ * @param {callbackData} callbackData
+ * @preserve
+ */
+
+/**
+ * @callback afterEachCallback
+ * @param {afterEachCallbackData} callbackData
+ * @preserve
+ */
+
+/**
+ * @callback onCircularCallback
+ * @param {callbackData} callbackData
+ * @preserve
+ */
+
+/**
+ * @typedef {Object} callbackData
+ * @property {number} depth - Nesting level of the key being processed
+ * @property {string} key - Object key being processed
+ * @property {object} srcObj - Object containing the source value
+ * @property {any} srcVal - Source object’s property value
+ * @property {object} targetObj - New merged object
+ * @property {any} targetVal - New merged object’s current property value
+ * @preserve
+ */
+
+/**
+ * @typedef {Object} afterEachCallbackData
+ * @property {number} depth - Nesting level of the key being processed
+ * @property {string} key - Object key being processed
+ * @property {any} mergeVal - New merged value
+ * @property {object} srcObj - Object containing the source value
+ * @property {object} targetObj - New merged object
+ * @preserve
+ */
+
+
 const defaults = {
     // Keys
     onlyKeys: [],
@@ -36,92 +128,75 @@ const defaults = {
 };
 
 /**
- * Deep recursive object merging with options to inspect, modify, and filter
- * keys/values, merge arrays (append/prepend), and remove duplicate values from
- * merged arrays. Returns new object without modifying sources (immutable).
+ * @description Deep (recursive) object merging with support for descriptor
+ * values, accessor functions, custom prototypes, and advanced options for
+ * customizing the merge process.
  *
+ * @example
+ * // Custom merge options
+ * const mergedObj = mergician({
+ *   // Options
+ * })(obj1, obj2, obj3);
+ *
+ * // Custom merge function
+ * const customMerge = mergician({
+ *   // Options
+ * });
+ * const customMergeObj = customMerge(obj1, obj2, obj3);
+ *
+ * @overload
+ * @param {MergicianOptions} options
+ * @returns {function} New merge function with options set as defaults
  * @preserve
- *
- * @example
- * // Without options (use default option values)
- * mergician(obj1, obj2, obj3, ...);
- *
- * @example
- * // With options (defaults shown)
- * mergician({
- *   // Keys
- *   onlyKeys: [],
- *   skipKeys: [],
- *   onlyCommonKeys: false,
- *   onlyUniversalKeys: false,
- *   skipCommonKeys: false,
- *   skipUniversalKeys: false,
- *   // Values
- *   invokeGetters: false,
- *   skipSetters: false,
- *   // Arrays
- *   appendArrays: false,
- *   prependArrays: false,
- *   dedupArrays: false,
- *   sortArrays: false,
- *   // Prototype
- *   hoistEnumerable: false,
- *   hoistProto: false,
- *   skipProto: false,
- *   // Callbacks
- *   filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
- *   beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {},
- *   afterEach({ depth, key, mergeVal, srcObj, targetObj }) {},
- *   onCircular({ depth, key, srcObj, srcVal, targetObj, targetVal }) {}
- * })(obj1, obj2, obj3, ...)
- *
- * @param {...object} optionsOrObjects - Options or objects to merge
- * @param {array} [options.onlyKeys] - Exclusive array of keys to be merged
- * (others are skipped)
- * @param {array} [options.skipKeys] - Array of keys to skip (others are merged)
- * @param {boolean} [options.onlyCommonKeys = false] - Merge only keys found in
- * multiple objects (ignore single occurrence keys)
- * @param {boolean} [options.onlyUniversalKeys = false] - Merge only keys found
- * in all objects
- * @param {boolean} [options.skipCommonKeys = false] - Skip keys found in
- * multiple objects (merge only single occurrence keys)
- * @param {boolean} [options.skipUniversalKeys = false] - Skip keys found in all
- * objects (merge only common keys)
- * @param {boolean} [options.invokeGetters = false] - Invoke "getter" methods
- * and merge returned values
- * @param {boolean} [options.skipSetters = false] - Skip "setter" methods during
- * merge
- * @param {boolean} [options.appendArrays = false] - Merge array values at the
- * end of existing arrays
- * @param {boolean} [options.prependArrays = false] - Merge array values at the
- * beginning of existing arrays
- * @param {boolean} [options.dedupArrays = false] - Remove duplicate array
- * values in new merged object
- * @param {boolean|function} [options.sortArrays = false] - Sort array values in
- * new merged object
- * @param {boolean} [options.hoistEnumerable = false] - Merge enumerable
- * prototype properties as direct properties of merged object
- * @param {boolean} [options.hoistProto = false] - Merge custom prototype
- * properties as direct properties of merged object
- * @param {boolean} [options.skipProto = false] - Skip merging of custom
- * prototype properties
- * @param {function} [options.filter] - Callback used to conditionally merge or
- * skip a property. Return a "truthy" value to merge or a "falsy" value to skip.
- * Return no value to proceed according to other option values.
- * @param {function} [options.beforeEach] - Callback used for
- * inspecting/modifying properties before merge. Return value is used as value
- * to merge.
- * @param {function} [options.afterEach] - Callback used for
- * inspecting/modifying properties after merge. Return value is used as merged
- * value.
- * @param {function} [options.onCircular] - Callback used for handling circular
- * object references during merge
- * @returns {function|object} Merge function with options applied or new merged
- * object
- * @param {...object} [objects] - Objects to merge
- * @returns {object} New merged object
  */
-export default function mergician(...optionsOrObjects) {
+/**
+ * @description Deep (recursive) object merging with support for descriptor
+ * values, accessor functions, custom prototypes, and advanced options for
+ * customizing the merge process.
+ *
+ * @example
+ * // Clone with default options
+ * const clonedObj = mergician({}, obj1);
+ *
+ * // Merge with default options
+ * const mergedObj = mergician(obj1, obj2, obj3);
+ *
+ * @overload
+ * @param {...object} objects
+ * @returns {object} New merged object
+ * @preserve
+ */
+/**
+ * @description Deep (recursive) object merging with support for descriptor
+ * values, accessor functions, custom prototypes, and advanced options for
+ * customizing the merge process.
+ *
+ * @example
+ * // Clone with default options
+ * const clonedObj = mergician({}, obj1);
+ *
+ * // Merge with default options
+ * const mergedObj = mergician(obj1, obj2, obj3);
+ *
+ * @example
+ * // Custom merge options
+ * const mergedObj = mergician({
+ *   // Options
+ * })(obj1, obj2, obj3);
+ *
+ * // Custom merge function
+ * const customMerge = mergician({
+ *   // Options
+ * });
+ * const customMergeObj = customMerge(obj1, obj2, obj3);
+ *
+ * @param {MergicianOptions} optionsOrObject
+ * @param {...object} [objects]
+ * @returns {function|object} New merge function with options set as defaults
+ * (single argument) or new merged object (multiple arguments)
+ * @preserve
+ */
+export default function mergician(optionsOrObject, ...objects) {
     const options = arguments.length === 1 ? arguments[0] : {};
     const settings = { ...defaults, ...options };
     const dedupArrayMap = new Map();
