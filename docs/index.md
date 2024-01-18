@@ -82,15 +82,15 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 
 **Platform Support**
 
-<img src="assets/img/node.svg"> <span>Node 10+</span>
+<img src="assets/img/node.svg" alt=""> <span>Node 10+</span>
 <br>
-<img src="assets/img/chrome.svg"> <span>Chrome 61+</span>
+<img src="assets/img/chrome.svg" alt=""> <span>Chrome 61+</span>
 <br>
-<img src="assets/img/edge.svg"> <span>Edge 16+</span>
+<img src="assets/img/edge.svg" alt=""> <span>Edge 16+</span>
 <br>
-<img src="assets/img/firefox.svg"> <span>Firefox 60+</span>
+<img src="assets/img/firefox.svg" alt=""> <span>Firefox 60+</span>
 <br>
-<img src="assets/img/safari.svg"> <span>Safari 10.1+</span>
+<img src="assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
 
 ## Installation
 
