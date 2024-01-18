@@ -151,7 +151,7 @@ const obj2 = { b: [2, 2], c: { d: 2 } };
 const obj3 = { b: [3, 3], c: { e: 3 } };
 
 const clonedObj = mergician({
-  skipKeys: ['c'],
+  skipKeys: ['c']
 })({}, obj2);
 
 const mergedObj = mergician({
