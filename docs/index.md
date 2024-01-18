@@ -10,7 +10,34 @@
 
 Mergician is a uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects.
 
-Unlike native methods and other clone/merge utilities, Mergician faithfully handles [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and custom prototype properties while providing options for customizing the clone/merge process. These options make it easy to inspect, filter, and modify properties; merge or skip common, universal, and unique keys (i.e., intersections, unions, and differences); merge, sort, and remove duplicate array items; and merge, hoist, and skip prototype properties.
+Unlike native methods and other utilities, Mergician faithfully clones and merges objects by properly handling [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and prototype properties while offering advanced options for customizing the clone/merge process.
+
+## Features
+
+- Deep (recursive) clone/merge JavaScript objects
+- Generates new object without modifying source object(s)
+- Clone/merge enumerable and non-enumerable properties
+- Clone/merge property [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
+- Retain, skip, or convert [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions to static values
+- Inspect, filter, and modify properties
+- Merge, skip, or hoist prototype properties
+- Merge or skip key intersections, unions, and differences
+- Merge, sort, and remove duplicate array items
+- IntelliSense / code hinting support
+- TypeScript support
+- Lightweight (2k min+gzip) and dependency-free
+
+**Platform Support**
+
+<img src="assets/img/node.svg" alt=""> <span>Node 10+</span>
+<br>
+<img src="assets/img/chrome.svg" alt=""> <span>Chrome 61+</span>
+<br>
+<img src="assets/img/edge.svg" alt=""> <span>Edge 16+</span>
+<br>
+<img src="assets/img/firefox.svg" alt=""> <span>Firefox 60+</span>
+<br>
+<img src="assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
 
 ## Demo
 
@@ -66,32 +93,6 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 
 **Tip:** Press <kbd>⇧ Shift</kbd> <kbd>⌤ Enter</kbd> to "run" the notebook.
 
-## Features
-
-- Deep (recursive) clone/merge JavaScript objects
-- Returns new object without modifying source object(s)
-- Merge property [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
-- Retain, skip, or convert [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions to static values
-- Merge or skip custom prototype properties
-- Inspect, filter, and modify properties
-- Merge or skip key intersections, unions, and differences
-- Merge, sort, and remove duplicate array items
-- IntelliSense / code hinting
-- TypeScript support
-- Lightweight (2k min+gzip) and dependency-free
-
-**Platform Support**
-
-<img src="assets/img/node.svg" alt=""> <span>Node 10+</span>
-<br>
-<img src="assets/img/chrome.svg" alt=""> <span>Chrome 61+</span>
-<br>
-<img src="assets/img/edge.svg" alt=""> <span>Edge 16+</span>
-<br>
-<img src="assets/img/firefox.svg" alt=""> <span>Firefox 60+</span>
-<br>
-<img src="assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
-
 ## Installation
 
 **NPM**
@@ -110,49 +111,32 @@ import { mergician } from 'mergician';
 const { mergician } = require('mergician');
 ```
 
+```html
+<!-- IIFE (global "mergician") -->
+<script src="path/to/mergician.min.js"></script>
+```
+
 **CDN**
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below), [unpkg](https://unpkg.com/browse/mergician/), and other CDN services that auto-publish npm packages.
 
+?> Note the `@` version lock in the URLs below. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version after the `@` symbol.
+
 ```javascript
-// ES module @ latest v1.x.x (see @ version in URL)
-import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.mjs';
+// ES module @ latest v2.x.x
+import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.mjs';
 ```
 
 ```html
-<!-- Global "mergician" @ latest v1.x.x (see @ version in URL) -->
-<script src="https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.js"></script>
+<!-- IIFE (global "mergician") @ latest v2.x.x -->
+<script src="https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.js"></script>
 ```
-
-!> Note the `@` version lock in the URLs above. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version after the `@` symbol.
 
 ## Usage
 
-There are three ways to call `mergician`:
-
-```javascript
-// Using the default options
-const mergedObj = mergician(obj1, obj2, obj3);
-```
-
-```javascript
-// Specifying custom options
-const mergedObj = mergician({
-  /* Options */
-})(obj1, obj2, obj3);
-```
-
-```javascript
-// Using a named custom merge function
-const customMerge = mergician({
-  /* Options */
-});
-const mergedObj = customMerge(obj1, obj2, obj3);
-```
-
 ### Using the default options <!-- {docsify-ignore} -->
 
-To merge objects using the default [options](#options), pass two or more objects directly to `mergician`. A new object will be returned and the source object(s) will remain unmodified.
+To merge objects using the default [options](#options), pass two or more objects to `mergician()`. A new object will be returned and the source object(s) will remain unmodified.
 
 ```javascript
 const obj1 = { a: 1 };
@@ -169,24 +153,29 @@ console.log(mergedObj); // { a: 1, b: [3, 3], c: { d: 2, e: 3 } }
 
 ### Specifying custom options <!-- {docsify-ignore} -->
 
-To specify merge [options](#options), pass a single object containing custom options to `mergician`. A new function with the options applied will be returned, which can then be immediately invoked by passing two or more objects to be merged.
+To specify merge [options](#options), pass a single object containing custom options to `mergician()`. A custom merge function with the options applied will be returned, which can then be immediately invoked by passing two or more objects to be merged.
 
 ```javascript
 const obj1 = { a: 1 };
 const obj2 = { b: [2, 2], c: { d: 2 } };
 const obj3 = { b: [3, 3], c: { e: 3 } };
 
+const clonedObj = mergician({
+  skipKeys: ['c'],
+})({}, obj2);
+
 const mergedObj = mergician({
   appendArrays: true,
   dedupArrays: true
 })(obj1, obj2, obj3);
 
+console.log(clonedObj); // { b: [2, 2] };
 console.log(mergedObj); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
 ```
 
 ### Using a named custom merge function <!-- {docsify-ignore} -->
 
-When merge [options](#options) are specified, the returned merge function can be assigned to a variable and reused, removing the need to pass the same options to `mergician` multiple times.
+To create a reusable custom merge function, pass a single [options](#options) object to mergician and assign a name to the function returned. This new function behaves exactly as `mergician()` does but with its default values set to the the custom options used to create it.
 
 ```javascript
 const obj1 = { a: 1 };
@@ -197,21 +186,16 @@ const customMerge = mergician({
   appendArrays: true,
   dedupArrays: true
 });
+
 const clonedObj = customMerge({}, obj2);
-const mergedObj = customMerge(obj1, obj2, obj3);
-
-console.log(clonedObj); // { b: [2], c: { d: 2 } }
-console.log(mergedObj); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
-```
-
-Like `mergician`, custom merge functions accept new [options](#options) passed as a single object and will return a new function with the options applied.
-
-```javascript
-const mergedObj = customMerge({
-  onlyKeys: ['b']
+const mergedObj1 = customMerge(obj1, obj2, obj3);
+const mergedObj2 = customMerge({
+  skipKeys: ['c']
 })(obj1, obj2, obj3);
 
-console.log(mergedObj); // { b: [2, 3] }
+console.log(clonedObj); // { b: [2], c: { d: 2 } }
+console.log(mergedObj1); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
+console.log(mergedObj2); // { a: 1, b: [2, 3] }
 ```
 
 ## Options
@@ -242,6 +226,8 @@ console.log(mergedObj); // { b: [2, 3] }
 **Prototype**
 
 - [hoistEnumerable](#hoistenumerable)
+- [hoistProto](#hoistproto)
+- [skipProto](#skipproto)
 
 **Callbacks**
 
@@ -254,7 +240,7 @@ console.log(mergedObj); // { b: [2, 3] }
 
 Exclusive list of keys to be merged (others are skipped). Applies to top-level and nested keys.
 
-- Type: `Array`
+- Type: `array`
 - Default: `[]`
 
 ```javascript
@@ -273,7 +259,7 @@ console.log(mergedObj); // { a: 1, b: { c: 2 } }
 
 List of keys to be skipped (others are merged). Applies to top-level and nested keys.
 
-- Type: `Array`
+- Type: `array`
 - Default: `[]`
 
 ```javascript
@@ -292,7 +278,7 @@ console.log(mergedObj); // { a: 1, b: { d: 3 } }
 
 Merge only keys found in multiple objects (skip single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -311,7 +297,7 @@ console.log(mergedObj); // { a: 3, b: { c: 3 } }
 
 Merge only keys found in all objects. For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -330,7 +316,7 @@ console.log(mergedObj); // { a: 3 }
 
 Skip keys found in multiple objects (merge only single occurrence keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -349,7 +335,7 @@ console.log(mergedObj); // { e: 3 }
 
 Skip keys found in all objects (merge only single occurrence and common keys). For nested objects, key comparisons are made between objects with the same parent key and at the same depth.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -368,7 +354,7 @@ console.log(mergedObj); // { b: { d: 3 }, e: 3 }
 
 Invoke "getter" methods and merge returned values.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -392,7 +378,7 @@ console.log(clonedObj2); // { a: 1, b: 2 }
 
 Skip "setter" methods during merge. These methods wil be accessible to callback functions so that they can be called directly and/or replaced with alternate values if necessary.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -415,7 +401,7 @@ console.log(clonedObj); // { firstname: 'John', lastname: 'Smith' }
 
 Merge array values at the end of existing arrays. Arrays within arrays are not modified.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -434,7 +420,7 @@ console.log(mergedObj); // { a: [1, 1, 2, 2, 3, 3] }
 
 Merge array values at the beginning of existing arrays. Arrays within arrays are not modified.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -453,7 +439,7 @@ console.log(mergedObj); // { a: [3, 3, 2, 2, 1, 1] }
 
 Remove duplicate array values in new merged object. Arrays within arrays are not modified.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```javascript
@@ -479,7 +465,7 @@ Sort array values in new merged object. Arrays within arrays are not modified.
 
 When `true`, sorting is performed using the [Array.prototype.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method's [default comparison](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description) function. This can yield unexpected sorting results for those unfamiliar with how this comparison function works (e.g., `10` is sorted before `2`). Alternate comparison functions can be used ("natural" sorting, descending order, etc.) by assigning them to the `sortArrays` option.
 
-- Type: `Boolean` or `Function`
+- Type: `boolean` or `function`
 - Default: `false`
 
 ```javascript
@@ -506,7 +492,7 @@ console.log(mergedDescending); // { a: [6, 5, 4, 3, 2, 1] }
 
 Merge enumerable prototype properties as direct properties of new merge object.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```js
@@ -527,7 +513,7 @@ console.log(Object.getPrototypeOf(clonedObj)); // {}
 
 Merge custom prototype properties as direct properties of new merge object.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```js
@@ -561,7 +547,7 @@ console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // false
 
 Skip merging of custom prototype properties.
 
-- Type: `Boolean`
+- Type: `boolean`
 - Default: `false`
 
 ```js
@@ -597,15 +583,21 @@ Callback used to conditionally merge or skip a property.
 
 Return a "[truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy)" value to merge or a "[falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)" value to skip. If no value is returned, merging/skipping will proceed based on other option values ([`onlyKeys`](#onlykeys), [`skipKeys`](#skipkeys), etc.)
 
-- Type: `Function`
+- Type: `function`
 - Arguments:
-  - **data**: Object containing merge data
-    - **data.depth**: The nesting level of the key being processed
-    - **data.key**: The object key being processed
-    - **data.srcObj**: The object containing the source value
-    - **data.srcVal**: The source object's property value
-    - **data.targetObj**: The new merged object
-    - **data.targetVal**: The new merged object's current property value
+  - **data**: `object`
+    - **depth**: `number`
+      The nesting level of the key being processed
+    - **key**: `string`
+      The object key being processed
+    - **srcObj**: `object`
+      The object containing the source value
+    - **srcVal**: `any`
+      The source object's property value
+    - **targetObj**: `object`
+      The new merged object
+    - **targetVal**: `any`
+      The new merged object's current property value
 
 ```javascript
 const obj1 = { a: true };
@@ -628,15 +620,21 @@ Callback used for inspecting/modifying properties before merge.
 
 If a value is returned, that value will be used as the new value to merge. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `srcVal` will be used.
 
-- Type: `Function`
+- Type: `function`
 - Arguments:
-  - **data**: Object containing merge data
-    - **data.depth**: The nesting level of the key being processed
-    - **data.key**: The object key being processed
-    - **data.srcObj**: The object containing the source value
-    - **data.srcVal**: The source object's property value
-    - **data.targetObj**: The new merged object
-    - **data.targetVal**: The new merged object's current property value
+  - **data**: `object`
+    - **depth**: `number`
+      The nesting level of the key being processed
+    - **key**: `string`
+      The object key being processed
+    - **srcObj**: `object`
+      The object containing the source value
+    - **srcVal**: `any`
+      The source object's property value
+    - **targetObj**: `object`
+      The new merged object
+    - **targetVal**: `any`
+      The new merged object's current property value
 
 ```javascript
 const obj1 = { a: null };
@@ -661,14 +659,19 @@ Callback used for inspecting/modifying properties after merge.
 
 If a value is returned, that value will be used as the new merged value. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `mergeVal` will be used.
 
-- Type: `Function`
+- Type: `function`
 - Arguments:
   - **data**: Object containing merge data
-    - **data.depth**: The nesting level of the key processed
-    - **data.key**: The object key processed
-    - **data.mergeVal**: The new merged value
-    - **data.srcObj**: The object containing the source value
-    - **data.targetObj**: The new merged object
+    - **depth**: `number`
+      The nesting level of the key being processed
+    - **key**: `string`
+      The object key being processed
+    - **mergeVal**: `any`
+      The new merged value
+    - **srcObj**: `object`
+      The object containing the source value
+    - **targetObj**: `object`
+      The new merged object
 
 ```javascript
 const obj1 = { a: 1 };
@@ -693,15 +696,21 @@ Callback used for handling circular object references during merge.
 
 If a value is returned, that value will be used as the new value to merge. If an `Object` with the shape of a [property descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) is returned, the object will be used to define the property using [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty). If no value is returned, the unmodified `srcVal` will be used.
 
-- Type: `Function`
+- Type: `function`
 - Arguments:
-  - **data**: Object containing merge data
-    - **data.depth**: The nesting level of the key being processed
-    - **data.key**: The object key being processed
-    - **data.srcObj**: The object containing the source value
-    - **data.srcVal**: The source object's property value
-    - **data.targetObj**: The new merged object
-    - **data.targetVal**: The new merged object's current property value
+  - **data**: `object`
+    - **depth**: `number`
+      The nesting level of the key being processed
+    - **key**: `string`
+      The object key being processed
+    - **srcObj**: `object`
+      The object containing the source value
+    - **srcVal**: `any`
+      The source object's property value
+    - **targetObj**: `object`
+      The new merged object
+    - **targetVal**: `any`
+      The new merged object's current property value
 
 ```javascript
 const circularObj = {

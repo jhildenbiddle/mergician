@@ -9,9 +9,36 @@
 
 Mergician is a uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects.
 
-Unlike native methods and other clone/merge utilities, Mergician faithfully handles [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and custom prototype properties while providing options for customizing the clone/merge process. These options make it easy to inspect, filter, and modify properties; merge or skip common, universal, and unique keys (i.e., intersections, unions, and differences); merge, sort, and remove duplicate array items; and merge, hoist, and skip prototype properties.
+Unlike native methods and other utilities, Mergician faithfully clones and merges objects by properly handling [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and prototype properties while offering advanced options for customizing the clone/merge process.
 
-- [Documentation & Demos](https://jhildenbiddle.github.io/mergician/)
+- 🚀 [Documentation & Demos](https://jhildenbiddle.github.io/mergician/)
+
+## Features
+
+- Deep (recursive) clone/merge JavaScript objects
+- Generates new object without modifying source object(s)
+- Clone/merge enumerable and non-enumerable properties
+- Clone/merge property [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
+- Retain, skip, or convert [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions to static values
+- Inspect, filter, and modify properties
+- Merge, skip, or hoist prototype properties
+- Merge or skip key intersections, unions, and differences
+- Merge, sort, and remove duplicate array items
+- IntelliSense / code hinting support
+- TypeScript support
+- Lightweight (2k min+gzip) and dependency-free
+
+**Platform Support**
+
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/node.svg" alt=""> <span>Node 10+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/chrome.svg" alt=""> <span>Chrome 61+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/edge.svg" alt=""> <span>Edge 16+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/firefox.svg" alt=""> <span>Firefox 60+</span>
+<br>
+<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
 
 ## Examples
 
@@ -57,32 +84,6 @@ const mergedObj = mergician({
 console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 ```
 
-## Features
-
-- Deep (recursive) clone/merge JavaScript objects
-- Returns new object without modifying source object(s)
-- Merge property [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
-- Retain, skip, or convert [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions to static values
-- Merge or skip custom prototype properties
-- Inspect, filter, and modify properties
-- Merge or skip key intersections, unions, and differences
-- Merge, sort, and remove duplicate array items
-- IntelliSense / code hinting
-- TypeScript support
-- Lightweight (2k min+gzip) and dependency-free
-
-**Platform Support**
-
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/node.svg" alt=""> <span>Node 10+</span>
-<br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/chrome.svg" alt=""> <span>Chrome 61+</span>
-<br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/edge.svg" alt=""> <span>Edge 16+</span>
-<br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/firefox.svg" alt=""> <span>Firefox 60+</span>
-<br>
-<img src="https://raw.githubusercontent.com/jhildenbiddle/mergician/main/docs/assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
-
 ## Installation
 
 **NPM**
@@ -101,21 +102,26 @@ import { mergician } from 'mergician';
 const { mergician } = require('mergician');
 ```
 
+```html
+<!-- IIFE (global "mergician") -->
+<script src="path/to/mergician.min.js"></script>
+```
+
 **CDN**
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below), [unpkg](https://unpkg.com/browse/mergician/), and other CDN services that auto-publish npm packages.
 
+> 💡 Note the `@` version lock in the URLs below. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version after the `@` symbol.
+
 ```javascript
-// ES module @ latest v1.x.x (see @ version in URL)
-import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.mjs';
+// ES module @ latest v2.x.x
+import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.mjs';
 ```
 
 ```html
-<!-- Global "mergician" @ latest v1.x.x (see @ version in URL) -->
-<script src="https://cdn.jsdelivr.net/npm/mergician@1/dist/mergician.min.js"></script>
+<!-- IIFE (global "mergician") @ latest v2.x.x -->
+<script src="https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.js"></script>
 ```
-
-> 💡 Note the `@` version lock in the URLs above. This prevents breaking changes in future releases from affecting your project and is therefore the safest method of loading dependencies from a CDN. When a new major version is released, you will need to manually update your CDN URLs by changing the version after the `@` symbol.
 
 ## Usage & Options
 
