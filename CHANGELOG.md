@@ -2,7 +2,7 @@
 
 ## 2.0.0
 
-*TBD*
+_TBD_
 
 - ❗️ Breaking: Switch to named export
 - ❗️ Breaking: Add clone/merge non-enumerable properties by default
@@ -16,7 +16,7 @@
 
 ## 1.1.0
 
-*2023-02-23*
+_2023-02-23_
 
 - Add `invokeGetters` option
 - Add `skipSetters` option
@@ -30,12 +30,12 @@
 
 ## 1.0.1 - 1.0.3
 
-*2022-07-28 - 2022-08-01*
+_2022-07-28 - 2022-08-01_
 
 - Update README.md
 
 ## 1.0.0
 
-*2022-07-14*
+_2022-07-14_
 
 - Initial release
