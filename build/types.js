@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const isWatch = process.argv.includes('--watch');
 const src = path.parse('./src/index.js');
-const out = path.parse('./dist/mergician.js');
+const out = path.parse('./dist/mergician.d.ts');
 
 function build() {
   // Generated files
@@ -22,7 +22,7 @@ function build() {
 
       fs.renameSync(
         path.resolve(out.dir, `${src.name}.d.ts`),
-        path.resolve(out.dir, `${out.name}.d.ts`)
+        path.resolve(out.dir, `${out.base}`)
       );
     }
   );
