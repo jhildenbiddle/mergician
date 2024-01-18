@@ -2,7 +2,7 @@
 
 ## 2.0.0
 
-_TBD_
+_2024-01-18_
 
 - ❗️ Breaking: Switch to named export
 - ❗️ Breaking: Clone/merge non-enumerable properties by default
