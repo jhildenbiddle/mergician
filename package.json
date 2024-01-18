@@ -64,8 +64,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "run-p build:js build:types",
-    "build:js": "node build-js.js",
-    "build:types": "node build-types.js",
+    "build:js": "node build/js.js",
+    "build:types": "node build/types.js",
     "dev": "run-p serve 'build:js -- --watch' 'build:types -- --watch'",
     "clean": "rimraf coverage/* dist/*",
     "escheck": "es-check es2018 'dist/**/*.js' --module",
