@@ -11,8 +11,8 @@
 - Add `hoistEnumerable` option
 - Add `hoistProto` option
 - Add `skipProto` option
-- Add TypeScript support via type declarations
-- Update JSDoc comments for improved code hinting
+- Add TypeScript type declarations
+- Update JSDoc comments / code hinting
 
 ## 1.1.0
 
