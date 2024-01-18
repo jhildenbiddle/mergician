@@ -44,20 +44,20 @@ const baseConfig = {
   legalComments: 'inline',
   plugins: [buildPlugin],
   target: ['esnext'],
-  outfile: 'dist/mergician.js'
+  outfile: 'dist/mergician.EXT'
 };
 
 const cjs = {
   ...baseConfig,
   platform: 'node',
   format: 'cjs',
-  outfile: baseConfig.outfile.replace(/\.js$/, '.cjs')
+  outfile: baseConfig.outfile.replace(/\.EXT$/, '.cjs')
 };
 
 const esm = {
   ...baseConfig,
   format: 'esm',
-  outfile: baseConfig.outfile.replace(/\.js$/, '.mjs')
+  outfile: baseConfig.outfile.replace(/\.EXT$/, '.esm.js')
 };
 
 const esmMinified = {
@@ -65,7 +65,7 @@ const esmMinified = {
   minify: true,
   legalComments: 'none',
   sourcemap: true,
-  outfile: baseConfig.outfile.replace(/\.js$/, '.min.mjs')
+  outfile: baseConfig.outfile.replace(/\.EXT$/, '.esm.min.js')
 };
 
 // Build

@@ -119,7 +119,7 @@ Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below),
 
 ```javascript
 // ES module @ latest v2.x.x
-import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.mjs';
+import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.esm.min.js';
 ```
 
 ## Usage

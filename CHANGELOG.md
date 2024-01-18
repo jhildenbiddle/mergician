@@ -8,6 +8,7 @@ _TBD_
 - ❗️ Breaking: Clone/merge non-enumerable properties by default
 - ❗️ Breaking: Clone/merge custom prototype properties by default
 - ❗️ Breaking: Update `hoistProto` option to include non-enumerable custom prototype properties
+- ❗️ Breaking: Rename distributable `.mjs` files to `.esm.js`
 - ❗️ Breaking: Remove IIFE build
 - Add `hoistEnumerable` option
 - Add `skipProto` option
