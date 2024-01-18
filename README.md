@@ -59,13 +59,17 @@ console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 
 ## Features
 
-- Deep merge or clone JavaScript objects
-- Inspect, filter, and modify keys and properties
-- Merge or skip unique, common, and universal keys (i.e., key unions and differences)
-- Merge, sort, and remove duplicates from arrays
-- Copy property [accessors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) (getters/setters) and [descriptors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor)
-- Returns new object without modifying source objects (immutable)
-- Lightweight (1.5k min+gzip) and dependency-free
+- Deep (recursive) clone/merge JavaScript objects
+- Returns new object without modifying source object(s)
+- Merge property [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values
+- Retain, skip, or convert [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions to static values
+- Merge or skip custom prototype properties
+- Inspect, filter, and modify properties
+- Merge or skip key intersections, unions, and differences
+- Merge, sort, and remove duplicate array items
+- IntelliSense / code hinting
+- TypeScript support
+- Lightweight (2k min+gzip) and dependency-free
 
 **Platform Support**
 
