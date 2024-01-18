@@ -1,77 +1,103 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-    <meta name="description" content="Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects. Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., intersections, unions, and differences); and merge, sort, and remove duplicates from arrays. Property accessors and descriptors are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object.">
-    <title>Mergician - a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects</title>
-    <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
-    <link rel="stylesheet" media="(prefers-color-scheme: light)" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Mergician is a uniquely flexible and light-weight utility for deep (recursive) merging/cloning of JavaScript objects. Unlike native methods and other merge/clone utilities, Mergician provides advanced options for customizing the merge/clone process. These options make it easy to inspect, filter, and modify keys and properties; merge or skip unique, common, and universal keys (i.e., intersections, unions, and differences); and merge, sort, and remove duplicates from arrays. Property accessors and descriptors are also handled properly, ensuring that getter/setter functions are retained and descriptor values are defined on the newly merged object."
+    />
+    <title>
+      Mergician - a uniquely flexible and light-weight utility for deep
+      (recursive) merging/cloning of JavaScript objects
+    </title>
+    <link
+      rel="stylesheet"
+      media="(prefers-color-scheme: dark)"
+      href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"
+    />
+    <link
+      rel="stylesheet"
+      media="(prefers-color-scheme: light)"
+      href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css"
+    />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V42RNSFL2N"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-V42RNSFL2N"
+    ></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-V42RNSFL2N');
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-V42RNSFL2N');
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app"></div>
 
     <script>
-        // Docsify
-        window.$docsify = {
-            // GENERAL
-            // -----------------------------------------------------------------
-            name: 'Mergician',
-            repo: 'https://github.com/jhildenbiddle/mergician',
-            homepage: 'index.md',
-            loadSidebar: 'sidebar.md',
+      // Docsify
+      window.$docsify = {
+        // GENERAL
+        // -----------------------------------------------------------------
+        name: 'Mergician',
+        repo: 'https://github.com/jhildenbiddle/mergician',
+        homepage: 'index.md',
+        loadSidebar: 'sidebar.md',
 
-            // NAVIGATION
-            // -----------------------------------------------------------------
-            alias: {
-                '.*?/changelog': 'https://raw.githubusercontent.com/jhildenbiddle/mergician/main/CHANGELOG.md',
-            },
-            auto2top: true,
-            maxLevel: 2,
-            subMaxLevel: 2,
+        // NAVIGATION
+        // -----------------------------------------------------------------
+        alias: {
+          '.*?/changelog':
+            'https://raw.githubusercontent.com/jhildenbiddle/mergician/main/CHANGELOG.md'
+        },
+        auto2top: true,
+        maxLevel: 2,
+        subMaxLevel: 2,
 
-            // PLUGINS
-            // -----------------------------------------------------------------
-            ethicalAds: {
-                eaPublisher: 'jhildenbiddle-github-io',
-            },
-            executeScript: true,
-            search: {
-                depth: 3,
-                noData: 'No results!',
-                placeholder: 'Search...'
-            },
-            plugins: [
-                // Restores initial <title>
-                function persistTitle(hook, vm) {
-                    var titleElm = document.querySelector('title');
-                    var rootTitle = titleElm && titleElm.textContent;
-                    var pageTitlePrefix = window.$docsify.name ? window.$docsify.name + ' - ' : '';
+        // PLUGINS
+        // -----------------------------------------------------------------
+        ethicalAds: {
+          eaPublisher: 'jhildenbiddle-github-io'
+        },
+        executeScript: true,
+        search: {
+          depth: 3,
+          noData: 'No results!',
+          placeholder: 'Search...'
+        },
+        plugins: [
+          // Restores initial <title>
+          function persistTitle(hook, vm) {
+            var titleElm = document.querySelector('title');
+            var rootTitle = titleElm && titleElm.textContent;
+            var pageTitlePrefix = window.$docsify.name
+              ? window.$docsify.name + ' - '
+              : '';
 
-                    if (rootTitle) {
-                        hook.doneEach(function () {
-                            var currentTitle = titleElm.textContent;
-                            var isRoot = !/\/[a-z]/.test(location.hash);
-                            var newTitle = isRoot ? rootTitle : pageTitlePrefix + currentTitle;
+            if (rootTitle) {
+              hook.doneEach(function () {
+                var currentTitle = titleElm.textContent;
+                var isRoot = !/\/[a-z]/.test(location.hash);
+                var newTitle = isRoot
+                  ? rootTitle
+                  : pageTitlePrefix + currentTitle;
 
-                            titleElm.textContent = newTitle;
-                        });
-                    }
-                }
-            ]
-        };
+                titleElm.textContent = newTitle;
+              });
+            }
+          }
+        ]
+      };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
@@ -80,6 +106,5 @@
     <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/external-script.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-runkit@1"></script>
-</body>
-
+  </body>
 </html>

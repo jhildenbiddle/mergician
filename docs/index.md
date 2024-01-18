@@ -47,15 +47,15 @@ const obj2 = { a: [2, 2], b: { c: 2 } };
 const obj3 = { e: 3 };
 
 const mergedObj = mergician({
-    skipKeys: ['d'],
-    appendArrays: true,
-    dedupArrays: true,
-    filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
-        if (key === 'e') {
-            targetObj['hello'] = 'world';
-            return false;
-        }
+  skipKeys: ['d'],
+  appendArrays: true,
+  dedupArrays: true,
+  filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+    if (key === 'e') {
+      targetObj['hello'] = 'world';
+      return false;
     }
+  }
 })(obj1, obj2, obj3);
 
 // Result
@@ -137,12 +137,16 @@ const mergedObj = mergician(obj1, obj2, obj3);
 
 ```javascript
 // Specifying custom options
-const mergedObj = mergician({ /* Options */ })(obj1, obj2, obj3);
+const mergedObj = mergician({
+  /* Options */
+})(obj1, obj2, obj3);
 ```
 
 ```javascript
 // Using a named custom merge function
-const customMerge = mergician({ /* Options */ });
+const customMerge = mergician({
+  /* Options */
+});
 const mergedObj = customMerge(obj1, obj2, obj3);
 ```
 
@@ -173,8 +177,8 @@ const obj2 = { b: [2, 2], c: { d: 2 } };
 const obj3 = { b: [3, 3], c: { e: 3 } };
 
 const mergedObj = mergician({
-    appendArrays: true,
-    dedupArrays: true
+  appendArrays: true,
+  dedupArrays: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 1, b: [2, 3], c: { d: 2, e: 3 } }
@@ -190,8 +194,8 @@ const obj2 = { b: [2, 2], c: { d: 2 } };
 const obj3 = { b: [3, 3], c: { e: 3 } };
 
 const customMerge = mergician({
-    appendArrays: true,
-    dedupArrays: true
+  appendArrays: true,
+  dedupArrays: true
 });
 const clonedObj = customMerge({}, obj2);
 const mergedObj = customMerge(obj1, obj2, obj3);
@@ -204,7 +208,7 @@ Like `mergician`, custom merge functions accept new [options](#options) passed a
 
 ```javascript
 const mergedObj = customMerge({
-    onlyKeys: ['b']
+  onlyKeys: ['b']
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { b: [2, 3] }
@@ -215,6 +219,7 @@ console.log(mergedObj); // { b: [2, 3] }
 **Keys**
 
 <!-- no toc -->
+
 - [onlyKeys](#onlykeys)
 - [skipKeys](#skipkeys)
 - [onlyCommonKeys](#onlycommonkeys)
@@ -258,7 +263,7 @@ const obj2 = { b: { c: 2 } };
 const obj3 = { b: { d: 3 } };
 
 const mergedObj = mergician({
-    onlyKeys: ['a', 'b', 'c']
+  onlyKeys: ['a', 'b', 'c']
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 1, b: { c: 2 } }
@@ -277,7 +282,7 @@ const obj2 = { b: { c: 2 } };
 const obj3 = { b: { d: 3 } };
 
 const mergedObj = mergician({
-    skipKeys: ['c']
+  skipKeys: ['c']
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 1, b: { d: 3 } }
@@ -296,7 +301,7 @@ const obj2 = { a: 2, b: { c: 2 } };
 const obj3 = { a: 3, b: { c: 3, d: 3 }, e: 3 };
 
 const mergedObj = mergician({
-    onlyCommonKeys: true
+  onlyCommonKeys: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 3, b: { c: 3 } }
@@ -315,7 +320,7 @@ const obj2 = { a: 2, b: { c: 2 } };
 const obj3 = { a: 3, b: { c: 3, d: 3 }, e: 3 };
 
 const mergedObj = mergician({
-    onlyUniversalKeys: true
+  onlyUniversalKeys: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 3 }
@@ -334,7 +339,7 @@ const obj2 = { a: 2, b: { c: 2 } };
 const obj3 = { a: 3, b: { c: 3, d: 3 }, e: 3 };
 
 const mergedObj = mergician({
-    skipCommonKeys: true
+  skipCommonKeys: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { e: 3 }
@@ -353,7 +358,7 @@ const obj2 = { a: 2, b: { c: 2 } };
 const obj3 = { a: 3, b: { c: 3, d: 3 }, e: 3 };
 
 const mergedObj = mergician({
-    skipUniversalKeys: true
+  skipUniversalKeys: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { b: { d: 3 }, e: 3 }
@@ -368,17 +373,17 @@ Invoke "getter" methods and merge returned values.
 
 ```javascript
 const obj1 = {
-    a: 1,
-    get b() {
-        return this.a + 1;
-    }
+  a: 1,
+  get b() {
+    return this.a + 1;
+  }
 };
 const clonedObj1 = mergician({}, obj1);
 const clonedObj2 = mergician({
-    invokeGetters: true
+  invokeGetters: true
 })({}, obj1);
 
-console.log(obj1);       // { a: 1, b: [Getter] }
+console.log(obj1); // { a: 1, b: [Getter] }
 console.log(clonedObj1); // { a: 1, b: [Getter] }
 console.log(clonedObj2); // { a: 1, b: 2 }
 ```
@@ -419,7 +424,7 @@ const obj2 = { a: [2, 2] };
 const obj3 = { a: [3, 3] };
 
 const mergedObj = mergician({
-    appendArrays: true
+  appendArrays: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: [1, 1, 2, 2, 3, 3] }
@@ -438,7 +443,7 @@ const obj2 = { a: [2, 2] };
 const obj3 = { a: [3, 3] };
 
 const mergedObj = mergician({
-    prependArrays: true
+  prependArrays: true
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: [3, 3, 2, 2, 1, 1] }
@@ -457,11 +462,11 @@ const obj2 = { a: [2, 2] };
 const obj3 = { a: [3, 3] };
 
 const clonedObj = mergician({
-    dedupArrays: true
+  dedupArrays: true
 })({}, obj1);
 const mergedObj = mergician({
-    appendArrays: true,
-    dedupArrays: true
+  appendArrays: true,
+  dedupArrays: true
 })(obj1, obj2, obj3);
 
 console.log(clonedObj); // { a: [1] }
@@ -483,14 +488,14 @@ const obj2 = { a: [2, 5] };
 const obj3 = { a: [3, 6] };
 
 const mergedAscending = mergician({
-    appendArrays: true,
-    sortArrays: true
+  appendArrays: true,
+  sortArrays: true
 })(obj1, obj2, obj3);
 const mergedDescending = mergician({
-    appendArrays: true,
-    sortArrays(a, b) {
-        return b - a;
-    }
+  appendArrays: true,
+  sortArrays(a, b) {
+    return b - a;
+  }
 })(obj1, obj2, obj3);
 
 console.log(mergedAscending); // { a: [1, 2, 3, 4, 5, 6] }
@@ -511,7 +516,7 @@ console.log(obj); // { a: 1 }
 console.log(Object.getPrototypeOf(obj)); // { b: 2 }
 
 const clonedObj = mergician({
-    hoistEnumerable: true
+  hoistEnumerable: true
 })({}, obj);
 
 console.log(clonedObj); // { a: 1, b: 2 }
@@ -531,7 +536,8 @@ class Person {
     this.name = name; // <= Own property
   }
 
-  greeting() { // <= Prototype property
+  greeting() {
+    // <= Prototype property
     return `My name is ${this.name}.`;
   }
 }
@@ -543,7 +549,7 @@ console.log(John.hasOwnProperty('greeting')); // false
 console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // true
 
 const cloneObj = mergician({
-    hoistProto: true
+  hoistProto: true
 })({}, John);
 
 console.log(cloneObj.greeting()); // My name is John.
@@ -564,7 +570,8 @@ class Person {
     this.name = name; // <= Own property
   }
 
-  greeting() { // <= Prototype property
+  greeting() {
+    // <= Prototype property
     return `My name is ${this.name}.`;
   }
 }
@@ -576,7 +583,7 @@ console.log(John.greeting()); // My name is John.
 console.log(Object.getPrototypeOf(John).hasOwnProperty('greeting')); // true
 
 const cloneObj = mergician({
-    skipProto: true
+  skipProto: true
 })({}, John);
 
 console.log(cloneObj); // { name: 'John' };
@@ -606,10 +613,10 @@ const obj2 = { a: false, b: true };
 const obj3 = { a: null, b: undefined, c: { d: 0, e: '' } };
 
 const mergedObj = mergician({
-    // Skip properties with non-zero "falsy" values
-    filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
-        return Boolean(srcVal) || srcVal === 0;
-    }
+  // Skip properties with non-zero "falsy" values
+  filter({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+    return Boolean(srcVal) || srcVal === 0;
+  }
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: true, b: true, c: { d: 0 } }
@@ -637,12 +644,12 @@ const obj2 = { b: undefined };
 const obj3 = { c: { d: '', e: 0 } };
 
 const mergedObj = mergician({
-    // Normalize non-zero "falsy" values to be false
-    beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
-        if (srcVal !== 0 && !Boolean(srcVal)) {
-            return false;
-        }
+  // Normalize non-zero "falsy" values to be false
+  beforeEach({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+    if (srcVal !== 0 && !Boolean(srcVal)) {
+      return false;
     }
+  }
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: false, b: false, c: { d: false, e: 0 } }
@@ -669,12 +676,12 @@ const obj2 = { b: 2 };
 const obj3 = { c: { d: 3, e: true } };
 
 const mergedObj = mergician({
-    // Add 1 to all numbers
-    afterEach({ depth, key, mergeVal, srcObj, targetObj }) {
-        if (typeof mergeVal === 'number') {
-            return mergeVal + 1;
-        }
-    },
+  // Add 1 to all numbers
+  afterEach({ depth, key, mergeVal, srcObj, targetObj }) {
+    if (typeof mergeVal === 'number') {
+      return mergeVal + 1;
+    }
+  }
 })(obj1, obj2, obj3);
 
 console.log(mergedObj); // { a: 2, b: 3, c: { d: 4, e: true } }
@@ -697,12 +704,17 @@ If a value is returned, that value will be used as the new value to merge. If an
     - **data.targetVal**: The new merged object's current property value
 
 ```javascript
-const circularObj = { a: 1, get b() { return this; } };
+const circularObj = {
+  a: 1,
+  get b() {
+    return this;
+  }
+};
 const clonedObj = mergician({
-    // Replace circular object reference with '[Circular]' string
-    onCircular({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
-        return '[Circular]';
-    }
+  // Replace circular object reference with '[Circular]' string
+  onCircular({ depth, key, srcObj, srcVal, targetObj, targetVal }) {
+    return '[Circular]';
+  }
 })({}, circularObj);
 
 console.log(clonedObj); // { a: 1, b: '[Circular]' }

@@ -8,15 +8,15 @@
  * @return {object} Array values and their occurrence count
  */
 export function countOccurrences(...arrays) {
-    const countObj = {};
+  const countObj = {};
 
-    arrays.forEach(array => {
-        array.forEach(v => {
-            countObj[v] = v in countObj ? ++countObj[v] : 1;
-        });
+  arrays.forEach(array => {
+    array.forEach(v => {
+      countObj[v] = v in countObj ? ++countObj[v] : 1;
     });
+  });
 
-    return countObj;
+  return countObj;
 }
 
 /**
@@ -31,9 +31,9 @@ export function countOccurrences(...arrays) {
  * @return {array} List of values
  */
 export function getInAll(...arrays) {
-    return arrays.reduce((acc, curr) =>
-        acc.filter(Set.prototype.has, new Set(curr))
-    );
+  return arrays.reduce((acc, curr) =>
+    acc.filter(Set.prototype.has, new Set(curr))
+  );
 }
 
 /**
@@ -48,9 +48,9 @@ export function getInAll(...arrays) {
  * @return {array} List of values
  */
 export function getInMultiple(...arrays) {
-    const countObj = countOccurrences(...arrays);
+  const countObj = countOccurrences(...arrays);
 
-    return Object.keys(countObj).filter((v) => countObj[v] > 1);
+  return Object.keys(countObj).filter(v => countObj[v] > 1);
 }
 
 /**
@@ -65,9 +65,9 @@ export function getInMultiple(...arrays) {
  * @return {array} List of values
  */
 export function getNotInAll(...arrays) {
-    const countObj = countOccurrences(...arrays);
+  const countObj = countOccurrences(...arrays);
 
-    return Object.keys(countObj).filter((v) => countObj[v] < arrays.length);
+  return Object.keys(countObj).filter(v => countObj[v] < arrays.length);
 }
 
 /**
@@ -82,9 +82,9 @@ export function getNotInAll(...arrays) {
  * @return {array} List of values
  */
 export function getNotInMultiple(...arrays) {
-    const countObj = countOccurrences(...arrays);
+  const countObj = countOccurrences(...arrays);
 
-    return Object.keys(countObj).filter((v) => countObj[v] === 1);
+  return Object.keys(countObj).filter(v => countObj[v] === 1);
 }
 
 /**
@@ -100,15 +100,15 @@ export function getNotInMultiple(...arrays) {
  * @return {array} List of keys
  */
 export function getObjectKeys(obj, hoistEnumerable = false) {
-    const keys = Object.getOwnPropertyNames(obj);
+  const keys = Object.getOwnPropertyNames(obj);
 
-    if (hoistEnumerable) {
-        for (const key in obj) {
-            !keys.includes(key) && keys.push(key);
-        }
+  if (hoistEnumerable) {
+    for (const key in obj) {
+      !keys.includes(key) && keys.push(key);
     }
+  }
 
-    return keys;
+  return keys;
 }
 
 /**
@@ -118,11 +118,7 @@ export function getObjectKeys(obj, hoistEnumerable = false) {
  * @return {boolean}
  */
 export function isObject(value) {
-    return (
-        typeof value === 'object' &&
-        value !== null &&
-        !Array.isArray(value)
-    );
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -132,32 +128,33 @@ export function isObject(value) {
  * @return {boolean}
  */
 export function isPropDescriptor(obj) {
-    if (!isObject(obj)) {
-        return false;
-    }
+  if (!isObject(obj)) {
+    return false;
+  }
 
-    const hasFlagKey = ['writable', 'enumerable', 'configurable'].some(key => key in obj);
-    const hasMethod = ['get', 'set'].some(key => typeof obj[key] === 'function');
-    const hasMethodKeys = ['get', 'set'].every(key => key in obj);
+  const hasFlagKey = ['writable', 'enumerable', 'configurable'].some(
+    key => key in obj
+  );
+  const hasMethod = ['get', 'set'].some(key => typeof obj[key] === 'function');
+  const hasMethodKeys = ['get', 'set'].every(key => key in obj);
 
-    let isDescriptor = (
-        ('value' in obj && hasFlagKey) ||
-        (hasMethod && (hasMethodKeys || hasFlagKey))
-    );
+  let isDescriptor =
+    ('value' in obj && hasFlagKey) ||
+    (hasMethod && (hasMethodKeys || hasFlagKey));
 
-    // Test for invalid key(s)
-    if (isDescriptor) {
-        const validKeys = [
-            'configurable',
-            'get',
-            'set',
-            'enumerable',
-            'value',
-            'writable'
-        ];
+  // Test for invalid key(s)
+  if (isDescriptor) {
+    const validKeys = [
+      'configurable',
+      'get',
+      'set',
+      'enumerable',
+      'value',
+      'writable'
+    ];
 
-        isDescriptor = Object.keys(obj).some(key => !(key in validKeys));
-    }
+    isDescriptor = Object.keys(obj).some(key => !(key in validKeys));
+  }
 
-    return isDescriptor;
+  return isDescriptor;
 }
