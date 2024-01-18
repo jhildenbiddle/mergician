@@ -68,27 +68,12 @@ const esmMinified = {
   outfile: baseConfig.outfile.replace(/\.js$/, '.min.mjs')
 };
 
-const iife = {
-  ...baseConfig,
-  format: 'iife',
-  globalName: 'mergician',
-  outfile: baseConfig.outfile.replace(/\.js$/, '.js')
-};
-
-const iifeMinified = {
-  ...iife,
-  minify: true,
-  legalComments: 'none',
-  sourcemap: true,
-  outfile: baseConfig.outfile.replace(/\.js$/, '.min.js')
-};
-
 // Build
 // =============================================================================
 // eslint-disable-next-line no-console
 console.log(`Building${isWatch ? ' and watching' : ''} JavaScript...\n`);
 
-[cjs, esm, esmMinified, iife, iifeMinified].forEach(async config => {
+[cjs, esm, esmMinified].forEach(async config => {
   if (isWatch) {
     const ctx = await esbuild.context(config);
 

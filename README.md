@@ -102,11 +102,6 @@ import { mergician } from 'mergician';
 const { mergician } = require('mergician');
 ```
 
-```html
-<!-- IIFE (global "mergician") -->
-<script src="path/to/mergician.min.js"></script>
-```
-
 **CDN**
 
 Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below), [unpkg](https://unpkg.com/browse/mergician/), and other CDN services that auto-publish npm packages.
@@ -116,11 +111,6 @@ Available on [jsdelivr](https://www.jsdelivr.com/package/npm/mergician) (below),
 ```javascript
 // ES module @ latest v2.x.x
 import { mergician } from 'https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.mjs';
-```
-
-```html
-<!-- IIFE (global "mergician") @ latest v2.x.x -->
-<script src="https://cdn.jsdelivr.net/npm/mergician@2/dist/mergician.min.js"></script>
 ```
 
 ## Usage & Options
