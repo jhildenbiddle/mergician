@@ -85,8 +85,6 @@ const mergedObj = mergician({
 console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 ```
 
-**Tip:** Press <kbd>⇧ Shift</kbd> <kbd>⌤ Enter</kbd> to "run" the notebook.
-
 ## Installation
 
 **NPM**
