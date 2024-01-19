@@ -45,11 +45,9 @@ Unlike native methods and other utilities, Mergician faithfully clones and merge
 
 Basic object cloning using default options:
 
-<div data-runkit>
-
 ```javascript
-// CommonJS module shown. ES module also available (see below).
-const { mergician } = require('mergician');
+// ES module shown. CommonJS module also available (see below).
+import { mergician } from 'mergician';
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const clonedObj = mergician({}, obj1);
@@ -61,15 +59,11 @@ console.log(clonedObj.a === obj1.a); // false
 console.log(clonedObj.b === obj1.b); // false
 ```
 
-</div>
-
 Advanced object merging using custom options:
 
-<div data-runkit>
-
 ```javascript
-// CommonJS module shown. ES module also available (see below).
-const { mergician } = require('mergician');
+// ES module shown. CommonJS module also available (see below).
+import { mergician } from 'mergician';
 
 const obj1 = { a: [1, 1], b: { c: 1, d: 1 } };
 const obj2 = { a: [2, 2], b: { c: 2 } };
@@ -90,8 +84,6 @@ const mergedObj = mergician({
 // Result
 console.log(mergedObj); // { a: [1, 2], b: { c: 2 }, hello: 'world' }
 ```
-
-</div>
 
 **Tip:** Press <kbd>⇧ Shift</kbd> <kbd>⌤ Enter</kbd> to "run" the notebook.
 
