@@ -41,7 +41,7 @@ Unlike native methods and other utilities, Mergician faithfully clones and merge
 <br>
 <img src="assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
 
-## Demo
+## Examples
 
 Basic object cloning using default options:
 
