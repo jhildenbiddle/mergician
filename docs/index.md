@@ -12,7 +12,7 @@ Mergician is a uniquely flexible and light-weight utility for cloning and deep (
 
 Unlike native methods and other utilities, Mergician faithfully clones and merges objects by properly handling [descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) values, [accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) functions, and prototype properties while offering advanced options for customizing the clone/merge process.
 
-?> Version 2 contains new features and breaking changes (see the [Changelog](changelog) for details). Documentation for version 1 is available [on GitHub](https://github.com/jhildenbiddle/mergician/blob/v1.0.3/docs/index.md).
+?> Version 2.x contains new features and breaking changes (see the [Changelog](changelog) for details). Documentation for version 1.x is available [on GitHub](https://github.com/jhildenbiddle/mergician/blob/v1.0.3/docs/index.md).
 
 ## Features
 
