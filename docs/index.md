@@ -31,15 +31,15 @@ Unlike native methods and other utilities, Mergician faithfully clones and merge
 
 **Platform Support**
 
-<img src="assets/img/node.svg" alt=""> <span>Node 10+</span>
+<img src="assets/img/node.svg" valign="middle" alt=""> <span valign="middle">Node 10+</span>
 <br>
-<img src="assets/img/chrome.svg" alt=""> <span>Chrome 61+</span>
+<img src="assets/img/chrome.svg" valign="middle" alt=""> <span valign="middle">Chrome 61+</span>
 <br>
-<img src="assets/img/edge.svg" alt=""> <span>Edge 16+</span>
+<img src="assets/img/edge.svg" valign="middle" alt=""> <span valign="middle">Edge 16+</span>
 <br>
-<img src="assets/img/firefox.svg" alt=""> <span>Firefox 60+</span>
+<img src="assets/img/firefox.svg" valign="middle" alt=""> <span valign="middle">Firefox 60+</span>
 <br>
-<img src="assets/img/safari.svg" alt=""> <span>Safari 10.1+</span>
+<img src="assets/img/safari.svg" valign="middle" alt=""> <span valign="middle">Safari 10.1+</span>
 
 ## Examples
 
