@@ -57,7 +57,8 @@
   "exports": {
     ".": {
       "import": "./dist/mergician.esm.js",
-      "require": "./dist/mergician.cjs"
+      "require": "./dist/mergician.cjs",
+      "types": "./dist/mergician.d.ts"
     }
   },
   "sideEffects": false,
