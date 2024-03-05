@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.1
+
+_2024-03-05_
+
+- Export types in `package.json`
+
 ## 2.0.0
 
 _2024-01-18_
