@@ -1,6 +1,6 @@
 {
   "name": "mergician",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Uniquely flexible and light-weight utility for cloning and deep (recursive) merging of JavaScript objects. Supports descriptor values, accessor functions, and custom prototypes. Provides advanced options for customizing the clone/merge process.",
   "author": "John Hildenbiddle",
   "license": "MIT",
