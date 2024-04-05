@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.2
+
+_2024-05-05_
+
+- Fix date object handling (#7)
+
 ## 2.0.1
 
 _2024-03-05_
