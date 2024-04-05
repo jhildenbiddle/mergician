@@ -259,6 +259,10 @@ export function mergician(optionsOrObject, ...objects) {
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         const targetVal = targetObj[key];
+        const mergeDescriptor = {
+          configurable: true,
+          enumerable: true
+        };
 
         if (key in srcObj === false) {
           continue;
@@ -420,10 +424,8 @@ export function mergician(optionsOrObject, ...objects) {
           }
         }
 
-        let mergeDescriptor;
-
         if (isReturnVal) {
-          mergeDescriptor = isPropDescriptor(mergeVal)
+          const returnDescriptor = isPropDescriptor(mergeVal)
             ? mergeVal
             : {
                 configurable: true,
@@ -432,18 +434,9 @@ export function mergician(optionsOrObject, ...objects) {
                 writable: true
               };
 
-          Object.defineProperty(targetObj, key, mergeDescriptor);
-          continue;
-        }
+          Object.defineProperty(targetObj, key, returnDescriptor);
 
-        if (isPropDescriptor(mergeVal)) {
-          mergeDescriptor = { ...mergeVal };
-          mergeVal = mergeDescriptor.get ? srcObj[key] : mergeDescriptor.value;
-        } else {
-          mergeDescriptor = {
-            configurable: true,
-            enumerable: true
-          };
+          continue;
         }
 
         if (srcDescriptor) {
