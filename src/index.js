@@ -335,6 +335,7 @@ export function mergician(optionsOrObject, ...objects) {
           }
         }
 
+        // Arrays
         if (Array.isArray(mergeVal)) {
           mergeVal = [...mergeVal];
 
@@ -383,7 +384,13 @@ export function mergician(optionsOrObject, ...objects) {
               }
             }
           }
-        } else if (
+        }
+        // Dates
+        else if (mergeVal instanceof Date) {
+          mergeVal = new Date(mergeVal);
+        }
+        // Objects
+        else if (
           isObject(mergeVal) &&
           (!isReturnVal || !isPropDescriptor(mergeVal))
         ) {

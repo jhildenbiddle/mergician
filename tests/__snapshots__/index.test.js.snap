@@ -51,14 +51,14 @@ exports[`Accessors handles setters 1`] = `
 }
 `;
 
-exports[`Default options clone circular object 1`] = `
+exports[`Clone circular object 1`] = `
 {
   "a": 1,
   "circular": [Circular],
 }
 `;
 
-exports[`Default options deep merge three objects 1`] = `
+exports[`Merge deep three objects 1`] = `
 {
   "a": 3,
   "b": [
@@ -78,7 +78,7 @@ exports[`Default options deep merge three objects 1`] = `
 }
 `;
 
-exports[`Default options deep merge two objects 1`] = `
+exports[`Merge deep two objects 1`] = `
 {
   "a": 2,
   "b": [

@@ -57,8 +57,47 @@ const testPerson = Object.create(
 
 // Tests
 // ============================================================================
-describe('Default options', () => {
-  test('clone own properties', () => {
+describe('Clone', () => {
+  test('arrays', () => {
+    const testObj = { a: [1, 1] };
+    const mergedObj = mergician({}, testObj);
+    const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
+    const testDescriptors = Object.getOwnPropertyDescriptors(testObj);
+
+    expect(mergedDescriptors).toMatchObject(testDescriptors);
+    expect(mergedObj.a).not.toBe(testObj.a);
+  });
+
+  test('dates', () => {
+    const testObj = { a: new Date() };
+    const mergedObj = mergician({}, testObj);
+    const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
+    const testDescriptors = Object.getOwnPropertyDescriptors(testObj);
+
+    expect(mergedDescriptors).toMatchObject(testDescriptors);
+    expect(mergedObj.a).not.toBe(testObj.a);
+  });
+
+  test('object literals', () => {
+    const testObj = { a: { b: 1 } };
+    const mergedObj = mergician({}, testObj);
+    const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
+    const testDescriptors = Object.getOwnPropertyDescriptors(testObj);
+
+    expect(mergedDescriptors).toMatchObject(testDescriptors);
+    expect(mergedObj.a).not.toBe(testObj.a);
+  });
+
+  test('falsey values', () => {
+    const testObj = { a: null, b: undefined, c: '', d: 0, e: false };
+    const mergedObj = mergician({}, testObj);
+    const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
+    const testDescriptors = Object.getOwnPropertyDescriptors(testObj);
+
+    expect(mergedDescriptors).toMatchObject(testDescriptors);
+  });
+
+  test('own properties', () => {
     const mergedObj = mergician({}, testPerson);
     const mergedDescriptors = Object.getOwnPropertyDescriptors(mergedObj);
     const testDescriptors = Object.getOwnPropertyDescriptors(testPerson);
@@ -66,7 +105,7 @@ describe('Default options', () => {
     expect(mergedDescriptors).toMatchObject(testDescriptors);
   });
 
-  test('clone custom prototype properties', () => {
+  test('custom prototype properties', () => {
     const mergedObj = mergician({}, testPerson);
     const mergedProto = Object.getPrototypeOf(mergedObj);
     const mergedProtoDescriptors =
@@ -77,7 +116,7 @@ describe('Default options', () => {
     expect(mergedProtoDescriptors).toMatchObject(testProtoDescriptors);
   });
 
-  test('clone circular object', () => {
+  test('circular object', () => {
     const mergedObj = mergician({}, testObjCircular);
 
     expect(mergedObj.a).toBe(1);
@@ -85,8 +124,10 @@ describe('Default options', () => {
     expect(mergedObj.circular.circular.a).toBe(1);
     expect(mergedObj).toMatchSnapshot();
   });
+});
 
-  test('deep merge two objects', () => {
+describe('Merge', () => {
+  test('deep two objects', () => {
     const mergedObj = mergician(testObj1, testObj2);
 
     expect(mergedObj.b).not.toBe(testObj2.b);
@@ -94,7 +135,7 @@ describe('Default options', () => {
     expect(mergedObj).toMatchSnapshot();
   });
 
-  test('deep merge three objects', () => {
+  test('deep three objects', () => {
     const mergedObj = mergician(testObj1, testObj2, testObj3);
 
     expect(mergedObj).toMatchSnapshot();
